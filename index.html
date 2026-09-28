@@ -7,200 +7,285 @@
 <title>Sala de juegos · Secuencia321</title>
 <style>
 :root{
-  --pe-hondo:#0f2d3a; --pe-base:#173f50; --pe-caja:#2a4e5e; --pe-claro:#2c5c70; --pe-velo:#eaf0f2;
-  --te-hondo:#8f3a1e; --te-base:#b04a2a; --te-caja:#b55537; --te-vivo:#c85f3c; --te-velo:#f0dccf;
-  --lienzo:#f7f1e9; --fondo:#efe6d8; --papel:#fffcf7; --realce:#f9f3ea; --linea:#e2d6c4; --borde:#e4c5b5;
+  --pe-hondo:#0f2d3a; --pe-base:#173f50; --pe-caja:#2a4e5e; --pe-claro:#2c5c70;
+  --no-halo:#22566c; --no-panel:#234c5e; --no-panel-linea:#346375;
+  --te-hondo:#8f3a1e; --te-base:#b04a2a; --te-caja:#b55537; --te-vivo:#c85f3c; --te-claro:#e08a5f;
+  --ci-hondo:#462d40; --ci-base:#5a3a52; --ci-caja:#674a60;
+  --ok:#327a52; --crema:#f7f1e9; --papel:#fffcf7; --borde-calido:#e4c5b5;
   --ti:#1b1512; --ti-m:#2e2622; --ti-t:#4a3f38;
-  --ci:#5a3a52;
-  --ok:#327a52; --ok-velo:#e7f1ea;
-  --crema:#f7f1e9;
   --lora:"Lora",Georgia,"Times New Roman",serif;
   --nunito:"Nunito",system-ui,sans-serif;
   --mono:"Source Code Pro",ui-monospace,"Courier New",monospace;
-  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s6:24px; --s8:32px; --s12:48px;
-  --radio:12px; --radio-sm:8px;
-  --sombra:0 1px 3px rgba(15,45,58,.06);
-  --m100:100ms; --m150:150ms; --m200:200ms; --m300:300ms;
-  --out:cubic-bezier(.16,1,.3,1); --in:cubic-bezier(.7,0,.84,0);
-  --prosa:70ch;
+  --dur-instantanea:90ms; --dur-rapida:160ms; --dur-base:260ms; --dur-media:380ms; --dur-lenta:560ms; --dur-escena:800ms;
+  --ease-salida:cubic-bezier(.16,1,.3,1); --ease-entrada:cubic-bezier(.7,0,.84,0);
+  --ease-estandar:cubic-bezier(.2,.8,.2,1); --ease-enfasis:cubic-bezier(.22,1,.36,1);
+  --prosa:68ch;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
 body{
-  min-height:100dvh;
-  background:#0f2d3a;
-  color:var(--crema);
-  font-family:var(--nunito);
-  font-size:1rem;
-  font-weight:400;
-  line-height:1.55;
+  min-height:100dvh; color:var(--crema);
+  font-family:var(--nunito); font-size:1rem; font-weight:400; line-height:1.55;
+  background:#0b1f28;
 }
-body::before{
-  content:"";
-  position:fixed; inset:0; pointer-events:none;
-  background-image:linear-gradient(rgba(247,241,233,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(247,241,233,.04) 1px, transparent 1px);
-  background-size:32px 32px;
-  mask-image:linear-gradient(#000, transparent 520px);
+.escenario{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden}
+.escenario .base{position:absolute; inset:0; background:
+  radial-gradient(900px 520px at 12% -10%, rgba(224,138,95,.18), transparent 60%),
+  radial-gradient(700px 480px at 100% 0%, rgba(34,86,108,.55), transparent 55%),
+  linear-gradient(180deg,#123445 0%, #0f2d3a 42%, #0b1f28 100%);}
+.escenario .halo{
+  position:absolute; width:52vw; height:52vw; left:8%; top:-8%;
+  background:radial-gradient(circle, rgba(176,74,42,.28), transparent 68%);
+  filter:blur(6px);
+  animation:deriva 26s var(--ease-estandar) infinite alternate;
 }
-.skip{position:absolute; left:16px; top:8px; transform:translateY(-150%); background:var(--papel); color:var(--ti); padding:8px 16px; border-radius:8px; z-index:30; font-weight:500}
+.escenario .geom{
+  position:absolute; inset:8% 6% auto auto; width:min(46vw,520px); height:min(46vw,520px); opacity:.35;
+  background:
+    linear-gradient(rgba(247,241,233,.16) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(90deg, rgba(247,241,233,.16) 1px, transparent 1px) 0 0 / 28px 28px;
+  mask-image:radial-gradient(circle at 30% 30%, #000 20%, transparent 72%);
+}
+.escenario .vineta{position:absolute; inset:0; background:radial-gradient(circle at 50% 30%, transparent 40%, rgba(8,20,28,.55) 100%)}
+body[data-vista="salas"] .escenario .halo{left:auto; right:-8%; background:radial-gradient(circle, rgba(44,92,112,.45), transparent 68%)}
+body[data-vista="catalogo"] .escenario .halo{left:40%; top:10%; background:radial-gradient(circle, rgba(90,58,82,.35), transparent 70%)}
+body[data-vista="orientador"] .escenario .halo{left:0; top:20%; background:radial-gradient(circle, rgba(224,138,95,.26), transparent 68%)}
+body[data-vista="sala"] .escenario .halo{background:radial-gradient(circle, color-mix(in srgb, var(--halo,#e08a5f) 42%, transparent), transparent 68%)}
+@keyframes deriva{from{transform:translate3d(0,0,0)} to{transform:translate3d(8%,6%,0)}}
+.skip{position:absolute; left:16px; top:8px; transform:translateY(-150%); background:var(--papel); color:var(--ti); padding:8px 16px; z-index:30; font-weight:500}
 .skip:focus{transform:none}
 :focus{outline:none}
-:focus-visible{outline:2px solid #e08a5f; outline-offset:2px}
+:focus-visible{outline:2px solid var(--te-claro); outline-offset:3px; transition:outline-offset var(--dur-rapida) var(--ease-salida)}
 .sr{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
-#app{position:relative; z-index:1; max-width:1440px; margin:0 auto; min-height:100dvh; display:flex; flex-direction:column; padding:0 24px}
+#app{position:relative; z-index:1; max-width:1280px; margin:0 auto; min-height:100dvh; display:flex; flex-direction:column; padding:0 24px}
 .barra{
-  position:sticky; top:0; z-index:8;
-  display:flex; align-items:center; gap:16px; flex-wrap:wrap;
-  min-height:64px; padding:8px 0;
-  background:#173f50;
-  border-bottom:1px solid rgba(247,241,233,.16);
+  position:sticky; top:0; z-index:8; display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  min-height:68px; padding:8px 0;
+  background:linear-gradient(180deg, rgba(15,45,58,.94), rgba(15,45,58,.78));
+  border-bottom:1px solid rgba(228,197,181,.22);
 }
 .marca{display:flex; align-items:center; gap:12px; color:inherit; text-decoration:none; min-height:44px; font-family:var(--lora); font-weight:600; font-size:1.25rem; letter-spacing:-.02em; line-height:1.2}
-.marca svg{width:36px; height:36px; flex:0 0 auto}
+.marca svg{width:36px; height:36px}
 .nav{display:flex; gap:4px; margin-left:auto; flex-wrap:wrap}
 .nav a,.btn{
-  display:inline-flex; align-items:center; justify-content:center;
-  min-height:44px; padding:8px 16px; border-radius:8px;
+  display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:8px 16px;
   font:500 1rem/1.2 var(--nunito); text-decoration:none; color:var(--crema);
   border:1px solid transparent; background:transparent; cursor:pointer;
 }
-.nav a[aria-current="page"]{background:var(--te-hondo); border-color:var(--te-hondo)}
-.nav a:not([aria-current="page"]):hover,.btn-ghost:hover{border-color:rgba(247,241,233,.28)}
+.nav a{position:relative}
+.nav a[aria-current="page"]{color:var(--crema)}
+.nav a[aria-current="page"]::after{
+  content:""; position:absolute; left:16px; right:16px; bottom:6px; height:2px; background:var(--te-claro);
+  transform-origin:left; animation:linea var(--dur-base) var(--ease-enfasis);
+}
+@keyframes linea{from{transform:scaleX(.2)} to{transform:scaleX(1)}}
 .btn-primario,.accion{
-  background:var(--te-hondo); color:var(--crema); border:1px solid var(--te-hondo);
-  display:inline-flex; align-items:center; min-height:44px; padding:8px 16px; border-radius:8px;
+  position:relative; overflow:hidden;
+  background:var(--te-hondo); color:var(--crema); border:1px solid #a34a2c;
+  display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:8px 18px;
   font:500 1rem/1.2 var(--nunito); text-decoration:none; cursor:pointer;
+  box-shadow:inset 0 1px 0 rgba(247,241,233,.25), 0 8px 18px rgba(143,58,30,.28);
+  transition:transform var(--dur-rapida) var(--ease-salida), background var(--dur-base) var(--ease-estandar);
 }
-.btn-sec{
-  background:transparent; color:var(--te-hondo); border:1px solid var(--borde);
-  display:inline-flex; align-items:center; min-height:44px; padding:8px 16px; border-radius:8px;
-  font:500 1rem/1.2 var(--nunito); cursor:pointer;
+.btn-primario::after,.accion::after{content:""; width:8px; height:8px; border-right:2px solid currentColor; border-top:2px solid currentColor; transform:rotate(45deg); transition:transform var(--dur-rapida) var(--ease-enfasis)}
+.btn-primario:hover::after,.accion:hover::after{transform:translateX(3px) rotate(45deg)}
+.btn-primario:active,.accion:active,.sala-btn:active{transform:translateY(1px) scale(.985)}
+.btn-sec,.btn-ghost{
+  display:inline-flex; align-items:center; min-height:44px; padding:8px 16px;
+  font:500 1rem/1.2 var(--nunito); cursor:pointer; color:var(--crema);
+  background:transparent; border:1px solid rgba(228,197,181,.45);
+  transition:border-color var(--dur-rapida) var(--ease-salida), background var(--dur-rapida) var(--ease-salida);
 }
-.btn-ghost{border:1px solid rgba(247,241,233,.28); background:transparent; color:var(--crema)}
+.btn-sec:hover,.btn-ghost:hover{background:rgba(247,241,233,.06)}
 main{flex:1}
-.lienzo{padding:24px 0 32px; transition:opacity var(--m200) var(--out), transform var(--m200) var(--out)}
-.lienzo.sale{opacity:0; transform:translateY(8px); transition-duration:var(--m150); transition-timing-function:var(--in)}
-h1,h2,h3{font-family:var(--lora); font-weight:600; line-height:1.2; letter-spacing:-.02em}
-h1{font-size:clamp(1.75rem,3vw,2.25rem); margin:0 0 8px}
-h2{font-size:1.25rem; margin:0}
-h3{font-size:1.25rem; margin:0; color:var(--pe-hondo)}
-.bajada{margin:0; max-width:var(--prosa); color:var(--crema)}
-.kicker{margin:0 0 8px; font-family:var(--mono); font-size:.75rem; line-height:1.4; color:#f3e6df}
-.papel{background:var(--papel); color:var(--ti); border:1px solid var(--linea); border-radius:var(--radio); box-shadow:var(--sombra), inset 0 1px 0 rgba(255,255,255,.65)}
-.portada{display:grid; gap:24px}
-.entrada{max-width:760px}
-.resumen{display:flex; flex-wrap:wrap; gap:16px 24px; margin:16px 0 0; font-size:.875rem; color:#f3e6df}
-.acciones{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px}
-.ahora{display:grid; grid-template-columns:1fr; gap:16px; align-items:center; padding:16px}
-.ahora svg{width:96px; height:96px; color:var(--pe-base)}
-.ahora h2{color:var(--pe-hondo)}
-.ahora p{margin:8px 0 0}
+.lienzo{padding:28px 0 40px; view-transition-name:lienzo}
+.lienzo.sale{opacity:0; transform:translateY(18px); transition:opacity var(--dur-base) var(--ease-entrada), transform var(--dur-base) var(--ease-entrada)}
+.lienzo.entra > *{animation:sube var(--dur-media) var(--ease-salida) both}
+.lienzo.entra > *:nth-child(2){animation-delay:50ms}
+.lienzo.entra > *:nth-child(3){animation-delay:100ms}
+@keyframes sube{from{opacity:0; transform:translateY(16px)} to{opacity:1; transform:none}}
+h1,h2,h3{font-family:var(--lora); font-weight:600; line-height:1.15; letter-spacing:-.02em; margin:0}
+h1{font-size:clamp(2rem,4.4vw,3.4rem); view-transition-name:titulo}
+h2{font-size:1.35rem}
+h3{font-size:1.2rem; color:var(--crema)}
+.kicker{margin:0 0 10px; font-family:var(--mono); font-size:.75rem; line-height:1.4; letter-spacing:.04em; color:var(--te-claro)}
+.bajada{margin:0; max-width:var(--prosa); color:#f3e6df}
+.portada{display:grid; gap:28px}
+.entrada h1{max-width:14ch}
+.resumen{display:flex; flex-wrap:wrap; gap:8px 18px; margin:18px 0 0; font-size:.875rem; color:#f3e6df}
+.resumen span{border-bottom:1px solid rgba(228,197,181,.35); padding-bottom:2px}
+.acciones{display:flex; flex-wrap:wrap; gap:8px; margin-top:20px}
+.escena-salas{display:grid; gap:16px}
 .indice{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin:0; padding:0; list-style:none}
 .indice a{
-  display:flex; align-items:baseline; gap:8px; min-height:44px; padding:8px 12px;
-  color:var(--ti); text-decoration:none; background:var(--papel); border:1px solid var(--linea); border-radius:8px;
+  display:flex; align-items:center; gap:10px; min-height:52px; padding:8px 12px;
+  color:var(--crema); text-decoration:none; background:rgba(23,63,80,.72);
+  border:1px solid var(--no-panel-linea);
+  box-shadow:inset 0 1px 0 rgba(247,241,233,.08);
+  transition:border-color var(--dur-rapida) var(--ease-salida), transform var(--dur-rapida) var(--ease-salida);
 }
-.indice .n{font-family:var(--mono); font-size:.75rem; color:var(--ti-t)}
+.indice .n{font-family:var(--mono); font-size:.75rem; color:var(--te-claro)}
 .indice strong{font-weight:600; font-family:var(--lora)}
-.mosaico{display:grid; grid-template-columns:1fr; gap:16px}
+.destacado{
+  display:grid; grid-template-columns:1fr; gap:18px; align-items:center;
+  padding:20px; background:
+    linear-gradient(135deg, rgba(224,138,95,.16), transparent 42%),
+    #143646;
+  border:1px solid rgba(228,197,181,.35);
+  box-shadow:inset 0 1px 0 rgba(247,241,233,.12), 0 24px 40px rgba(8,24,32,.35);
+}
+.destacado .lectura{background:var(--papel); color:var(--ti); padding:16px}
+.destacado h2{color:var(--pe-hondo)}
+.dominos{width:min(100%,280px); height:auto; justify-self:center}
+.mosaico{display:grid; grid-template-columns:1fr; gap:14px; margin-top:22px}
 .sala-btn{
-  appearance:none; text-align:left; cursor:pointer; color:var(--ti); width:100%;
-  background:var(--papel); border:1px solid var(--linea); border-radius:var(--radio);
-  box-shadow:var(--sombra), inset 0 1px 0 rgba(255,255,255,.65);
-  padding:16px; min-height:44px; display:grid; grid-template-columns:56px 1fr; gap:12px 16px; align-items:start;
-  transition:border-color var(--m150) var(--out), transform var(--m200) var(--out);
+  --mx:50%; --my:40%;
+  appearance:none; text-align:left; cursor:pointer; width:100%; color:var(--crema);
+  background:
+    linear-gradient(160deg, rgba(247,241,233,.05), transparent 36%),
+    #16384a;
+  border:1px solid var(--no-panel-linea);
+  padding:16px; min-height:148px;
+  display:grid; grid-template-columns:64px 1fr; gap:12px 14px; align-content:start;
+  box-shadow:inset 0 1px 0 rgba(247,241,233,.1), 0 14px 28px rgba(8,22,30,.32);
+  position:relative; overflow:hidden;
+  transition:border-color var(--dur-rapida) var(--ease-salida), transform var(--dur-base) var(--ease-enfasis);
 }
-.sala-btn svg{width:56px; height:56px; color:var(--pe-base)}
-.sala-btn .n{font-family:var(--mono); font-size:.75rem; color:var(--ti-t); line-height:1.4}
-.sala-btn .lema{margin:4px 0 0}
-.sala-btn .gesto{margin:8px 0 0; font-size:.875rem; color:var(--ti-t)}
-.pie{grid-column:1 / -1; display:flex; justify-content:space-between; gap:12px; align-items:baseline; padding-top:8px; border-top:1px solid var(--linea); font-size:.875rem}
-.ok{color:var(--ok); font-weight:500}
-.espera{color:var(--ti-t); font-weight:500}
-.cue{color:var(--te-hondo); font-weight:500}
-.trazo{stroke:var(--marca, currentColor)}
-.volver{appearance:none; background:none; border:0; color:#f3e6df; min-height:44px; padding:8px 0; font:500 1rem/1.2 var(--nunito); cursor:pointer}
-.cabeza-sala{margin-bottom:24px; max-width:80ch}
-.layout-sala{display:grid; gap:24px}
+.sala-btn::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(220px circle at var(--mx) var(--my), rgba(224,138,95,.22), transparent 60%);
+  opacity:0; transition:opacity var(--dur-base) var(--ease-salida);
+}
+.sala-btn::after{content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--marca, var(--te-claro))}
+.sala-btn:hover::before,.sala-btn:focus-visible::before{opacity:1}
+.sala-btn svg{width:64px; height:64px; position:relative; z-index:1}
+.sala-btn .n{font-family:var(--mono); font-size:.75rem; color:var(--te-claro)}
+.sala-btn h2,.sala-btn .lema,.sala-btn .gesto,.sala-btn .pie{position:relative; z-index:1}
+.sala-btn .lema{margin:6px 0 0; color:#f7f1e9}
+.sala-btn .gesto{margin:8px 0 0; font-size:.875rem; color:#d9cfc4}
+.pie{grid-column:1 / -1; display:flex; justify-content:space-between; gap:12px; align-items:baseline; padding-top:8px; border-top:1px solid rgba(247,241,233,.12); font-size:.875rem}
+.ok{color:#9ddec0; font-weight:500}
+.espera{color:#d9cfc4; font-weight:500}
+.cue{color:var(--te-claro); font-weight:500}
+.trazo{stroke:var(--te-claro)}
+.sala-btn[data-sala="desafio"]:hover svg{animation:peldaño var(--dur-media) var(--ease-enfasis)}
+.sala-btn[data-sala="memoria"]:hover svg rect:last-child{animation:huella var(--dur-lenta) var(--ease-estandar)}
+.sala-btn[data-sala="velocidad"]:hover svg{animation:pulso var(--dur-media) var(--ease-enfasis)}
+.sala-btn[data-sala="estrategia"]:hover svg{animation:bifurca var(--dur-media) var(--ease-enfasis)}
+.sala-btn[data-sala="concentracion"]:hover svg path.trazo{animation:revela var(--dur-media) var(--ease-enfasis)}
+.sala-btn[data-sala="probabilidad"]:hover svg{animation:reparte var(--dur-media) var(--ease-estandar)}
+.sala-btn[data-sala="tiempo"]:hover svg{animation:intervalo var(--dur-lenta) var(--ease-estandar)}
+.sala-btn[data-sala="calculo"]:hover svg{animation:recompone var(--dur-media) var(--ease-enfasis)}
+.sala-btn[data-sala="analisis"]:hover svg{animation:enlaza var(--dur-media) var(--ease-estandar)}
+.sala-btn[data-sala="construccion"]:hover svg{animation:ensambla var(--dur-media) var(--ease-enfasis)}
+@keyframes peldaño{from{transform:translateY(8px)} to{transform:none}}
+@keyframes huella{from{opacity:.25} to{opacity:1}}
+@keyframes pulso{0%{transform:translateX(-6px)} 100%{transform:none}}
+@keyframes bifurca{from{transform:scale(.94)} to{transform:none}}
+@keyframes revela{from{stroke-dashoffset:12} to{stroke-dashoffset:0}}
+@keyframes reparte{from{transform:translateY(6px)} to{transform:none}}
+@keyframes intervalo{from{transform:scaleX(.86); transform-origin:left} to{transform:none}}
+@keyframes recompone{from{transform:translateX(-5px)} to{transform:none}}
+@keyframes enlaza{from{transform:scaleX(.9)} to{transform:none}}
+@keyframes ensambla{from{transform:translateY(5px)} to{transform:none}}
+.volver{appearance:none; background:none; border:0; color:var(--te-claro); min-height:44px; padding:8px 0; font:500 1rem/1.2 var(--nunito); cursor:pointer}
+.cabeza-sala{margin-bottom:22px; max-width:78ch; padding-bottom:8px; border-bottom:1px solid rgba(228,197,181,.25)}
+.sala-hero{display:flex; align-items:center; gap:16px}
+.sala-hero svg{width:72px; height:72px; flex:0 0 auto; color:var(--pe-base)}
+.lienzo.entra .sala-btn{animation:sube var(--dur-media) var(--ease-salida) both}
+.layout-sala{display:grid; gap:22px}
 .tabs{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 8px}
-.tabs button{min-height:44px; padding:8px 16px; border-radius:8px; border:1px solid #346375; background:#234c5e; color:var(--crema); font:500 .875rem/1.2 var(--nunito); cursor:pointer}
+.tabs button{min-height:44px; padding:8px 14px; border:1px solid var(--no-panel-linea); background:#16384a; color:var(--crema); font:500 .875rem/1.2 var(--nunito); cursor:pointer; transition:background var(--dur-rapida) var(--ease-salida)}
 .tabs button[aria-selected="true"]{background:var(--papel); color:var(--ti); border-color:var(--papel)}
-.panel{padding:16px; max-width:var(--prosa)}
-.panel p{margin:0}
+.panel{padding:16px}
+.lectura .estado{color:var(--ti-t)}
+.lectura .kicker{color:var(--te-hondo)}
+.panel p,.sinopsis{margin:0}
 .mecanicas{margin:12px 0 0; font-family:var(--mono); font-size:.75rem; line-height:1.4; color:var(--ti-t)}
-.catalogo, .lista{
-  list-style:none; margin:0; padding:0; background:var(--papel); color:var(--ti);
-  border:1px solid var(--linea); border-radius:var(--radio); overflow:hidden;
+.catalogo,.lista{list-style:none; margin:0; padding:0; display:grid; gap:12px}
+.catalogo li,.lista li{
+  padding:16px; display:flex; flex-direction:column; gap:8px;
+  background:#143646; color:var(--crema); border:1px solid var(--no-panel-linea);
+  box-shadow:inset 0 1px 0 rgba(247,241,233,.08);
+  border-left:3px solid var(--marca, var(--te-claro));
 }
-.catalogo li, .lista li{padding:16px; border-bottom:1px solid var(--linea); display:flex; flex-direction:column; gap:8px}
-.catalogo li:last-child, .lista li:last-child{border-bottom:0}
-.sinopsis{margin:0; color:var(--ti-m)}
-.estado{margin:0; font-size:.875rem; color:var(--ti-t)}
+.catalogo li.listo,.lista li.listo{background:linear-gradient(180deg, rgba(224,138,95,.12), #173f50 40%)}
+.estado{margin:0; font-size:.875rem; color:#d9cfc4}
 .fila-acc{display:flex; flex-wrap:wrap; gap:8px}
-.filtros{display:grid; gap:12px; margin:0 0 16px}
-.campo label{display:block; margin-bottom:8px; font-size:.875rem; font-weight:500; color:#f3e6df}
-.campo input,.campo select{
-  width:100%; min-height:44px; border-radius:8px; border:1px solid var(--linea);
-  background:var(--papel); color:var(--ti); padding:8px 12px; font:400 1rem/1.4 var(--nunito);
+.filtros{
+  display:grid; gap:12px; margin:22px 0 14px; padding:16px;
+  background:rgba(15,45,58,.55); border:1px solid rgba(228,197,181,.22);
 }
-.cuenta{margin:0 0 12px; font-size:.875rem; color:#f3e6df}
-.vacio{padding:16px; max-width:var(--prosa)}
-.ficha{max-width:760px}
-.nota{max-width:var(--prosa); color:#f3e6df; font-size:.875rem}
-.ejes{display:grid; gap:16px; margin:24px 0}
-.resultado{padding:16px}
-.resultado h2{color:var(--pe-hondo); margin:4px 0 8px; font-size:1.5rem}
-.receta{margin:12px 0; padding:12px 16px; border-left:4px solid var(--te-hondo); background:var(--realce)}
-.aviso{padding:12px 16px; background:#234c5e; border:1px solid #346375; border-radius:8px; max-width:var(--prosa)}
+.campo label{display:block; margin-bottom:8px; font-size:.875rem; font-weight:500; color:var(--crema)}
+.campo input,.campo select{
+  width:100%; min-height:44px; border:1px solid var(--no-panel-linea);
+  background:#0f2d3a; color:var(--crema); padding:8px 12px; font:400 1rem/1.4 var(--nunito);
+}
+.cuenta{margin:0 0 12px; font-size:.875rem; color:var(--te-claro)}
+.vacio{padding:18px; max-width:var(--prosa); background:#143646; border:1px solid var(--no-panel-linea)}
+.ficha{max-width:820px; display:grid; gap:16px}
+.ficha-escena{
+  display:grid; gap:16px; padding:20px;
+  background:linear-gradient(160deg, rgba(224,138,95,.14), #123445 46%);
+  border:1px solid rgba(228,197,181,.32);
+  box-shadow:0 22px 40px rgba(8,22,30,.32);
+}
+.nota{max-width:var(--prosa); color:#f3e6df; font-size:.875rem; margin:6px 0 0}
+.ejes{display:grid; gap:12px; margin:22px 0}
+.eje{padding:14px; background:#143646; border:1px solid var(--no-panel-linea); border-top:2px solid var(--te-claro)}
+.resultado{padding:18px}
+.resultado h2{color:var(--pe-hondo); margin:4px 0 8px; font-size:1.7rem}
+.receta{margin:12px 0; padding:12px 16px; border-left:4px solid var(--te-hondo); background:#f9f3ea; color:var(--ti)}
+.aviso{padding:12px 16px; background:#234c5e; border:1px solid #346375; max-width:var(--prosa)}
 .meta{margin:8px 0 0; font-size:.875rem; color:#f3e6df}
+#senal-proyeccion{display:none; margin:0; font-family:var(--mono); font-size:.75rem; color:var(--te-claro)}
+body.proyeccion #senal-proyeccion{display:block}
 footer.pie-pag{
   margin-top:auto; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
-  padding:16px 0 24px; border-top:1px solid rgba(247,241,233,.16); color:#f3e6df; font-size:.75rem; line-height:1.4;
+  padding:16px 0 24px; border-top:1px solid rgba(247,241,233,.14); color:#d9cfc4; font-size:.75rem; line-height:1.4;
 }
 footer.pie-pag p{margin:0}
-@media (hover:hover) and (pointer:fine){
-  .sala-btn:hover{border-color:var(--borde); transform:translateY(-4px)}
-}
 @media (min-width:700px){
   .indice{grid-template-columns:repeat(5,minmax(0,1fr))}
-  .ahora{grid-template-columns:1.2fr .8fr}
+  .destacado{grid-template-columns:1.3fr .7fr}
   .ejes{grid-template-columns:1fr 1fr}
   .filtros{grid-template-columns:1.4fr .8fr .8fr auto; align-items:end}
-  .lista{display:grid; grid-template-columns:1fr 1fr}
-  .lista li{border-right:1px solid var(--linea)}
-  .lista li:nth-child(2n){border-right:0}
+  .lista,.catalogo{grid-template-columns:1fr 1fr}
 }
-@media (min-width:900px){
-  .mosaico{grid-template-columns:1fr 1fr}
-  .layout-sala{grid-template-columns:1fr 320px; align-items:start}
-  .layout-sala .pedagogia{position:sticky; top:80px}
-  .catalogo{display:grid; grid-template-columns:1fr 1fr}
-  .catalogo li{border-right:1px solid var(--linea)}
-  .catalogo li:nth-child(2n){border-right:0}
-}
-@media (min-width:1180px){
-  .mosaico{grid-template-columns:1fr 1fr 1fr}
-  .sala-btn[data-sala="desafio"]{grid-column:span 2; grid-template-columns:72px 1fr}
+@media (min-width:1100px){
+  .portada{grid-template-columns:1.15fr .85fr; align-items:end}
+  .portada .destacado{grid-column:1 / -1}
+  .mosaico{grid-template-columns:repeat(12,1fr)}
+  .sala-btn[data-sala="desafio"]{grid-column:span 7; min-height:280px}
+  .sala-btn[data-sala="memoria"]{grid-column:span 5}
+  .sala-btn[data-sala="velocidad"]{grid-column:span 5}
+  .sala-btn[data-sala="estrategia"],.sala-btn[data-sala="concentracion"],.sala-btn[data-sala="probabilidad"]{grid-column:span 4}
+  .sala-btn[data-sala="tiempo"],.sala-btn[data-sala="calculo"]{grid-column:span 6}
+  .sala-btn[data-sala="analisis"]{grid-column:span 5}
+  .sala-btn[data-sala="construccion"]{grid-column:span 7}
+  .layout-sala{grid-template-columns:1.4fr .8fr; align-items:start}
+  .pedagogia{position:sticky; top:84px}
   .ejes{grid-template-columns:1fr 1fr 1fr}
 }
-@media (max-width:699px){
-  #app{padding:0 16px}
-  .nav{margin-left:0}
-}
-body.proyeccion footer.pie-pag,
-body.proyeccion .kicker,
-body.proyeccion .mecanicas{display:none}
-body.proyeccion h1{font-size:2.25rem}
-body.proyeccion .sala-btn h2,
-body.proyeccion .lista h3,
-body.proyeccion .catalogo h3{font-size:1.5rem}
-body.proyeccion .barra{min-height:56px}
+@media (max-width:699px){#app{padding:0 16px} .nav{margin-left:0}}
+body.proyeccion #app{max-width:none; transition:max-width var(--dur-media) var(--ease-estandar)}
+body.proyeccion footer.pie-pag, body.proyeccion .mecanicas, body.proyeccion .gesto{display:none}
+body.proyeccion h1{font-size:clamp(2.4rem,4vw,3.6rem)}
+body.proyeccion .sala-btn{min-height:180px}
+::view-transition-old(lienzo){animation:sale-vt var(--dur-media) var(--ease-entrada) both}
+::view-transition-new(lienzo){animation:entra-vt var(--dur-media) var(--ease-salida) both}
+@keyframes sale-vt{to{opacity:0; transform:translateY(-12px)}}
+@keyframes entra-vt{from{opacity:0; transform:translateY(22px)}}
 @media (prefers-reduced-motion:reduce){
-  .lienzo,.lienzo.sale,.sala-btn{transition:opacity var(--m100) ease; transform:none !important}
+  .escenario .halo,.escenario .geom{animation:none}
+  .lienzo,.lienzo.sale,.sala-btn,.btn-primario,.accion,.nav a[aria-current="page"]::after{animation:none; transition:opacity 100ms linear; transform:none !important}
+  ::view-transition-old(lienzo),::view-transition-new(lienzo){animation:none}
 }
+
 </style>
 </head>
-<body>
+<body data-vista="inicio">
+<div class="escenario" aria-hidden="true"><div class="base"></div><div class="halo"></div><div class="geom"></div><div class="vineta"></div></div>
 <a class="skip" href="#contenido">Saltar al contenido</a>
 <div id="app">
   <header class="barra">
@@ -215,6 +300,7 @@ body.proyeccion .barra{min-height:56px}
       <a href="#orientador" data-go="#orientador" id="nav-orientador">Orientador</a>
     </nav>
     <button type="button" class="btn btn-ghost" id="btnProyeccion" aria-pressed="false">Ampliar proyección</button>
+    <p id="senal-proyeccion">Proyección</p>
   </header>
   <main id="contenido"><div id="lienzo" class="lienzo"></div></main>
   <footer class="pie-pag">
@@ -388,15 +474,16 @@ body.proyeccion .barra{min-height:56px}
       const listo = DataRepository.todos().find(x => x.juego.estado === "listo");
       const indice = DataRepository.zonas().map((z, i) => {
         const n = String(i + 1).padStart(2, "0");
-        return '<li><a id="atajo-' + z.id + '" data-go="#sala/' + z.id + '" href="#sala/' + z.id + '"><span class="n">' + n + '</span><strong>' + esc(z.nombre) + '</strong></a></li>';
+        return '<li style="--i:' + i + '"><a id="atajo-' + z.id + '" data-go="#sala/' + z.id + '" href="#sala/' + z.id + '"><span class="n">' + n + '</span><strong>' + esc(z.nombre) + '</strong></a></li>';
       }).join("");
-      return '<section class="portada"><div class="entrada"><p class="kicker">Plataforma</p><h1>Diez salas, un gesto cada una.</h1><p class="bajada">Aquí se organizan los juegos de matemática escolar. Cada sala pide una forma distinta de actuar. El catálogo crece por salas, no como una lista suelta.</p><p class="resumen"><span>' + t.listos + ' disponible ahora</span><span>' + t.previstos + ' previstos</span><span>10 salas</span></p><div class="acciones"><a class="btn-primario" data-go="#salas" href="#salas">Explorar salas</a><a class="btn btn-ghost" data-go="#catalogo" href="#catalogo">Abrir catálogo</a><a class="btn btn-ghost" data-go="#orientador" href="#orientador">Usar el orientador</a></div>' + aviso + '</div><article class="papel ahora"><div><p class="kicker" style="color:var(--ti-t)">Se puede abrir ahora</p><h2>' + esc(listo.juego.nombre) + '</h2><p>' + esc(listo.juego.sinopsis) + '</p><p class="estado">Sala ' + esc(listo.zona.nombre) + '. Disponible.</p><div class="fila-acc"><a class="accion" href="' + esc(listo.juego.archivo) + '">Abrir juego</a><button type="button" class="btn-sec" id="ficha-ahora" data-go="#juego/' + listo.zona.id + '/' + listo.juego.id + '">Ver ficha</button></div></div><div>' + MARCAS[listo.zona.id] + '</div></article><section><h2 style="color:var(--crema);margin:0 0 12px">Las salas</h2><ol class="indice">' + indice + '</ol></section></section>';
+      const dominos = '<svg class="dominos" viewBox="0 0 220 140" aria-hidden="true"><g fill="none" stroke="#8f3a1e" stroke-width="2"><rect x="12" y="24" width="52" height="88" rx="4"/><rect x="76" y="24" width="52" height="88" rx="4"/><rect x="140" y="24" width="52" height="88" rx="4"/></g><path d="M12 68h180" stroke="#e4c5b5"/><circle cx="38" cy="46" r="3" fill="#1b1512"/><circle cx="102" cy="92" r="3" fill="#1b1512"/><circle cx="166" cy="46" r="3" fill="#1b1512"/><circle cx="166" cy="92" r="3" fill="#1b1512"/></svg>';
+      return '<section class="portada"><div class="entrada"><p class="kicker">Plataforma</p><h1>Diez salas, un gesto cada una.</h1><p class="bajada">Aquí se organizan los juegos de matemática escolar. Cada sala pide una forma distinta de actuar. El catálogo crece por salas, no como una lista suelta.</p><p class="resumen"><span>' + t.listos + ' disponible ahora</span><span>' + t.previstos + ' previstos</span><span>10 salas</span></p><div class="acciones"><a class="btn-primario" data-go="#salas" href="#salas">Explorar salas</a><a class="btn btn-ghost" data-go="#catalogo" href="#catalogo">Abrir catálogo</a><a class="btn btn-ghost" data-go="#orientador" href="#orientador">Usar el orientador</a></div>' + aviso + '</div><section class="escena-salas" aria-label="Las diez salas"><h2>Las salas</h2><ol class="indice">' + indice + '</ol></section></section><article class="destacado"><div class="lectura"><p class="kicker">Se puede abrir ahora</p><h2>' + esc(listo.juego.nombre) + '</h2><p>' + esc(listo.juego.sinopsis) + '</p><p class="estado">Sala ' + esc(listo.zona.nombre) + '. Disponible. Fichas, grupos y condiciones.</p><div class="fila-acc"><a class="accion" href="' + esc(listo.juego.archivo) + '">Abrir juego</a><button type="button" class="btn-sec" id="ficha-ahora" data-go="#juego/' + listo.zona.id + '/' + listo.juego.id + '" style="color:var(--te-hondo);border-color:var(--borde-calido)">Ver ficha</button></div></div>' + dominos + '</article>';
     },
     salas(){
       const cards = DataRepository.zonas().map((z, i) => {
         const d = disp(z);
         const n = String(i + 1).padStart(2, "0");
-        return '<button type="button" class="sala-btn" data-sala="' + z.id + '" id="sala-' + z.id + '" data-go="#sala/' + z.id + '" style="--marca:' + z.acento + '"><span>' + MARCAS[z.id] + '</span><span><span class="n">' + n + '</span><h2>' + esc(z.nombre) + '</h2><p class="lema">' + esc(z.lema) + '</p><p class="gesto">' + esc(z.gesto) + '</p></span><span class="pie"><span class="' + d.clase + '">' + esc(d.estado) + '. ' + esc(d.detalle) + '</span><span class="cue">Entrar en ' + esc(z.nombre) + '</span></span></button>';
+        return '<button type="button" class="sala-btn m-' + z.id + '" data-sala="' + z.id + '" id="sala-' + z.id + '" data-go="#sala/' + z.id + '" style="--marca:' + z.acento + ';animation-delay:' + Math.min(i, 12) * 45 + 'ms"><span class="marca-sala">' + MARCAS[z.id] + '</span><span><span class="n">' + n + '</span><h2>' + esc(z.nombre) + '</h2><p class="lema">' + esc(z.lema) + '</p><p class="gesto">' + esc(z.gesto) + '</p></span><span class="pie"><span class="' + d.clase + '">' + esc(d.estado) + '. ' + esc(d.detalle) + '</span><span class="cue">Entrar en ' + esc(z.nombre) + '</span></span></button>';
       }).join("");
       return '<section><p class="kicker">Salas</p><h1>Diez lógicas de juego</h1><p class="bajada">El orden va del 1 al 10. Cada sala conserva su gesto. Entra en una para ver sus juegos.</p></section><div class="mosaico" style="margin-top:24px">' + cards + '</div>';
     },
@@ -406,9 +493,9 @@ body.proyeccion .barra{min-height:56px}
       const n = String(DataRepository.zonas().indexOf(z) + 1).padStart(2, "0");
       const bloques = [["que","Qué es", z.presentacion.que_es],["como","Cómo funciona", z.presentacion.como_se_articula],["no","Qué no es", z.presentacion.que_no_es],["aula","En el aula", z.presentacion.para_el_aula]];
       const tabs = bloques.map((b, i) => '<button type="button" role="tab" id="tab-' + b[0] + '" aria-controls="panel-' + b[0] + '" aria-selected="' + (i ? "false" : "true") + '" tabindex="' + (i ? "-1" : "0") + '">' + b[1] + '</button>').join("");
-      const panels = bloques.map((b, i) => '<div role="tabpanel" class="papel panel" id="panel-' + b[0] + '" aria-labelledby="tab-' + b[0] + '"' + (i ? " hidden" : "") + '><p>' + esc(b[2]) + '</p>' + (i ? "" : '<p class="mecanicas">Mecánicas ' + esc(z.presentacion.mecanicas.join(", ")) + '</p>') + '</div>').join("");
+      const panels = bloques.map((b, i) => '<div role="tabpanel" class="lectura panel" id="panel-' + b[0] + '" aria-labelledby="tab-' + b[0] + '"' + (i ? " hidden" : "") + '><p>' + esc(b[2]) + '</p>' + (i ? "" : '<p class="mecanicas">Mecánicas ' + esc(z.presentacion.mecanicas.join(", ")) + '</p>') + '</div>').join("");
       const juegos = z.juegos.map(j => tarjetaJuego(z, j)).join("");
-      return '<article class="cabeza-sala"><button type="button" class="volver" id="volver-salas" data-go="#salas" data-volver="1">Volver a las salas</button><p class="kicker">' + n + ' · ' + esc(PRESION[z.presion] || z.presion) + '</p><h1>' + esc(z.nombre) + '</h1><p class="bajada">' + esc(z.lema) + '</p><p class="meta">' + esc(z.gesto) + '. ' + esc(d.estado) + '. ' + esc(d.detalle) + '.</p></article><div class="layout-sala"><div><h2 style="margin:0 0 12px">Juegos</h2><ul class="catalogo">' + juegos + '</ul></div><div class="pedagogia"><div class="tabs" role="tablist" aria-label="Información de la sala">' + tabs + '</div>' + panels + '</div></div>';
+      return '<article class="cabeza-sala" style="--halo:' + z.acento + '"><button type="button" class="volver" id="volver-salas" data-go="#salas" data-volver="1">Volver a las salas</button><p class="kicker">' + n + ' · ' + esc(PRESION[z.presion] || z.presion) + '</p><div class="sala-hero">' + MARCAS[z.id] + '<h1>' + esc(z.nombre) + '</h1></div><p class="bajada">' + esc(z.lema) + '</p><p class="meta">' + esc(z.gesto) + '. ' + esc(d.estado) + '. ' + esc(d.detalle) + '.</p></article><div class="layout-sala"><div><h2>Juegos</h2><ul class="catalogo">' + juegos + '</ul></div><div class="pedagogia"><div class="tabs" role="tablist" aria-label="Información de la sala">' + tabs + '</div>' + panels + '</div></div>';
     },
     ficha(zid, jid){
       const z = DataRepository.zona(zid);
@@ -417,7 +504,7 @@ body.proyeccion .barra{min-height:56px}
       const cuerpo = listo
         ? '<p class="sinopsis">' + esc(j.sinopsis) + '</p><p class="estado">Disponible. El juego abre en su propia página.</p><div class="fila-acc"><a class="accion" href="' + esc(j.archivo) + '">Abrir juego</a></div>'
         : '<p class="sinopsis">' + esc(j.sinopsis) + '</p><p class="estado">En desarrollo. Todavía no se puede abrir.</p>';
-      return '<article class="ficha"><button type="button" class="volver" id="volver-sala" data-go="#sala/' + z.id + '" data-volver="1">Volver a ' + esc(z.nombre) + '</button><p class="kicker">' + esc(z.nombre) + ' · ' + esc(z.gesto) + '</p><h1>' + esc(j.nombre) + '</h1><div class="papel panel">' + cuerpo + '<p class="estado" style="margin-top:12px">Esta ficha pertenece a la sala ' + esc(z.nombre) + '. ' + esc(z.lema) + '</p></div></article>';
+      return '<article class="ficha"><button type="button" class="volver" id="volver-sala" data-go="#sala/' + z.id + '" data-volver="1">Volver a ' + esc(z.nombre) + '</button><div class="ficha-escena" style="--marca:' + z.acento + '"><p class="kicker">' + esc(z.nombre) + '</p><div class="sala-hero">' + MARCAS[z.id] + '<h1>' + esc(j.nombre) + '</h1></div><div class="lectura panel">' + cuerpo + '<p class="estado" style="margin-top:12px">Esta ficha pertenece a la sala ' + esc(z.nombre) + '. ' + esc(z.lema) + '</p></div></div></article>';
     },
     catalogo(){
       const salas = DataRepository.zonas().map(z => '<option value="' + z.id + '">' + esc(z.nombre) + '</option>').join("");
@@ -431,7 +518,7 @@ body.proyeccion .barra{min-height:56px}
         const opts = DataRepository.ejes()[k].map(([v, n]) => '<option value="' + esc(v) + '"' + (guardado && guardado[k] === v ? " selected" : "") + '>' + esc(n) + '</option>').join("");
         return '<div class="campo eje"><label for="eje-' + k + '">' + lab + '</label><select id="eje-' + k + '">' + opts + '</select><p class="nota">' + ayuda + '</p></div>';
       }).join("");
-      return '<section class="entrada"><p class="kicker">Orientador</p><h1>Encontrar la sala</h1><p class="bajada">Seis ejes para localizar la lógica dominante. No es una clasificación cerrada: una propuesta puede compartir rasgos con más de una sala.</p></section><div class="ejes">' + ejes + '</div><div class="papel resultado" id="salida" aria-live="polite"></div>';
+      return '<section class="entrada"><p class="kicker">Orientador</p><h1>Encontrar la sala</h1><p class="bajada">Seis ejes para localizar la lógica dominante. No es una clasificación cerrada: una propuesta puede compartir rasgos con más de una sala.</p></section><div class="ejes">' + ejes + '</div><div class="lectura resultado" id="salida" aria-live="polite"></div>';
     }
   };
 
@@ -440,7 +527,7 @@ body.proyeccion .barra{min-height:56px}
     const acciones = listo
       ? '<a class="accion" href="' + esc(j.archivo) + '">Abrir juego</a><button type="button" class="btn-sec" id="concepto-' + z.id + '-' + j.id + '" data-go="#juego/' + z.id + '/' + j.id + '">Ver ficha</button>'
       : '<button type="button" class="btn-sec" id="concepto-' + z.id + '-' + j.id + '" data-go="#juego/' + z.id + '/' + j.id + '">Ver concepto</button>';
-    return '<li><p class="estado">' + esc(z.nombre) + '</p><h3>' + esc(j.nombre) + '</h3><p class="sinopsis">' + esc(j.sinopsis) + '</p><p class="estado">' + (listo ? "Disponible" : "En desarrollo") + '</p><div class="fila-acc">' + acciones + '</div></li>';
+    return '<li class="' + (listo ? "listo" : "previsto") + '" style="--marca:' + z.acento + '"><p class="estado">' + esc(z.nombre) + '</p><h3>' + esc(j.nombre) + '</h3><p class="sinopsis">' + esc(j.sinopsis) + '</p><p class="estado">' + (listo ? "Disponible" : "En desarrollo") + '</p><div class="fila-acc">' + acciones + '</div></li>';
   }
 
   const Catalog = {
@@ -515,7 +602,7 @@ body.proyeccion .barra{min-height:56px}
       try { sessionStorage.setItem("s321-orientador", JSON.stringify(sel)); } catch (e) {}
       const r = orientar(sel);
       const z = r.zona;
-      document.getElementById("salida").innerHTML = '<p class="kicker" style="color:var(--ti-t)">Orientación</p><h2>' + esc(z.nombre) + '</h2><p>' + esc(z.lema) + '</p><p class="estado">' + esc(r.porque) + '</p><div class="receta">' + esc(RECETA[z.id]) + '</div><button type="button" class="btn-primario" data-go="#sala/' + z.id + '">Abrir sala ' + esc(z.nombre) + '</button>';
+      document.getElementById("salida").innerHTML = '<p class="kicker">Orientación</p><div class="sala-hero">' + MARCAS[z.id] + '<h2>' + esc(z.nombre) + '</h2></div><p>' + esc(z.lema) + '</p><p class="estado">' + esc(r.porque) + '</p><div class="receta">' + esc(RECETA[z.id]) + '</div><button type="button" class="btn-primario" data-go="#sala/' + z.id + '">Abrir sala ' + esc(z.nombre) + '</button>';
     }
   };
 
@@ -540,7 +627,13 @@ body.proyeccion .barra{min-height:56px}
       else if (r.vista === "ficha") html = Views.ficha(r.zonaId, r.juegoId);
       else if (r.vista === "catalogo") html = Views.catalogo();
       else html = Views.orientador();
+      document.body.dataset.vista = r.vista;
+      if (r.zonaId){
+        const zona = DataRepository.zona(r.zonaId);
+        if (zona) document.body.style.setProperty("--halo", zona.acento);
+      }
       lienzo.innerHTML = html;
+      lienzo.classList.toggle("entra", modo !== "atras" && !document.startViewTransition);
       if (r.vista === "catalogo") Catalog.mount();
       if (r.vista === "orientador") Orientation.leer();
       if (r.vista === "sala") this.tabs();
@@ -558,12 +651,15 @@ body.proyeccion .barra{min-height:56px}
     },
     transicion(modo){
       const lienzo = document.getElementById("lienzo");
-      if (Motion.reducido() || !lienzo.firstChild){ this.pintar(modo); return; }
+      const pintar = () => this.pintar(modo);
+      if (Motion.reducido() || !lienzo.firstChild){ pintar(); return; }
+      if (typeof document.startViewTransition === "function"){
+        document.documentElement.dataset.dir = modo;
+        document.startViewTransition(() => pintar());
+        return;
+      }
       lienzo.classList.add("sale");
-      setTimeout(() => {
-        this.pintar(modo);
-        lienzo.classList.remove("sale");
-      }, 150);
+      setTimeout(() => { pintar(); lienzo.classList.remove("sale"); }, 260);
     },
     tabs(){
       const btns = [...document.querySelectorAll('#lienzo [role="tab"]')];
@@ -592,6 +688,13 @@ body.proyeccion .barra{min-height:56px}
     }
   };
 
+  document.body.addEventListener("pointermove", (e) => {
+    const card = e.target.closest(".sala-btn");
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    card.style.setProperty("--mx", (e.clientX - r.left) + "px");
+    card.style.setProperty("--my", (e.clientY - r.top) + "px");
+  });
   document.body.addEventListener("click", (e) => {
     const limpiar = e.target.closest("#limpiar, #limpiar-vacio");
     if (limpiar){ e.preventDefault(); Catalog.limpiar(); return; }
