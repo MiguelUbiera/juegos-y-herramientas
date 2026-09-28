@@ -2,256 +2,640 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="s321:pieza" content="sala-de-juegos">
 <title>Sala de juegos · Secuencia321</title>
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="stylesheet" href="fuentes-locales.css">
 <style>
 :root{
-  --pe-hondo:#0f2d3a; --pe-base:#173f50; --pe-caja:#2a4e5e; --pe-claro:#2c5c70;
-  --te-hondo:#8f3a1e; --te-base:#b04a2a; --te-caja:#b55537; --te-vivo:#c85f3c; --te-sil:#e4c5b5;
-  --ci-hondo:#462d40; --ci-base:#5a3a52;
-  --lienzo:#f7f1e9; --papel:#fffcf7; --tinta:#1b1512; --tinta-m:#2e2622; --tinta-t:#4a3f38;
-  --suelo:#102833;
-  --lora:'Lora',Georgia,'Times New Roman',serif;
-  --nunito:'Nunito',system-ui,sans-serif;
-  --mono:'Source Code Pro','Courier New',monospace;
-  --radio:22px; --ease:cubic-bezier(.22,.68,0,1.08);
+  --pe-hondo:#0f2d3a; --pe-base:#173f50; --pe-caja:#2a4e5e; --pe-claro:#2c5c70; --pe-velo:#eaf0f2;
+  --te-hondo:#8f3a1e; --te-base:#b04a2a; --te-caja:#b55537; --te-vivo:#c85f3c; --te-velo:#f0dccf;
+  --lienzo:#f7f1e9; --fondo:#efe6d8; --papel:#fffcf7; --realce:#f9f3ea; --linea:#e2d6c4; --borde:#e4c5b5;
+  --ti:#1b1512; --ti-m:#2e2622; --ti-t:#4a3f38;
+  --ci:#5a3a52;
+  --ok:#327a52; --ok-velo:#e7f1ea;
+  --crema:#f7f1e9;
+  --lora:"Lora",Georgia,"Times New Roman",serif;
+  --nunito:"Nunito",system-ui,sans-serif;
+  --mono:"Source Code Pro",ui-monospace,"Courier New",monospace;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s6:24px; --s8:32px; --s12:48px;
+  --radio:12px; --radio-sm:8px;
+  --sombra:0 1px 3px rgba(15,45,58,.06);
+  --m100:100ms; --m150:150ms; --m200:200ms; --m300:300ms;
+  --out:cubic-bezier(.16,1,.3,1); --in:cubic-bezier(.7,0,.84,0);
+  --prosa:70ch;
 }
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--suelo);color:var(--papel);font-family:var(--nunito);}
-body{min-height:100dvh;overflow:auto;}
-#fondo{position:fixed;inset:0;z-index:0;pointer-events:none;background:
-  radial-gradient(900px 500px at 12% -10%, rgba(200,95,60,.22), transparent 55%),
-  radial-gradient(700px 480px at 92% 8%, rgba(90,58,82,.28), transparent 50%),
-  linear-gradient(165deg,#0c2430 0%, #173f50 55%, #102833 100%);}
-#app{position:relative;z-index:1;min-height:100dvh;display:flex;flex-direction:column;padding:18px 22px 0;}
-header.top{display:flex;align-items:center;gap:16px;flex:0 0 auto;flex-wrap:wrap;}
-.iso{width:44px;height:44px;flex:0 0 auto;}
-.brand h1{margin:0;font-family:var(--lora);font-weight:600;font-size:clamp(1.35rem,2.2vw,1.85rem);color:#f7f1e9;}
-.brand p{margin:0;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:#e4c5b5;font-weight:700;}
-nav.switch{margin-left:auto;display:flex;background:rgba(15,45,58,.55);border:1px solid rgba(228,197,181,.22);border-radius:999px;padding:4px;gap:4px;}
-nav.switch button{appearance:none;border:0;background:transparent;color:#f2e2dc;font:700 .82rem var(--nunito);padding:10px 18px;border-radius:999px;cursor:pointer;}
-nav.switch button[aria-pressed="true"]{background:#b04a2a;color:#fff;}
-.credito{margin-left:12px;font-size:.72rem;color:#e4c5b5;font-weight:700;}
-main{flex:1 1 auto;margin-top:18px;}
-.vista{display:none;}
-.vista.activa{display:block;}
-.sala-intro{max-width:860px;margin:0 0 18px;}
-.sala-intro h2{font-family:var(--lora);font-size:clamp(1.5rem,2.6vw,2.2rem);margin:0 0 8px;font-weight:600;}
-.sala-intro p{margin:0;color:#f2e2dc;font-weight:650;line-height:1.45;}
-.rejilla{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;}
-@media (max-width:1180px){.rejilla{grid-template-columns:repeat(3,minmax(0,1fr));}}
-@media (max-width:760px){.rejilla{grid-template-columns:repeat(2,minmax(0,1fr));}}
-.zona-tile{min-height:220px;display:flex;flex-direction:column;border:0;border-radius:var(--radio);padding:18px;text-align:left;cursor:pointer;color:#fff;
-  background:linear-gradient(165deg, rgba(255,252,247,.08), rgba(15,45,58,.35));
-  box-shadow:0 18px 40px rgba(0,0,0,.28);border:1px solid rgba(242,226,220,.14);}
-.zona-tile .n{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#e4c5b5;font-weight:700;}
-.zona-tile h3{margin:12px 0 8px;font-family:var(--lora);font-size:1.42rem;font-weight:600;}
-.zona-tile .lema{margin:0;color:#f2e2dc;font-weight:650;font-size:.92rem;line-height:1.35;flex:1;}
-.zona-tile .pie{margin-top:14px;display:flex;justify-content:space-between;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:#e4c5b5;font-weight:800;}
-.barra{height:3px;width:42%;background:var(--z-acento,#b04a2a);border-radius:99px;margin-top:10px;}
-.aparato{display:grid;grid-template-columns:1.15fr .85fr;gap:20px;}
-@media (max-width:980px){.aparato{grid-template-columns:1fr;}}
-.maquina,.salida{background:rgba(255,252,247,.06);border:1px solid rgba(242,226,220,.16);border-radius:28px;padding:22px 24px;}
-.maquina h2,.salida h3{font-family:var(--lora);margin:0 0 8px;}
-.ejes{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.eje label{display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:#e4c5b5;margin-bottom:6px;}
-.eje select{width:100%;background:#0f2d3a;color:#f7f1e9;border:1px solid rgba(228,197,181,.28);border-radius:14px;padding:11px 14px;font:700 .95rem var(--nunito);}
-.salida .badge{display:inline-block;background:var(--te-base);color:#fff;border-radius:999px;padding:6px 14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;font-size:.72rem;}
-.salida .receta{background:rgba(15,45,58,.55);border-left:6px solid #b04a2a;border-radius:14px;padding:14px 16px;font-weight:700;}
-.salida button.ir,.juego a.ir{margin-top:12px;display:inline-block;background:#b04a2a;color:#fff;border:0;border-radius:14px;padding:12px 18px;font:800 .95rem var(--nunito);text-decoration:none;cursor:pointer;}
-.zona-view{display:grid;grid-template-columns:minmax(280px,360px) 1fr;gap:20px;}
-@media (max-width:980px){.zona-view{grid-template-columns:1fr;}}
-.presenta{background:rgba(255,252,247,.07);border:1px solid rgba(242,226,220,.16);border-radius:28px;padding:22px;}
-.presenta button.back{background:transparent;border:0;color:#e4c5b5;font:800 .8rem var(--nunito);letter-spacing:.1em;text-transform:uppercase;cursor:pointer;padding:0 0 12px;}
-.presenta h2{font-family:var(--lora);margin:0 0 6px;font-size:2rem;}
-.kicker{font-family:var(--mono);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#e4c5b5;font-weight:700;}
-.presenta h4{margin:16px 0 4px;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:#e4c5b5;}
-.presenta p{margin:0;font-weight:650;line-height:1.4;}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
-.chip{background:rgba(15,45,58,.6);border:1px solid rgba(228,197,181,.25);border-radius:999px;padding:4px 10px;font-family:var(--mono);font-size:.72rem;}
-.lista{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
-@media (max-width:760px){.lista{grid-template-columns:1fr;}}
-.juego{background:var(--papel);color:var(--tinta);border-radius:20px;padding:16px;border:1px solid rgba(15,45,58,.08);text-align:left;cursor:pointer;}
-.juego .est{font-family:var(--mono);font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--te-hondo);font-weight:700;}
-.juego h3{margin:6px 0;font-family:var(--lora);font-size:1.15rem;color:var(--pe-hondo);}
-.juego p{margin:0;font-weight:700;color:var(--tinta-m);font-size:.9rem;}
-.juego .ruta{margin-top:10px;font-family:var(--mono);font-size:.68rem;color:var(--tinta-t);}
-.ficha-box{background:var(--papel);color:var(--tinta);border-radius:28px;padding:28px;max-width:720px;margin:4vh auto 8vh;}
-.ficha-box h2{font-family:var(--lora);color:var(--pe-hondo);}
-footer.pie{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px;padding:14px 0 16px;border-top:1px solid rgba(228,197,181,.2);color:#e4c5b5;font-size:.75rem;font-weight:700;}
-footer.pie a{color:#e4c5b5;}
+html,body{margin:0}
+body{
+  min-height:100dvh;
+  background:#0f2d3a;
+  color:var(--crema);
+  font-family:var(--nunito);
+  font-size:1rem;
+  font-weight:400;
+  line-height:1.55;
+}
+body::before{
+  content:"";
+  position:fixed; inset:0; pointer-events:none;
+  background-image:linear-gradient(rgba(247,241,233,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(247,241,233,.04) 1px, transparent 1px);
+  background-size:32px 32px;
+  mask-image:linear-gradient(#000, transparent 520px);
+}
+.skip{position:absolute; left:16px; top:8px; transform:translateY(-150%); background:var(--papel); color:var(--ti); padding:8px 16px; border-radius:8px; z-index:30; font-weight:500}
+.skip:focus{transform:none}
+:focus{outline:none}
+:focus-visible{outline:2px solid #e08a5f; outline-offset:2px}
+.sr{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
+#app{position:relative; z-index:1; max-width:1440px; margin:0 auto; min-height:100dvh; display:flex; flex-direction:column; padding:0 24px}
+.barra{
+  position:sticky; top:0; z-index:8;
+  display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+  min-height:64px; padding:8px 0;
+  background:#173f50;
+  border-bottom:1px solid rgba(247,241,233,.16);
+}
+.marca{display:flex; align-items:center; gap:12px; color:inherit; text-decoration:none; min-height:44px; font-family:var(--lora); font-weight:600; font-size:1.25rem; letter-spacing:-.02em; line-height:1.2}
+.marca svg{width:36px; height:36px; flex:0 0 auto}
+.nav{display:flex; gap:4px; margin-left:auto; flex-wrap:wrap}
+.nav a,.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-height:44px; padding:8px 16px; border-radius:8px;
+  font:500 1rem/1.2 var(--nunito); text-decoration:none; color:var(--crema);
+  border:1px solid transparent; background:transparent; cursor:pointer;
+}
+.nav a[aria-current="page"]{background:var(--te-hondo); border-color:var(--te-hondo)}
+.nav a:not([aria-current="page"]):hover,.btn-ghost:hover{border-color:rgba(247,241,233,.28)}
+.btn-primario,.accion{
+  background:var(--te-hondo); color:var(--crema); border:1px solid var(--te-hondo);
+  display:inline-flex; align-items:center; min-height:44px; padding:8px 16px; border-radius:8px;
+  font:500 1rem/1.2 var(--nunito); text-decoration:none; cursor:pointer;
+}
+.btn-sec{
+  background:transparent; color:var(--te-hondo); border:1px solid var(--borde);
+  display:inline-flex; align-items:center; min-height:44px; padding:8px 16px; border-radius:8px;
+  font:500 1rem/1.2 var(--nunito); cursor:pointer;
+}
+.btn-ghost{border:1px solid rgba(247,241,233,.28); background:transparent; color:var(--crema)}
+main{flex:1}
+.lienzo{padding:24px 0 32px; transition:opacity var(--m200) var(--out), transform var(--m200) var(--out)}
+.lienzo.sale{opacity:0; transform:translateY(8px); transition-duration:var(--m150); transition-timing-function:var(--in)}
+h1,h2,h3{font-family:var(--lora); font-weight:600; line-height:1.2; letter-spacing:-.02em}
+h1{font-size:clamp(1.75rem,3vw,2.25rem); margin:0 0 8px}
+h2{font-size:1.25rem; margin:0}
+h3{font-size:1.25rem; margin:0; color:var(--pe-hondo)}
+.bajada{margin:0; max-width:var(--prosa); color:var(--crema)}
+.kicker{margin:0 0 8px; font-family:var(--mono); font-size:.75rem; line-height:1.4; color:#f3e6df}
+.papel{background:var(--papel); color:var(--ti); border:1px solid var(--linea); border-radius:var(--radio); box-shadow:var(--sombra), inset 0 1px 0 rgba(255,255,255,.65)}
+.portada{display:grid; gap:24px}
+.entrada{max-width:760px}
+.resumen{display:flex; flex-wrap:wrap; gap:16px 24px; margin:16px 0 0; font-size:.875rem; color:#f3e6df}
+.acciones{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px}
+.ahora{display:grid; grid-template-columns:1fr; gap:16px; align-items:center; padding:16px}
+.ahora svg{width:96px; height:96px; color:var(--pe-base)}
+.ahora h2{color:var(--pe-hondo)}
+.ahora p{margin:8px 0 0}
+.indice{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin:0; padding:0; list-style:none}
+.indice a{
+  display:flex; align-items:baseline; gap:8px; min-height:44px; padding:8px 12px;
+  color:var(--ti); text-decoration:none; background:var(--papel); border:1px solid var(--linea); border-radius:8px;
+}
+.indice .n{font-family:var(--mono); font-size:.75rem; color:var(--ti-t)}
+.indice strong{font-weight:600; font-family:var(--lora)}
+.mosaico{display:grid; grid-template-columns:1fr; gap:16px}
+.sala-btn{
+  appearance:none; text-align:left; cursor:pointer; color:var(--ti); width:100%;
+  background:var(--papel); border:1px solid var(--linea); border-radius:var(--radio);
+  box-shadow:var(--sombra), inset 0 1px 0 rgba(255,255,255,.65);
+  padding:16px; min-height:44px; display:grid; grid-template-columns:56px 1fr; gap:12px 16px; align-items:start;
+  transition:border-color var(--m150) var(--out), transform var(--m200) var(--out);
+}
+.sala-btn svg{width:56px; height:56px; color:var(--pe-base)}
+.sala-btn .n{font-family:var(--mono); font-size:.75rem; color:var(--ti-t); line-height:1.4}
+.sala-btn .lema{margin:4px 0 0}
+.sala-btn .gesto{margin:8px 0 0; font-size:.875rem; color:var(--ti-t)}
+.pie{grid-column:1 / -1; display:flex; justify-content:space-between; gap:12px; align-items:baseline; padding-top:8px; border-top:1px solid var(--linea); font-size:.875rem}
+.ok{color:var(--ok); font-weight:500}
+.espera{color:var(--ti-t); font-weight:500}
+.cue{color:var(--te-hondo); font-weight:500}
+.trazo{stroke:var(--marca, currentColor)}
+.volver{appearance:none; background:none; border:0; color:#f3e6df; min-height:44px; padding:8px 0; font:500 1rem/1.2 var(--nunito); cursor:pointer}
+.cabeza-sala{margin-bottom:24px; max-width:80ch}
+.layout-sala{display:grid; gap:24px}
+.tabs{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 8px}
+.tabs button{min-height:44px; padding:8px 16px; border-radius:8px; border:1px solid #346375; background:#234c5e; color:var(--crema); font:500 .875rem/1.2 var(--nunito); cursor:pointer}
+.tabs button[aria-selected="true"]{background:var(--papel); color:var(--ti); border-color:var(--papel)}
+.panel{padding:16px; max-width:var(--prosa)}
+.panel p{margin:0}
+.mecanicas{margin:12px 0 0; font-family:var(--mono); font-size:.75rem; line-height:1.4; color:var(--ti-t)}
+.catalogo, .lista{
+  list-style:none; margin:0; padding:0; background:var(--papel); color:var(--ti);
+  border:1px solid var(--linea); border-radius:var(--radio); overflow:hidden;
+}
+.catalogo li, .lista li{padding:16px; border-bottom:1px solid var(--linea); display:flex; flex-direction:column; gap:8px}
+.catalogo li:last-child, .lista li:last-child{border-bottom:0}
+.sinopsis{margin:0; color:var(--ti-m)}
+.estado{margin:0; font-size:.875rem; color:var(--ti-t)}
+.fila-acc{display:flex; flex-wrap:wrap; gap:8px}
+.filtros{display:grid; gap:12px; margin:0 0 16px}
+.campo label{display:block; margin-bottom:8px; font-size:.875rem; font-weight:500; color:#f3e6df}
+.campo input,.campo select{
+  width:100%; min-height:44px; border-radius:8px; border:1px solid var(--linea);
+  background:var(--papel); color:var(--ti); padding:8px 12px; font:400 1rem/1.4 var(--nunito);
+}
+.cuenta{margin:0 0 12px; font-size:.875rem; color:#f3e6df}
+.vacio{padding:16px; max-width:var(--prosa)}
+.ficha{max-width:760px}
+.nota{max-width:var(--prosa); color:#f3e6df; font-size:.875rem}
+.ejes{display:grid; gap:16px; margin:24px 0}
+.resultado{padding:16px}
+.resultado h2{color:var(--pe-hondo); margin:4px 0 8px; font-size:1.5rem}
+.receta{margin:12px 0; padding:12px 16px; border-left:4px solid var(--te-hondo); background:var(--realce)}
+.aviso{padding:12px 16px; background:#234c5e; border:1px solid #346375; border-radius:8px; max-width:var(--prosa)}
+.meta{margin:8px 0 0; font-size:.875rem; color:#f3e6df}
+footer.pie-pag{
+  margin-top:auto; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  padding:16px 0 24px; border-top:1px solid rgba(247,241,233,.16); color:#f3e6df; font-size:.75rem; line-height:1.4;
+}
+footer.pie-pag p{margin:0}
+@media (hover:hover) and (pointer:fine){
+  .sala-btn:hover{border-color:var(--borde); transform:translateY(-4px)}
+}
+@media (min-width:700px){
+  .indice{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .ahora{grid-template-columns:1.2fr .8fr}
+  .ejes{grid-template-columns:1fr 1fr}
+  .filtros{grid-template-columns:1.4fr .8fr .8fr auto; align-items:end}
+  .lista{display:grid; grid-template-columns:1fr 1fr}
+  .lista li{border-right:1px solid var(--linea)}
+  .lista li:nth-child(2n){border-right:0}
+}
+@media (min-width:900px){
+  .mosaico{grid-template-columns:1fr 1fr}
+  .layout-sala{grid-template-columns:1fr 320px; align-items:start}
+  .layout-sala .pedagogia{position:sticky; top:80px}
+  .catalogo{display:grid; grid-template-columns:1fr 1fr}
+  .catalogo li{border-right:1px solid var(--linea)}
+  .catalogo li:nth-child(2n){border-right:0}
+}
+@media (min-width:1180px){
+  .mosaico{grid-template-columns:1fr 1fr 1fr}
+  .sala-btn[data-sala="desafio"]{grid-column:span 2; grid-template-columns:72px 1fr}
+  .ejes{grid-template-columns:1fr 1fr 1fr}
+}
+@media (max-width:699px){
+  #app{padding:0 16px}
+  .nav{margin-left:0}
+}
+body.proyeccion footer.pie-pag,
+body.proyeccion .kicker,
+body.proyeccion .mecanicas{display:none}
+body.proyeccion h1{font-size:2.25rem}
+body.proyeccion .sala-btn h2,
+body.proyeccion .lista h3,
+body.proyeccion .catalogo h3{font-size:1.5rem}
+body.proyeccion .barra{min-height:56px}
+@media (prefers-reduced-motion:reduce){
+  .lienzo,.lienzo.sale,.sala-btn{transition:opacity var(--m100) ease; transform:none !important}
+}
 </style>
 </head>
 <body>
-<div id="fondo"></div>
+<a class="skip" href="#contenido">Saltar al contenido</a>
 <div id="app">
-  <header class="top">
-    <svg class="iso" viewBox="0 0 64 64" aria-hidden="true">
-      <rect width="64" height="64" rx="20" fill="#173f50"/>
-      <rect x="11" y="11" width="19" height="19" rx="4.5" fill="#f7f1e9"/>
-      <rect x="34" y="11" width="19" height="19" rx="4.5" fill="#f7f1e9"/>
-      <rect x="11" y="34" width="19" height="19" rx="4.5" fill="#f7f1e9"/>
-      <rect x="34" y="34" width="8.4" height="8.4" rx="2.4" fill="#e4c5b5"/>
-      <rect x="44.6" y="34" width="8.4" height="8.4" rx="2.4" fill="#e4c5b5"/>
-      <rect x="34" y="44.6" width="8.4" height="8.4" rx="2.4" fill="#e4c5b5"/>
-      <rect x="44.6" y="44.6" width="8.4" height="8.4" rx="2.4" fill="#e08a5f"/>
-    </svg>
-    <div class="brand">
-      <h1>Sala de juegos</h1>
-      <p>Lora · Nunito · Source Code Pro</p>
-    </div>
-    <nav class="switch" aria-label="Vistas">
-      <button type="button" id="tabSala" aria-pressed="true">La sala</button>
-      <button type="button" id="tabAparato" aria-pressed="false">El aparato</button>
+  <header class="barra">
+    <a class="marca" href="#inicio" data-go="#inicio">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="12" fill="#0f2d3a"/><rect x="11" y="11" width="19" height="19" rx="4" fill="#f7f1e9"/><rect x="34" y="11" width="19" height="19" rx="4" fill="#f7f1e9"/><rect x="11" y="34" width="19" height="19" rx="4" fill="#f7f1e9"/><rect x="34" y="34" width="8.4" height="8.4" rx="2" fill="#e4c5b5"/><rect x="44.6" y="34" width="8.4" height="8.4" rx="2" fill="#e4c5b5"/><rect x="34" y="44.6" width="8.4" height="8.4" rx="2" fill="#e4c5b5"/><rect x="44.6" y="44.6" width="8.4" height="8.4" rx="2" fill="#e08a5f"/></svg>
+      Sala de juegos
+    </a>
+    <nav class="nav" aria-label="Secciones">
+      <a href="#inicio" data-go="#inicio" id="nav-inicio">Inicio</a>
+      <a href="#salas" data-go="#salas" id="nav-salas">Salas</a>
+      <a href="#catalogo" data-go="#catalogo" id="nav-catalogo">Catálogo</a>
+      <a href="#orientador" data-go="#orientador" id="nav-orientador">Orientador</a>
     </nav>
-    <div class="credito">Secuencia321</div>
+    <button type="button" class="btn btn-ghost" id="btnProyeccion" aria-pressed="false">Ampliar proyección</button>
   </header>
-  <main>
-    <section id="vista-sala" class="vista activa"></section>
-    <section id="vista-aparato" class="vista"></section>
-    <section id="vista-zona" class="vista"></section>
-    <section id="vista-ficha" class="vista"></section>
-  </main>
-  <footer class="pie">
-    <span>Diez zonas · repositorio en expansión</span>
-    
-    <span>Secuencia321</span>
+  <main id="contenido"><div id="lienzo" class="lienzo"></div></main>
+  <footer class="pie-pag">
+    <p>Secuencia321 · Miguel Ubiera</p>
+    <p>© Secuencia321. Todos los derechos reservados.</p>
   </footer>
 </div>
+<p id="aviso" class="sr" aria-live="polite"></p>
+<script type="application/json" id="datos">{"zonas": [{"id": "desafio", "nombre": "Desafío", "lema": "La dificultad sube. El reloj no manda.", "gesto": "Producir y decidir con exigencia creciente", "presion": "calma-exigente", "acento": "#b04a2a", "presentacion": {"que_es": "Una ronda vale si el siguiente peldaño pide más que el anterior: más cifras, una condición nueva, o un camino que ya no se puede resolver de un golpe de vista.", "como_se_articula": "Se fija un criterio único. Se construyen diez peldaños. Cada peldaño cambia una sola variable. El estudiante ve el peldaño, resuelve, y solo entonces aparece el siguiente. No hay ranking. Hay umbral.", "que_no_es": "No es una lista de ejercicios con confeti. Si el gesto no cambia de exigencia, es cálculo disfrazado.", "para_el_aula": "En PDI, un estudiante resuelve el peldaño a la vista. El resto pronostica si va a alcanzar. El maestro señala el criterio, no la cuenta.", "mecanicas": ["PR-2", "PR-3", "EL-2", "BU-1"]}, "juegos": [{"id": "tres-condiciones", "nombre": "Tres condiciones", "sinopsis": "Cada grupo de casillas cumple una condición. Las fichas de dominó no se solapan.", "estado": "listo", "archivo": "juegos/desafio/tres-condiciones/tres-condiciones.html"}]}, {"id": "memoria", "nombre": "Memoria", "lema": "Lo que se tapó sigue contando.", "gesto": "Retener y emparejar", "presion": "calma", "acento": "#5a3a52", "presentacion": {"que_es": "Se muestra, se tapa, se pide. La matemática no está en recordar dibujos: está en recordar una cantidad, una relación o una posición que todavía sirve.", "como_se_articula": "Tres tiempos en la misma pantalla: se ve · se cubre · se usa. El material tapado y el que queda a la vista tienen que hablarse. Si al destapar no hay nada que calcular, era memoria de naipes.", "que_no_es": "No es Memory de figuritas. Dos cartas iguales sin valor matemático no entran.", "para_el_aula": "Tocar en la pizarra. Pocas cartas, grandes. El maestro pregunta qué se está guardando: el número, el lugar, o la relación.", "mecanicas": ["RE-1", "MO-1", "EX-3", "PR-2"]}, "juegos": [{"id": "parejas-de-valor", "nombre": "Parejas de valor", "sinopsis": "Se unen dos caras que valen lo mismo con distinta ropa.", "estado": "idea", "archivo": "juegos/memoria/parejas-de-valor.html"}, {"id": "eco-de-cifras", "nombre": "Eco de cifras", "sinopsis": "Una fila se muestra tres segundos. Hay que reconstruirla.", "estado": "idea", "archivo": "juegos/memoria/eco-de-cifras.html"}, {"id": "mesa-tapada", "nombre": "Mesa tapada", "sinopsis": "Se cubren platos. Decir cuántos quedan sin destaparlos todos.", "estado": "idea", "archivo": "juegos/memoria/mesa-tapada.html"}, {"id": "el-orden-que-se-fue", "nombre": "El orden que se fue", "sinopsis": "Se vio una secuencia. Reaparece desordenada. Hay que devolverla.", "estado": "idea", "archivo": "juegos/memoria/el-orden-que-se-fue.html"}, {"id": "dos-vistazos", "nombre": "Dos vistazos", "sinopsis": "Primera mirada: cantidades. Segunda: la pregunta. No hay tercera.", "estado": "idea", "archivo": "juegos/memoria/dos-vistazos.html"}, {"id": "la-caja-de-tres", "nombre": "La caja de tres", "sinopsis": "Solo tres casillas a la vista. Las demás se recuerdan.", "estado": "idea", "archivo": "juegos/memoria/la-caja-de-tres.html"}, {"id": "espejo-tardio", "nombre": "Espejo tardío", "sinopsis": "Lo de la izquierda se tapó. Lo de la derecha pide el complemento.", "estado": "idea", "archivo": "juegos/memoria/espejo-tardio.html"}, {"id": "ruta-borrada", "nombre": "Ruta borrada", "sinopsis": "Un camino se recorrió. Hay que repetirlo de memoria sobre el plano.", "estado": "idea", "archivo": "juegos/memoria/ruta-borrada.html"}, {"id": "fichas-que-caminan", "nombre": "Fichas que caminan", "sinopsis": "Se movieron dos. Decir cuáles, sin haberlas seguido con el dedo.", "estado": "idea", "archivo": "juegos/memoria/fichas-que-caminan.html"}, {"id": "el-total-escondido", "nombre": "El total escondido", "sinopsis": "Se vieron partes. El total se pide cuando ya no están.", "estado": "idea", "archivo": "juegos/memoria/el-total-escondido.html"}, {"id": "memoria-de-lugar", "nombre": "Memoria de lugar", "sinopsis": "Cada cantidad vivía en un sitio. El sitio se vació.", "estado": "idea", "archivo": "juegos/memoria/memoria-de-lugar.html"}, {"id": "la-carta-testigo", "nombre": "La carta testigo", "sinopsis": "Una carta queda destapada para comparar. Las otras no.", "estado": "idea", "archivo": "juegos/memoria/la-carta-testigo.html"}]}, {"id": "velocidad", "nombre": "Velocidad", "lema": "El pulso sube. Nadie pierde delante de la clase.", "gesto": "Reaccionar contra el reloj", "presion": "reloj", "acento": "#c85f3c", "presentacion": {"que_es": "Un solo criterio ya construido se aplica muchas veces, rápido. El reloj sube. No hay ranking ni nombres. «Jugar otra vez» borra la ronda y no avanza nada.", "como_se_articula": "Se declara el criterio en una frase. Se lanza una ráfaga de ítems cortos. Se cuenta lo acertado, no a quién. Al repetir, cero y burbuja cerrada.", "que_no_es": "No es un examen cronometrado de operaciones peladas. Si el criterio no cabe en una línea, no es velocidad: es desafío.", "para_el_aula": "Toda la clase puede decir en voz baja. Un estudiante toca. Nadie queda último en un tablero.", "mecanicas": ["RE-2", "BU-1", "BU-3", "EL-1"]}, "juegos": [{"id": "rafaga", "nombre": "Ráfaga", "sinopsis": "Doce ítems del mismo criterio. El reloj corre. Se puede repetir.", "estado": "idea", "archivo": "juegos/velocidad/rafaga.html"}, {"id": "pulso-de-tres", "nombre": "Pulso de tres", "sinopsis": "Tres decisiones seguidas. Si una falla, la ráfaga se reinicia.", "estado": "idea", "archivo": "juegos/velocidad/pulso-de-tres.html"}, {"id": "acepta-o-sigue", "nombre": "Acepta o sigue", "sinopsis": "Pasa lo que cumple. Descarta lo que no. El gesto es contenerse.", "estado": "idea", "archivo": "juegos/velocidad/acepta-o-sigue.html"}, {"id": "antes-del-tono", "nombre": "Antes del tono", "sinopsis": "Hay que tocar la cantidad justa antes de que suene la marca.", "estado": "idea", "archivo": "juegos/velocidad/antes-del-tono.html"}, {"id": "la-fila-que-corre", "nombre": "La fila que corre", "sinopsis": "Números desfilan. Tocar solo los que pertenecen.", "estado": "idea", "archivo": "juegos/velocidad/la-fila-que-corre.html"}, {"id": "doble-toque", "nombre": "Doble toque", "sinopsis": "Primero la cantidad, luego su pareja, sin pensar el nombre.", "estado": "idea", "archivo": "juegos/velocidad/doble-toque.html"}, {"id": "el-atajo", "nombre": "El atajo", "sinopsis": "Hay una forma corta. Quien la ve tarda menos, no quien aprieta.", "estado": "idea", "archivo": "juegos/velocidad/el-atajo.html"}, {"id": "verde-y-sigo", "nombre": "Verde y sigo", "sinopsis": "Acierto silencioso. Solo se detiene el error.", "estado": "idea", "archivo": "juegos/velocidad/verde-y-sigo.html"}, {"id": "mitad-visible", "nombre": "Mitad visible", "sinopsis": "Se ve una parte. Hay que completar la otra al vuelo.", "estado": "idea", "archivo": "juegos/velocidad/mitad-visible.html"}, {"id": "cambio-de-criterio", "nombre": "Cambio de criterio", "sinopsis": "A mitad de ráfaga el criterio rota. Lo que valía deja de valer.", "estado": "idea", "archivo": "juegos/velocidad/cambio-de-criterio.html"}, {"id": "diez-en-calma", "nombre": "Diez en calma", "sinopsis": "Misma ráfaga, pero el reloj solo mira. No apura.", "estado": "idea", "archivo": "juegos/velocidad/diez-en-calma.html"}, {"id": "el-gesto-unico", "nombre": "El gesto único", "sinopsis": "Un solo tipo de toque resuelve todo. Nada de menús.", "estado": "idea", "archivo": "juegos/velocidad/el-gesto-unico.html"}]}, {"id": "estrategia", "nombre": "Estrategia", "lema": "El primer movimiento ya decide el tercero.", "gesto": "Planear y decidir con consecuencias", "presion": "calma", "acento": "#173f50", "presentacion": {"que_es": "Hay recursos limitados y más de un camino bueno. Se elige, se ve el efecto, se elige otra vez. La matemática está en anticipar, no en el clic verde inmediato.", "como_se_articula": "Tablero o reserva visible. Cada jugada gasta algo. Las consecuencias se leen en el propio tablero, no en una burbuja. Se puede rehacer el turno.", "que_no_es": "No es ajedrez con números pegados. Si no hay dilema (gastar ahora o guardar), es un ejercicio de pasos.", "para_el_aula": "Dos estudiantes proponen planes distintos. Se juega uno. Se compara con el que no se jugó.", "mecanicas": ["EL-2", "RE-3", "PR-4", "MA-4"]}, "juegos": [{"id": "el-colmado-justo", "nombre": "El colmado justo", "sinopsis": "Comprar con una reserva. Cada producto cambia lo que queda.", "estado": "idea", "archivo": "juegos/estrategia/el-colmado-justo.html"}, {"id": "cercar-el-numero", "nombre": "Cercar el número", "sinopsis": "Ir cerrando un intervalo. Cada ficha gasta un movimiento.", "estado": "idea", "archivo": "juegos/estrategia/cercar-el-numero.html"}, {"id": "dos-caminos", "nombre": "Dos caminos", "sinopsis": "Llegar al mismo total por rutas que no cuestan igual.", "estado": "idea", "archivo": "juegos/estrategia/dos-caminos.html"}, {"id": "guardar-o-usar", "nombre": "Guardar o usar", "sinopsis": "Una ficha potente. Gastarla ahora cierra un atajo y abre un hueco.", "estado": "idea", "archivo": "juegos/estrategia/guardar-o-usar.html"}, {"id": "el-reparto-tenso", "nombre": "El reparto tenso", "sinopsis": "Partir una cantidad entre tres destinos que no se pueden quedar cortos.", "estado": "idea", "archivo": "juegos/estrategia/el-reparto-tenso.html"}, {"id": "bloquear-la-casilla", "nombre": "Bloquear la casilla", "sinopsis": "Ocupar para que el otro plan ya no quepa.", "estado": "idea", "archivo": "juegos/estrategia/bloquear-la-casilla.html"}, {"id": "tres-turnos", "nombre": "Tres turnos", "sinopsis": "Solo tres jugadas. Hay que dejar el tablero en la meta.", "estado": "idea", "archivo": "juegos/estrategia/tres-turnos.html"}, {"id": "la-reserva-ciega", "nombre": "La reserva ciega", "sinopsis": "Se ve lo que hay, no lo que vendrá. Hay que dejar margen.", "estado": "idea", "archivo": "juegos/estrategia/la-reserva-ciega.html"}, {"id": "puente-o-orilla", "nombre": "Puente o orilla", "sinopsis": "Dos zonas. Cruzar cuesta. Quedarse también.", "estado": "idea", "archivo": "juegos/estrategia/puente-o-orilla.html"}, {"id": "el-plan-escrito", "nombre": "El plan escrito", "sinopsis": "Antes de tocar, se declara la secuencia. Luego se ejecuta.", "estado": "idea", "archivo": "juegos/estrategia/el-plan-escrito.html"}, {"id": "minimo-de-piezas", "nombre": "Mínimo de piezas", "sinopsis": "Misma meta con las menos fichas posibles.", "estado": "idea", "archivo": "juegos/estrategia/minimo-de-piezas.html"}, {"id": "el-contraplan", "nombre": "El contraplan", "sinopsis": "Una ficha rival se mueve sola. Hay que anticiparla.", "estado": "idea", "archivo": "juegos/estrategia/el-contraplan.html"}]}, {"id": "concentracion", "nombre": "Concentración", "lema": "Nada se toca dos veces. El error se esconde en lo casi igual.", "gesto": "Auditar, localizar, descartar", "presion": "ritmo", "acento": "#2a4e5e", "presentacion": {"que_es": "El material está casi bien. Hay que encontrar lo que no cumple, lo que se movió, o lo que se contó dos veces. La atención es el instrumento.", "como_se_articula": "Una escena estable. Un cambio mínimo. El estudiante señala. El feedback dice hacia dónde mirar, nunca «no».", "que_no_es": "No es sopa de números. Si el ojo no tiene un criterio matemático, es un pasatiempo.", "para_el_aula": "Silencio breve. Un dedo en la pizarra. El resto busca el mismo defecto sin hablar.", "mecanicas": ["BU-2", "BU-1", "BU-3", "EX-4"]}, "juegos": [{"id": "la-cifra-impostora", "nombre": "La cifra impostora", "sinopsis": "Una cantidad no corresponde a su dibujo.", "estado": "idea", "archivo": "juegos/concentracion/la-cifra-impostora.html"}, {"id": "contado-dos-veces", "nombre": "Contado dos veces", "sinopsis": "Una pieza aparece en dos grupos. El total miente.", "estado": "idea", "archivo": "juegos/concentracion/contado-dos-veces.html"}, {"id": "la-fila-que-se-mueve", "nombre": "La fila que se mueve", "sinopsis": "Entre vistazo y vistazo, una pieza cambió de sitio.", "estado": "idea", "archivo": "juegos/concentracion/la-fila-que-se-mueve.html"}, {"id": "el-criterio-roto", "nombre": "El criterio roto", "sinopsis": "Cuatro sí cumplen. Una no. Hay que nombrarla.", "estado": "idea", "archivo": "juegos/concentracion/el-criterio-roto.html"}, {"id": "silencio-de-uno", "nombre": "Silencio de uno", "sinopsis": "No se toca nada. Se dice cuántos fallan, sin señalarlos aún.", "estado": "idea", "archivo": "juegos/concentracion/silencio-de-uno.html"}, {"id": "borde-casi-justo", "nombre": "Borde casi justo", "sinopsis": "La pieza está cerca de su lugar. Cerca no vale.", "estado": "idea", "archivo": "juegos/concentracion/borde-casi-justo.html"}, {"id": "doble-lista", "nombre": "Doble lista", "sinopsis": "Lo escrito y lo dibujado no coinciden. Encontrar el renglón.", "estado": "idea", "archivo": "juegos/concentracion/doble-lista.html"}, {"id": "el-hueco-disimulado", "nombre": "El hueco disimulado", "sinopsis": "Falta una unidad. El arreglo la esconde.", "estado": "idea", "archivo": "juegos/concentracion/el-hueco-disimulado.html"}, {"id": "misma-tinta-otro-valor", "nombre": "Misma tinta, otro valor", "sinopsis": "Se parecen. No valen igual.", "estado": "idea", "archivo": "juegos/concentracion/misma-tinta-otro-valor.html"}, {"id": "auditoria-corta", "nombre": "Auditoría corta", "sinopsis": "Seis casillas. Marcar solo las que no se sostienen.", "estado": "idea", "archivo": "juegos/concentracion/auditoria-corta.html"}, {"id": "el-testigo-fijo", "nombre": "El testigo fijo", "sinopsis": "Un conjunto no se toca. El otro sí. Comparar sin contar de nuevo.", "estado": "idea", "archivo": "juegos/concentracion/el-testigo-fijo.html"}, {"id": "una-regla-dos-fallos", "nombre": "Una regla, dos fallos", "sinopsis": "El mismo criterio se rompe dos veces de modos distintos.", "estado": "idea", "archivo": "juegos/concentracion/una-regla-dos-fallos.html"}]}, {"id": "probabilidad", "nombre": "Probabilidad", "lema": "Se pronostica con lo que se ve en la urna.", "gesto": "Conjeturar y comprobar con azar visible", "presion": "calma", "acento": "#674a60", "presentacion": {"que_es": "Hay una fuente de azar a la vista: urna, dado, rueda. Se pronostica, se suelta, se registra. La lección vive en la distancia entre lo que se esperaba y lo que salió.", "como_se_articula": "La composición de la urna se ve antes. El estudiante declara un pronóstico. Se extrae. El registro guarda varias tiradas. Nunca se habla de premio, banca ni apuesta.", "que_no_es": "No es un casino escolar. El azar que no se puede ver no enseña. El lenguaje de juego de azar está vetado.", "para_el_aula": "La clase pronostica a coro. Se extrae una vez. Se anota. Se vuelve a pronosticar con el registro a la vista.", "mecanicas": ["PR-4", "MA-1", "MA-3", "EL-2"]}, "juegos": [{"id": "la-urna-que-habla", "nombre": "La urna que habla", "sinopsis": "Se ven las bolas. Pronosticar el color más probable.", "estado": "idea", "archivo": "juegos/probabilidad/la-urna-que-habla.html"}, {"id": "tres-dados-un-pronostico", "nombre": "Tres dados, un pronóstico", "sinopsis": "Qué total saldrá más veces en diez tiradas.", "estado": "idea", "archivo": "juegos/probabilidad/tres-dados-un-pronostico.html"}, {"id": "rueda-partida", "nombre": "Rueda partida", "sinopsis": "Sectores desiguales. Decir dónde cae más a menudo.", "estado": "idea", "archivo": "juegos/probabilidad/rueda-partida.html"}, {"id": "con-reemplazo", "nombre": "Con reemplazo", "sinopsis": "La urna no cambia. El registro sí.", "estado": "idea", "archivo": "juegos/probabilidad/con-reemplazo.html"}, {"id": "sin-reemplazo", "nombre": "Sin reemplazo", "sinopsis": "Cada extracción cambia lo que queda. El pronóstico tiene que moverse.", "estado": "idea", "archivo": "juegos/probabilidad/sin-reemplazo.html"}, {"id": "mas-probable-igual", "nombre": "Más probable, o igual", "sinopsis": "A veces dos resultados empatan. Hay que atreverse a decirlo.", "estado": "idea", "archivo": "juegos/probabilidad/mas-probable-igual.html"}, {"id": "el-caso-raro", "nombre": "El caso raro", "sinopsis": "Se busca lo menos probable. Sale poco. Eso también se registra.", "estado": "idea", "archivo": "juegos/probabilidad/el-caso-raro.html"}, {"id": "mezcla-visible", "nombre": "Mezcla visible", "sinopsis": "Se agregan piezas a la urna a la vista. El pronóstico se actualiza.", "estado": "idea", "archivo": "juegos/probabilidad/mezcla-visible.html"}, {"id": "dos-urnas", "nombre": "Dos urnas", "sinopsis": "Elegir de cuál extraer según lo que se quiere obtener.", "estado": "idea", "archivo": "juegos/probabilidad/dos-urnas.html"}, {"id": "la-racha-que-engana", "nombre": "La racha que engaña", "sinopsis": "Salió tres veces lo mismo. ¿Cambió la urna o no?", "estado": "idea", "archivo": "juegos/probabilidad/la-racha-que-engana.html"}, {"id": "tabla-de-salidas", "nombre": "Tabla de salidas", "sinopsis": "Llenar el registro. Leerlo. Decir qué se espera ahora.", "estado": "idea", "archivo": "juegos/probabilidad/tabla-de-salidas.html"}, {"id": "el-intervalo-esperado", "nombre": "El intervalo esperado", "sinopsis": "No se pide el número exacto: se pide la franja donde debería caer.", "estado": "idea", "archivo": "juegos/probabilidad/el-intervalo-esperado.html"}]}, {"id": "tiempo", "nombre": "Tiempo", "lema": "Duración, orden y reloj son material, no adorno.", "gesto": "Ordenar y medir intervalos", "presion": "ritmo", "acento": "#2c5c70", "presentacion": {"que_es": "El tiempo es la cantidad. Se compara duración, se lee un reloj, se coloca un suceso antes o después, se parte una hora.", "como_se_articula": "Un reloj o una línea de tiempo visible. El estudiante mueve una marca o elige un intervalo. El feedback habla en minutos y en orden, no en «correcto».", "que_no_es": "No es un cronómetro decorando otra categoría. Si se puede quitar el reloj y el juego sigue igual, pertenecía a velocidad o a desafío.", "para_el_aula": "El reloj de la sala y el de la pantalla se pueden comparar. El maestro pregunta cuánto falta, no qué hora es en abstracto.", "mecanicas": ["MO-2", "MO-4", "MA-4", "PR-1"]}, "juegos": [{"id": "el-intervalo", "nombre": "El intervalo", "sinopsis": "Marcar cuánto dura un tramo entre dos horas.", "estado": "idea", "archivo": "juegos/tiempo/el-intervalo.html"}, {"id": "antes-o-despues", "nombre": "Antes o después", "sinopsis": "Colocar sucesos en una línea que ya tiene anclas.", "estado": "idea", "archivo": "juegos/tiempo/antes-o-despues.html"}, {"id": "reloj-partido", "nombre": "Reloj partido", "sinopsis": "Media vuelta, cuarto, tres cuartos: leerlos como cantidad.", "estado": "idea", "archivo": "juegos/tiempo/reloj-partido.html"}, {"id": "cuanto-falta", "nombre": "Cuánto falta", "sinopsis": "De aquí a la meta. El destino está escrito en la aguja.", "estado": "idea", "archivo": "juegos/tiempo/cuanto-falta.html"}, {"id": "dos-relojes", "nombre": "Dos relojes", "sinopsis": "Uno analogico, uno de cifras. Decir si dicen lo mismo.", "estado": "idea", "archivo": "juegos/tiempo/dos-relojes.html"}, {"id": "el-turno-de-ocho", "nombre": "El turno de ocho", "sinopsis": "Ocho minutos por estación. Repartir una hora.", "estado": "idea", "archivo": "juegos/tiempo/el-turno-de-ocho.html"}, {"id": "ritmo-de-paso", "nombre": "Ritmo de paso", "sinopsis": "Una marca cada cierto tiempo. Completar la serie.", "estado": "idea", "archivo": "juegos/tiempo/ritmo-de-paso.html"}, {"id": "calendario-corto", "nombre": "Calendario corto", "sinopsis": "Días que caben entre dos fechas visibles.", "estado": "idea", "archivo": "juegos/tiempo/calendario-corto.html"}, {"id": "la-aguja-suelta", "nombre": "La aguja suelta", "sinopsis": "Mover solo el minutero hasta el encargo.", "estado": "idea", "archivo": "juegos/tiempo/la-aguja-suelta.html"}, {"id": "tiempo-compartido", "nombre": "Tiempo compartido", "sinopsis": "Dos tareas. Decir si caben en el mismo tramo.", "estado": "idea", "archivo": "juegos/tiempo/tiempo-compartido.html"}, {"id": "mas-largo-sin-numeros", "nombre": "Más largo, sin números", "sinopsis": "Comparar barras de duración. Luego ponerles cifra.", "estado": "idea", "archivo": "juegos/tiempo/mas-largo-sin-numeros.html"}, {"id": "el-retraso", "nombre": "El retraso", "sinopsis": "Salía a una hora. Salió después. ¿Cuánto se movió la llegada?", "estado": "idea", "archivo": "juegos/tiempo/el-retraso.html"}]}, {"id": "calculo", "nombre": "Cálculo", "lema": "La cuenta viene en vasos, pesos y vueltos. Nunca desnuda.", "gesto": "Operar con significado", "presion": "ritmo", "acento": "#327a52", "presentacion": {"que_es": "Fluidez operatoria dentro de una situación que se ve. Se parte, se junta, se da el vuelto, se dobla. El número es de algo.", "como_se_articula": "Objetos o medidas a la vista. La operación se hace para resolver un desajuste de la escena. El resultado se deposita en un registro que ya tenía unidades.", "que_no_es": "No es 8 × 7 con confeti. Esa forma está vetada en la casa salvo en la formalización explícita.", "para_el_aula": "Se señala el desajuste («faltan sillas», «sobra masa») y después se calcula. El cálculo sin el desajuste no se lanza.", "mecanicas": ["PR-1", "PR-2", "MA-4", "MO-4"]}, "juegos": [{"id": "partir-la-cuenta", "nombre": "Partir la cuenta", "sinopsis": "Un total visible. Repartirlo en partes que la escena nombra.", "estado": "idea", "archivo": "juegos/calculo/partir-la-cuenta.html"}, {"id": "el-vuelto", "nombre": "El vuelto", "sinopsis": "Se paga de más. Hay que devolver con las piezas que hay.", "estado": "idea", "archivo": "juegos/calculo/el-vuelto.html"}, {"id": "doble-y-mitad", "nombre": "Doble y mitad viva", "sinopsis": "Lo que hay se dobla o se parte. El dibujo tiene que crecer o menguar.", "estado": "idea", "archivo": "juegos/calculo/doble-y-mitad.html"}, {"id": "faltan-dos", "nombre": "Faltan dos", "sinopsis": "La mesa pide un número. Se ve lo que hay. Completar.", "estado": "idea", "archivo": "juegos/calculo/faltan-dos.html"}, {"id": "tres-sumandos", "nombre": "Tres sumandos", "sinopsis": "Llegar al total con tres grupos, no con dos.", "estado": "idea", "archivo": "juegos/calculo/tres-sumandos.html"}, {"id": "la-bandeja-justa", "nombre": "La bandeja justa", "sinopsis": "Cada bandeja lleva la misma cantidad. Ajustar la que no.", "estado": "idea", "archivo": "juegos/calculo/la-bandeja-justa.html"}, {"id": "pesos-en-la-balanza", "nombre": "Pesos en la balanza", "sinopsis": "Equilibrar. Cada pieza tiene un valor que se ve.", "estado": "idea", "archivo": "juegos/calculo/pesos-en-la-balanza.html"}, {"id": "de-diez-en-diez", "nombre": "De diez en diez", "sinopsis": "Saltar por la recta. El salto es el objeto.", "estado": "idea", "archivo": "juegos/calculo/de-diez-en-diez.html"}, {"id": "la-cuenta-del-reparto", "nombre": "La cuenta del reparto", "sinopsis": "Sobró. Faltó. Decir de quién y por cuánto.", "estado": "idea", "archivo": "juegos/calculo/la-cuenta-del-reparto.html"}, {"id": "agrupar-para-contar", "nombre": "Agrupar para contar", "sinopsis": "No se puede contar uno a uno. Hay que armar grupos.", "estado": "idea", "archivo": "juegos/calculo/agrupar-para-contar.html"}, {"id": "el-complemento", "nombre": "El complemento", "sinopsis": "Lo que falta para el entero de la escena.", "estado": "idea", "archivo": "juegos/calculo/el-complemento.html"}, {"id": "misma-cantidad-otro-dibujo", "nombre": "Misma cantidad, otro dibujo", "sinopsis": "Traducir el total a otra representación y comprobar.", "estado": "idea", "archivo": "juegos/calculo/misma-cantidad-otro-dibujo.html"}]}, {"id": "analisis", "nombre": "Análisis", "lema": "Se mira qué cambia y qué no. Después se habla.", "gesto": "Comparar, inferir, leer el esquema", "presion": "calma", "acento": "#0f2d3a", "presentacion": {"que_es": "Hay dos estados, una tabla, una serie o un esquema. El trabajo es decir la regla que los une, o el dato que no encaja.", "como_se_articula": "Se muestran los dos polos a la vez (testigo fijo cuando algo no cambia). El estudiante escribe o elige la relación. Luego se varía una entrada para ver si la regla aguanta.", "que_no_es": "No es leer un gráfico decorativo. Si el esquema se puede quitar y la pregunta sigue igual, el esquema no trabajaba.", "para_el_aula": "El maestro tapa los números y pregunta qué se ve todavía. Si no se ve nada, el análisis no estaba dibujado.", "mecanicas": ["OR-2", "OR-3", "BU-2", "PR-4"]}, "juegos": [{"id": "que-no-cambia", "nombre": "Qué no cambia", "sinopsis": "Se mueve una variable. Hay que señalar la que se quedó.", "estado": "idea", "archivo": "juegos/analisis/que-no-cambia.html"}, {"id": "la-serie-rota", "nombre": "La serie rota", "sinopsis": "Un patrón visible. Un término no pertenece.", "estado": "idea", "archivo": "juegos/analisis/la-serie-rota.html"}, {"id": "dos-tablas", "nombre": "Dos tablas", "sinopsis": "Los mismos datos, otra ropa. Decir si cuentan lo mismo.", "estado": "idea", "archivo": "juegos/analisis/dos-tablas.html"}, {"id": "leer-el-esquema", "nombre": "Leer el esquema", "sinopsis": "La pregunta se responde sobre el dibujo, no sobre un enunciado paralelo.", "estado": "idea", "archivo": "juegos/analisis/leer-el-esquema.html"}, {"id": "traducir-el-registro", "nombre": "Traducir el registro", "sinopsis": "De la tabla al dibujo, o al revés.", "estado": "idea", "archivo": "juegos/analisis/traducir-el-registro.html"}, {"id": "la-regla-de-la-columna", "nombre": "La regla de la columna", "sinopsis": "Tres filas la cumplen. Completar la cuarta.", "estado": "idea", "archivo": "juegos/analisis/la-regla-de-la-columna.html"}, {"id": "comparar-sin-contar", "nombre": "Comparar sin contar", "sinopsis": "Barras o montones. Decir cuál gana antes de numerar.", "estado": "idea", "archivo": "juegos/analisis/comparar-sin-contar.html"}, {"id": "el-dato-que-falta", "nombre": "El dato que falta", "sinopsis": "La tabla está coja. Inferir la celda.", "estado": "idea", "archivo": "juegos/analisis/el-dato-que-falta.html"}, {"id": "causa-y-cantidad", "nombre": "Causa y cantidad", "sinopsis": "Un cambio en la escena. Medir su efecto, no narrarlo.", "estado": "idea", "archivo": "juegos/analisis/causa-y-cantidad.html"}, {"id": "tres-lecturas", "nombre": "Tres lecturas", "sinopsis": "El mismo esquema se interroga tres veces, cada vez más fina.", "estado": "idea", "archivo": "juegos/analisis/tres-lecturas.html"}, {"id": "el-contraejemplo", "nombre": "El contraejemplo", "sinopsis": "Proponer un caso que tumbe la regla propuesta.", "estado": "idea", "archivo": "juegos/analisis/el-contraejemplo.html"}, {"id": "mapa-de-relaciones", "nombre": "Mapa de relaciones", "sinopsis": "Unir nodos que se implican. Ninguna flecha de adorno.", "estado": "idea", "archivo": "juegos/analisis/mapa-de-relaciones.html"}]}, {"id": "construccion", "nombre": "Construcción", "lema": "Se entra una cantidad. Sale otra. La regla se descubre probando.", "gesto": "Manipular el aparato y ensamblar", "presion": "calma", "acento": "#b55537", "presentacion": {"que_es": "Una máquina con entrada visible, proceso y salida. El ciclo entero cabe en una pantalla: se presenta, se prueba libre, se pronostica, se comprueba, se varía.", "como_se_articula": "Cinco tiempos juntos. El registro guarda cada ensayo. La regla no se enuncia primero. Se destapa cuando el estudiante ya la sostuvo dos veces.", "que_no_es": "No es un botón que calcula. Si no hay prueba libre sin verde ni rojo, no es aparato: es formulario.", "para_el_aula": "Un estudiante alimenta. Otro pronostica. El tercero lee el registro. Se rotan.", "mecanicas": ["MA-2", "MA-1", "MA-3", "MO-5", "TR-2"]}, "juegos": [{"id": "la-maquina-oculta", "nombre": "La máquina oculta", "sinopsis": "Entra un número. Sale otro. Descubrir la regla a ensayos.", "estado": "idea", "archivo": "juegos/construccion/la-maquina-oculta.html"}, {"id": "fabrica-de-reglas", "nombre": "Fábrica de reglas", "sinopsis": "Armar la máquina con piezas (doble, mitad, más tres) y ver qué produce.", "estado": "idea", "archivo": "juegos/construccion/fabrica-de-reglas.html"}, {"id": "ensamble-a-medida", "nombre": "Ensamble a medida", "sinopsis": "Construir una figura que cumpla largo, alto y total a la vez.", "estado": "idea", "archivo": "juegos/construccion/ensamble-a-medida.html"}, {"id": "el-comparador", "nombre": "El comparador", "sinopsis": "Dos salidas lado a lado. Cambiar una entrada y leer el efecto.", "estado": "idea", "archivo": "juegos/construccion/el-comparador.html"}, {"id": "laboratorio-abierto", "nombre": "Laboratorio abierto", "sinopsis": "Tres controles. Ninguna consigna de meta hasta que se pide un pronóstico.", "estado": "idea", "archivo": "juegos/construccion/laboratorio-abierto.html"}, {"id": "la-caja-negra-doble", "nombre": "La caja negra doble", "sinopsis": "Dos máquinas en serie. La salida de una alimenta la otra.", "estado": "idea", "archivo": "juegos/construccion/la-caja-negra-doble.html"}, {"id": "testigo-y-maquina", "nombre": "Testigo y máquina", "sinopsis": "Un conjunto no se toca. El otro pasa por el aparato.", "estado": "idea", "archivo": "juegos/construccion/testigo-y-maquina.html"}, {"id": "construir-el-reto", "nombre": "Construir el reto", "sinopsis": "El estudiante arma un aparato para el compañero.", "estado": "idea", "archivo": "juegos/construccion/construir-el-reto.html"}, {"id": "trazo-a-medida", "nombre": "Trazo a medida", "sinopsis": "Dibujar la longitud pedida. La forma se evalúa.", "estado": "idea", "archivo": "juegos/construccion/trazo-a-medida.html"}, {"id": "piezas-que-encajan", "nombre": "Piezas que encajan", "sinopsis": "Ensamblar para cubrir un contorno sin huecos ni solapes.", "estado": "idea", "archivo": "juegos/construccion/piezas-que-encajan.html"}, {"id": "regla-que-se-invierte", "nombre": "Regla que se invierte", "sinopsis": "Dada la salida, reconstruir la entrada.", "estado": "idea", "archivo": "juegos/construccion/regla-que-se-invierte.html"}, {"id": "el-registro-de-ensayos", "nombre": "El registro de ensayos", "sinopsis": "Cinco pruebas guardadas. Escribir la regla con esas cinco a la vista.", "estado": "idea", "archivo": "juegos/construccion/el-registro-de-ensayos.html"}]}], "ejes": {"gesto": [["elegir", "Elegir"], ["mover", "Mover"], ["producir", "Producir"], ["manipular", "Manipular"], ["buscar", "Buscar"], ["retener", "Retener"], ["organizar", "Organizar"]], "presion": [["calma", "Calma"], ["ritmo", "Ritmo"], ["reloj", "Reloj que sube"]], "azar": [["ninguno", "Sin azar"], ["visible", "Azar a la vista"], ["oculto", "Regla oculta"]], "producto": [["opcion", "Una opción"], ["orden", "Un orden o un lugar"], ["escritura", "Una producción"], ["pronostico", "Un pronóstico"]], "social": [["solo", "Un estudiante a la vista"], ["turno", "Turnos"], ["clase", "La clase pronostica"]], "capa": [["conteo", "Conteo y cantidad"], ["operacion", "Operación con sentido"], ["relacion", "Relación y patrón"], ["espacio", "Espacio y medida"], ["dato", "Dato y esquema"], ["incertidumbre", "Incertidumbre"], ["cambio", "Cambio y máquina"]]}}</script>
 <script>
-const DATA = {"zonas":[{"id":"desafio","nombre":"Desafío","lema":"La dificultad sube. El reloj no manda.","gesto":"Producir y decidir con exigencia creciente","presion":"calma-exigente","acento":"#b04a2a","presentacion":{"que_es":"Una ronda vale si el siguiente peldaño pide más que el anterior: más cifras, una condición nueva, o un camino que ya no se puede resolver de un golpe de vista.","como_se_articula":"Se fija un criterio único. Se construyen diez peldaños. Cada peldaño cambia una sola variable. El estudiante ve el peldaño, resuelve, y solo entonces aparece el siguiente. No hay ranking. Hay umbral.","que_no_es":"No es una lista de ejercicios con confeti. Si el gesto no cambia de exigencia, es cálculo disfrazado.","para_el_aula":"En PDI, un estudiante resuelve el peldaño a la vista. El resto pronostica si va a alcanzar. El maestro señala el criterio, no la cuenta.","mecanicas":["PR-2","PR-3","EL-2","BU-1"]},"juegos":[{"id":"tres-condiciones","nombre":"Tres condiciones","sinopsis":"Cada grupo de casillas cumple una condición. Las fichas de dominó no se solapan.","estado":"listo","archivo":"desafio/tres-condiciones/tres-condiciones.html"}]},{"id":"memoria","nombre":"Memoria","lema":"Lo que se tapó sigue contando.","gesto":"Retener y emparejar","presion":"calma","acento":"#5a3a52","presentacion":{"que_es":"Se muestra, se tapa, se pide. La matemática no está en recordar dibujos: está en recordar una cantidad, una relación o una posición que todavía sirve.","como_se_articula":"Tres tiempos en la misma pantalla: se ve · se cubre · se usa. El material tapado y el que queda a la vista tienen que hablarse. Si al destapar no hay nada que calcular, era memoria de naipes.","que_no_es":"No es Memory de figuritas. Dos cartas iguales sin valor matemático no entran.","para_el_aula":"Tocar en la pizarra. Pocas cartas, grandes. El maestro pregunta qué se está guardando: el número, el lugar, o la relación.","mecanicas":["RE-1","MO-1","EX-3","PR-2"]},"juegos":[{"id":"parejas-de-valor","nombre":"Parejas de valor","sinopsis":"Se unen dos caras que valen lo mismo con distinta ropa.","estado":"idea","archivo":"memoria/parejas-de-valor/parejas-de-valor.html"},{"id":"eco-de-cifras","nombre":"Eco de cifras","sinopsis":"Una fila se muestra tres segundos. Hay que reconstruirla.","estado":"idea","archivo":"memoria/eco-de-cifras/eco-de-cifras.html"},{"id":"mesa-tapada","nombre":"Mesa tapada","sinopsis":"Se cubren platos. Decir cuántos quedan sin destaparlos todos.","estado":"idea","archivo":"memoria/mesa-tapada/mesa-tapada.html"},{"id":"el-orden-que-se-fue","nombre":"El orden que se fue","sinopsis":"Se vio una secuencia. Reaparece desordenada. Hay que devolverla.","estado":"idea","archivo":"memoria/el-orden-que-se-fue/el-orden-que-se-fue.html"},{"id":"dos-vistazos","nombre":"Dos vistazos","sinopsis":"Primera mirada: cantidades. Segunda: la pregunta. No hay tercera.","estado":"idea","archivo":"memoria/dos-vistazos/dos-vistazos.html"},{"id":"la-caja-de-tres","nombre":"La caja de tres","sinopsis":"Solo tres casillas a la vista. Las demás se recuerdan.","estado":"idea","archivo":"memoria/la-caja-de-tres/la-caja-de-tres.html"},{"id":"espejo-tardio","nombre":"Espejo tardío","sinopsis":"Lo de la izquierda se tapó. Lo de la derecha pide el complemento.","estado":"idea","archivo":"memoria/espejo-tardio/espejo-tardio.html"},{"id":"ruta-borrada","nombre":"Ruta borrada","sinopsis":"Un camino se recorrió. Hay que repetirlo de memoria sobre el plano.","estado":"idea","archivo":"memoria/ruta-borrada/ruta-borrada.html"},{"id":"fichas-que-caminan","nombre":"Fichas que caminan","sinopsis":"Se movieron dos. Decir cuáles, sin haberlas seguido con el dedo.","estado":"idea","archivo":"memoria/fichas-que-caminan/fichas-que-caminan.html"},{"id":"el-total-escondido","nombre":"El total escondido","sinopsis":"Se vieron partes. El total se pide cuando ya no están.","estado":"idea","archivo":"memoria/el-total-escondido/el-total-escondido.html"},{"id":"memoria-de-lugar","nombre":"Memoria de lugar","sinopsis":"Cada cantidad vivía en un sitio. El sitio se vació.","estado":"idea","archivo":"memoria/memoria-de-lugar/memoria-de-lugar.html"},{"id":"la-carta-testigo","nombre":"La carta testigo","sinopsis":"Una carta queda destapada para comparar. Las otras no.","estado":"idea","archivo":"memoria/la-carta-testigo/la-carta-testigo.html"}]},{"id":"velocidad","nombre":"Velocidad","lema":"El pulso sube. Nadie pierde delante de la clase.","gesto":"Reaccionar contra el reloj","presion":"reloj","acento":"#c85f3c","presentacion":{"que_es":"Un solo criterio ya construido se aplica muchas veces, rápido. El reloj sube. No hay ranking ni nombres. «Jugar otra vez» borra la ronda y no avanza nada.","como_se_articula":"Se declara el criterio en una frase. Se lanza una ráfaga de ítems cortos. Se cuenta lo acertado, no a quién. Al repetir, cero y burbuja cerrada.","que_no_es":"No es un examen cronometrado de operaciones peladas. Si el criterio no cabe en una línea, no es velocidad: es desafío.","para_el_aula":"Toda la clase puede decir en voz baja. Un estudiante toca. Nadie queda último en un tablero.","mecanicas":["RE-2","BU-1","BU-3","EL-1"]},"juegos":[{"id":"rafaga","nombre":"Ráfaga","sinopsis":"Doce ítems del mismo criterio. El reloj corre. Se puede repetir.","estado":"idea","archivo":"velocidad/rafaga/rafaga.html"},{"id":"pulso-de-tres","nombre":"Pulso de tres","sinopsis":"Tres decisiones seguidas. Si una falla, la ráfaga se reinicia.","estado":"idea","archivo":"velocidad/pulso-de-tres/pulso-de-tres.html"},{"id":"acepta-o-sigue","nombre":"Acepta o sigue","sinopsis":"Pasa lo que cumple. Descarta lo que no. El gesto es contenerse.","estado":"idea","archivo":"velocidad/acepta-o-sigue/acepta-o-sigue.html"},{"id":"antes-del-tono","nombre":"Antes del tono","sinopsis":"Hay que tocar la cantidad justa antes de que suene la marca.","estado":"idea","archivo":"velocidad/antes-del-tono/antes-del-tono.html"},{"id":"la-fila-que-corre","nombre":"La fila que corre","sinopsis":"Números desfilan. Tocar solo los que pertenecen.","estado":"idea","archivo":"velocidad/la-fila-que-corre/la-fila-que-corre.html"},{"id":"doble-toque","nombre":"Doble toque","sinopsis":"Primero la cantidad, luego su pareja, sin pensar el nombre.","estado":"idea","archivo":"velocidad/doble-toque/doble-toque.html"},{"id":"el-atajo","nombre":"El atajo","sinopsis":"Hay una forma corta. Quien la ve tarda menos, no quien aprieta.","estado":"idea","archivo":"velocidad/el-atajo/el-atajo.html"},{"id":"verde-y-sigo","nombre":"Verde y sigo","sinopsis":"Acierto silencioso. Solo se detiene el error.","estado":"idea","archivo":"velocidad/verde-y-sigo/verde-y-sigo.html"},{"id":"mitad-visible","nombre":"Mitad visible","sinopsis":"Se ve una parte. Hay que completar la otra al vuelo.","estado":"idea","archivo":"velocidad/mitad-visible/mitad-visible.html"},{"id":"cambio-de-criterio","nombre":"Cambio de criterio","sinopsis":"A mitad de ráfaga el criterio rota. Lo que valía deja de valer.","estado":"idea","archivo":"velocidad/cambio-de-criterio/cambio-de-criterio.html"},{"id":"diez-en-calma","nombre":"Diez en calma","sinopsis":"Misma ráfaga, pero el reloj solo mira. No apura.","estado":"idea","archivo":"velocidad/diez-en-calma/diez-en-calma.html"},{"id":"el-gesto-unico","nombre":"El gesto único","sinopsis":"Un solo tipo de toque resuelve todo. Nada de menús.","estado":"idea","archivo":"velocidad/el-gesto-unico/el-gesto-unico.html"}]},{"id":"estrategia","nombre":"Estrategia","lema":"El primer movimiento ya decide el tercero.","gesto":"Planear y decidir con consecuencias","presion":"calma","acento":"#173f50","presentacion":{"que_es":"Hay recursos limitados y más de un camino bueno. Se elige, se ve el efecto, se elige otra vez. La matemática está en anticipar, no en el clic verde inmediato.","como_se_articula":"Tablero o reserva visible. Cada jugada gasta algo. Las consecuencias se leen en el propio tablero, no en una burbuja. Se puede rehacer el turno.","que_no_es":"No es ajedrez con números pegados. Si no hay dilema (gastar ahora o guardar), es un ejercicio de pasos.","para_el_aula":"Dos estudiantes proponen planes distintos. Se juega uno. Se compara con el que no se jugó.","mecanicas":["EL-2","RE-3","PR-4","MA-4"]},"juegos":[{"id":"el-colmado-justo","nombre":"El colmado justo","sinopsis":"Comprar con una reserva. Cada producto cambia lo que queda.","estado":"idea","archivo":"estrategia/el-colmado-justo/el-colmado-justo.html"},{"id":"cercar-el-numero","nombre":"Cercar el número","sinopsis":"Ir cerrando un intervalo. Cada ficha gasta un movimiento.","estado":"idea","archivo":"estrategia/cercar-el-numero/cercar-el-numero.html"},{"id":"dos-caminos","nombre":"Dos caminos","sinopsis":"Llegar al mismo total por rutas que no cuestan igual.","estado":"idea","archivo":"estrategia/dos-caminos/dos-caminos.html"},{"id":"guardar-o-usar","nombre":"Guardar o usar","sinopsis":"Una ficha potente. Gastarla ahora cierra un atajo y abre un hueco.","estado":"idea","archivo":"estrategia/guardar-o-usar/guardar-o-usar.html"},{"id":"el-reparto-tenso","nombre":"El reparto tenso","sinopsis":"Partir una cantidad entre tres destinos que no se pueden quedar cortos.","estado":"idea","archivo":"estrategia/el-reparto-tenso/el-reparto-tenso.html"},{"id":"bloquear-la-casilla","nombre":"Bloquear la casilla","sinopsis":"Ocupar para que el otro plan ya no quepa.","estado":"idea","archivo":"estrategia/bloquear-la-casilla/bloquear-la-casilla.html"},{"id":"tres-turnos","nombre":"Tres turnos","sinopsis":"Solo tres jugadas. Hay que dejar el tablero en la meta.","estado":"idea","archivo":"estrategia/tres-turnos/tres-turnos.html"},{"id":"la-reserva-ciega","nombre":"La reserva ciega","sinopsis":"Se ve lo que hay, no lo que vendrá. Hay que dejar margen.","estado":"idea","archivo":"estrategia/la-reserva-ciega/la-reserva-ciega.html"},{"id":"puente-o-orilla","nombre":"Puente o orilla","sinopsis":"Dos zonas. Cruzar cuesta. Quedarse también.","estado":"idea","archivo":"estrategia/puente-o-orilla/puente-o-orilla.html"},{"id":"el-plan-escrito","nombre":"El plan escrito","sinopsis":"Antes de tocar, se declara la secuencia. Luego se ejecuta.","estado":"idea","archivo":"estrategia/el-plan-escrito/el-plan-escrito.html"},{"id":"minimo-de-piezas","nombre":"Mínimo de piezas","sinopsis":"Misma meta con las menos fichas posibles.","estado":"idea","archivo":"estrategia/minimo-de-piezas/minimo-de-piezas.html"},{"id":"el-contraplan","nombre":"El contraplan","sinopsis":"Una ficha rival se mueve sola. Hay que anticiparla.","estado":"idea","archivo":"estrategia/el-contraplan/el-contraplan.html"}]},{"id":"concentracion","nombre":"Concentración","lema":"Nada se toca dos veces. El error se esconde en lo casi igual.","gesto":"Auditar, localizar, descartar","presion":"ritmo","acento":"#2a4e5e","presentacion":{"que_es":"El material está casi bien. Hay que encontrar lo que no cumple, lo que se movió, o lo que se contó dos veces. La atención es el instrumento.","como_se_articula":"Una escena estable. Un cambio mínimo. El estudiante señala. El feedback dice hacia dónde mirar, nunca «no».","que_no_es":"No es sopa de números. Si el ojo no tiene un criterio matemático, es un pasatiempo.","para_el_aula":"Silencio breve. Un dedo en la pizarra. El resto busca el mismo defecto sin hablar.","mecanicas":["BU-2","BU-1","BU-3","EX-4"]},"juegos":[{"id":"la-cifra-impostora","nombre":"La cifra impostora","sinopsis":"Una cantidad no corresponde a su dibujo.","estado":"idea","archivo":"concentracion/la-cifra-impostora/la-cifra-impostora.html"},{"id":"contado-dos-veces","nombre":"Contado dos veces","sinopsis":"Una pieza aparece en dos grupos. El total miente.","estado":"idea","archivo":"concentracion/contado-dos-veces/contado-dos-veces.html"},{"id":"la-fila-que-se-mueve","nombre":"La fila que se mueve","sinopsis":"Entre vistazo y vistazo, una pieza cambió de sitio.","estado":"idea","archivo":"concentracion/la-fila-que-se-mueve/la-fila-que-se-mueve.html"},{"id":"el-criterio-roto","nombre":"El criterio roto","sinopsis":"Cuatro sí cumplen. Una no. Hay que nombrarla.","estado":"idea","archivo":"concentracion/el-criterio-roto/el-criterio-roto.html"},{"id":"silencio-de-uno","nombre":"Silencio de uno","sinopsis":"No se toca nada. Se dice cuántos fallan, sin señalarlos aún.","estado":"idea","archivo":"concentracion/silencio-de-uno/silencio-de-uno.html"},{"id":"borde-casi-justo","nombre":"Borde casi justo","sinopsis":"La pieza está cerca de su lugar. Cerca no vale.","estado":"idea","archivo":"concentracion/borde-casi-justo/borde-casi-justo.html"},{"id":"doble-lista","nombre":"Doble lista","sinopsis":"Lo escrito y lo dibujado no coinciden. Encontrar el renglón.","estado":"idea","archivo":"concentracion/doble-lista/doble-lista.html"},{"id":"el-hueco-disimulado","nombre":"El hueco disimulado","sinopsis":"Falta una unidad. El arreglo la esconde.","estado":"idea","archivo":"concentracion/el-hueco-disimulado/el-hueco-disimulado.html"},{"id":"misma-tinta-otro-valor","nombre":"Misma tinta, otro valor","sinopsis":"Se parecen. No valen igual.","estado":"idea","archivo":"concentracion/misma-tinta-otro-valor/misma-tinta-otro-valor.html"},{"id":"auditoria-corta","nombre":"Auditoría corta","sinopsis":"Seis casillas. Marcar solo las que no se sostienen.","estado":"idea","archivo":"concentracion/auditoria-corta/auditoria-corta.html"},{"id":"el-testigo-fijo","nombre":"El testigo fijo","sinopsis":"Un conjunto no se toca. El otro sí. Comparar sin contar de nuevo.","estado":"idea","archivo":"concentracion/el-testigo-fijo/el-testigo-fijo.html"},{"id":"una-regla-dos-fallos","nombre":"Una regla, dos fallos","sinopsis":"El mismo criterio se rompe dos veces de modos distintos.","estado":"idea","archivo":"concentracion/una-regla-dos-fallos/una-regla-dos-fallos.html"}]},{"id":"probabilidad","nombre":"Probabilidad","lema":"Se pronostica con lo que se ve en la urna.","gesto":"Conjeturar y comprobar con azar visible","presion":"calma","acento":"#674a60","presentacion":{"que_es":"Hay una fuente de azar a la vista: urna, dado, rueda. Se pronostica, se suelta, se registra. La lección vive en la distancia entre lo que se esperaba y lo que salió.","como_se_articula":"La composición de la urna se ve antes. El estudiante declara un pronóstico. Se extrae. El registro guarda varias tiradas. Nunca se habla de premio, banca ni apuesta.","que_no_es":"No es un casino escolar. El azar que no se puede ver no enseña. El lenguaje de juego de azar está vetado.","para_el_aula":"La clase pronostica a coro. Se extrae una vez. Se anota. Se vuelve a pronosticar con el registro a la vista.","mecanicas":["PR-4","MA-1","MA-3","EL-2"]},"juegos":[{"id":"la-urna-que-habla","nombre":"La urna que habla","sinopsis":"Se ven las bolas. Pronosticar el color más probable.","estado":"idea","archivo":"probabilidad/la-urna-que-habla/la-urna-que-habla.html"},{"id":"tres-dados-un-pronostico","nombre":"Tres dados, un pronóstico","sinopsis":"Qué total saldrá más veces en diez tiradas.","estado":"idea","archivo":"probabilidad/tres-dados-un-pronostico/tres-dados-un-pronostico.html"},{"id":"rueda-partida","nombre":"Rueda partida","sinopsis":"Sectores desiguales. Decir dónde cae más a menudo.","estado":"idea","archivo":"probabilidad/rueda-partida/rueda-partida.html"},{"id":"con-reemplazo","nombre":"Con reemplazo","sinopsis":"La urna no cambia. El registro sí.","estado":"idea","archivo":"probabilidad/con-reemplazo/con-reemplazo.html"},{"id":"sin-reemplazo","nombre":"Sin reemplazo","sinopsis":"Cada extracción cambia lo que queda. El pronóstico tiene que moverse.","estado":"idea","archivo":"probabilidad/sin-reemplazo/sin-reemplazo.html"},{"id":"mas-probable-igual","nombre":"Más probable, o igual","sinopsis":"A veces dos resultados empatan. Hay que atreverse a decirlo.","estado":"idea","archivo":"probabilidad/mas-probable-igual/mas-probable-igual.html"},{"id":"el-caso-raro","nombre":"El caso raro","sinopsis":"Se busca lo menos probable. Sale poco. Eso también se registra.","estado":"idea","archivo":"probabilidad/el-caso-raro/el-caso-raro.html"},{"id":"mezcla-visible","nombre":"Mezcla visible","sinopsis":"Se agregan piezas a la urna a la vista. El pronóstico se actualiza.","estado":"idea","archivo":"probabilidad/mezcla-visible/mezcla-visible.html"},{"id":"dos-urnas","nombre":"Dos urnas","sinopsis":"Elegir de cuál extraer según lo que se quiere obtener.","estado":"idea","archivo":"probabilidad/dos-urnas/dos-urnas.html"},{"id":"la-racha-que-engana","nombre":"La racha que engaña","sinopsis":"Salió tres veces lo mismo. ¿Cambió la urna o no?","estado":"idea","archivo":"probabilidad/la-racha-que-engana/la-racha-que-engana.html"},{"id":"tabla-de-salidas","nombre":"Tabla de salidas","sinopsis":"Llenar el registro. Leerlo. Decir qué se espera ahora.","estado":"idea","archivo":"probabilidad/tabla-de-salidas/tabla-de-salidas.html"},{"id":"el-intervalo-esperado","nombre":"El intervalo esperado","sinopsis":"No se pide el número exacto: se pide la franja donde debería caer.","estado":"idea","archivo":"probabilidad/el-intervalo-esperado/el-intervalo-esperado.html"}]},{"id":"tiempo","nombre":"Tiempo","lema":"Duración, orden y reloj son material, no adorno.","gesto":"Ordenar y medir intervalos","presion":"ritmo","acento":"#2c5c70","presentacion":{"que_es":"El tiempo es la cantidad. Se compara duración, se lee un reloj, se coloca un suceso antes o después, se parte una hora.","como_se_articula":"Un reloj o una línea de tiempo visible. El estudiante mueve una marca o elige un intervalo. El feedback habla en minutos y en orden, no en «correcto».","que_no_es":"No es un cronómetro decorando otra categoría. Si se puede quitar el reloj y el juego sigue igual, pertenecía a velocidad o a desafío.","para_el_aula":"El reloj de la sala y el de la pantalla se pueden comparar. El maestro pregunta cuánto falta, no qué hora es en abstracto.","mecanicas":["MO-2","MO-4","MA-4","PR-1"]},"juegos":[{"id":"el-intervalo","nombre":"El intervalo","sinopsis":"Marcar cuánto dura un tramo entre dos horas.","estado":"idea","archivo":"tiempo/el-intervalo/el-intervalo.html"},{"id":"antes-o-despues","nombre":"Antes o después","sinopsis":"Colocar sucesos en una línea que ya tiene anclas.","estado":"idea","archivo":"tiempo/antes-o-despues/antes-o-despues.html"},{"id":"reloj-partido","nombre":"Reloj partido","sinopsis":"Media vuelta, cuarto, tres cuartos: leerlos como cantidad.","estado":"idea","archivo":"tiempo/reloj-partido/reloj-partido.html"},{"id":"cuanto-falta","nombre":"Cuánto falta","sinopsis":"De aquí a la meta. El destino está escrito en la aguja.","estado":"idea","archivo":"tiempo/cuanto-falta/cuanto-falta.html"},{"id":"dos-relojes","nombre":"Dos relojes","sinopsis":"Uno analogico, uno de cifras. Decir si dicen lo mismo.","estado":"idea","archivo":"tiempo/dos-relojes/dos-relojes.html"},{"id":"el-turno-de-ocho","nombre":"El turno de ocho","sinopsis":"Ocho minutos por estación. Repartir una hora.","estado":"idea","archivo":"tiempo/el-turno-de-ocho/el-turno-de-ocho.html"},{"id":"ritmo-de-paso","nombre":"Ritmo de paso","sinopsis":"Una marca cada cierto tiempo. Completar la serie.","estado":"idea","archivo":"tiempo/ritmo-de-paso/ritmo-de-paso.html"},{"id":"calendario-corto","nombre":"Calendario corto","sinopsis":"Días que caben entre dos fechas visibles.","estado":"idea","archivo":"tiempo/calendario-corto/calendario-corto.html"},{"id":"la-aguja-suelta","nombre":"La aguja suelta","sinopsis":"Mover solo el minutero hasta el encargo.","estado":"idea","archivo":"tiempo/la-aguja-suelta/la-aguja-suelta.html"},{"id":"tiempo-compartido","nombre":"Tiempo compartido","sinopsis":"Dos tareas. Decir si caben en el mismo tramo.","estado":"idea","archivo":"tiempo/tiempo-compartido/tiempo-compartido.html"},{"id":"mas-largo-sin-numeros","nombre":"Más largo, sin números","sinopsis":"Comparar barras de duración. Luego ponerles cifra.","estado":"idea","archivo":"tiempo/mas-largo-sin-numeros/mas-largo-sin-numeros.html"},{"id":"el-retraso","nombre":"El retraso","sinopsis":"Salía a una hora. Salió después. ¿Cuánto se movió la llegada?","estado":"idea","archivo":"tiempo/el-retraso/el-retraso.html"}]},{"id":"calculo","nombre":"Cálculo","lema":"La cuenta viene en vasos, pesos y vueltos. Nunca desnuda.","gesto":"Operar con significado","presion":"ritmo","acento":"#327a52","presentacion":{"que_es":"Fluidez operatoria dentro de una situación que se ve. Se parte, se junta, se da el vuelto, se dobla. El número es de algo.","como_se_articula":"Objetos o medidas a la vista. La operación se hace para resolver un desajuste de la escena. El resultado se deposita en un registro que ya tenía unidades.","que_no_es":"No es 8 × 7 con confeti. Esa forma está vetada en la casa salvo en la formalización explícita.","para_el_aula":"Se señala el desajuste («faltan sillas», «sobra masa») y después se calcula. El cálculo sin el desajuste no se lanza.","mecanicas":["PR-1","PR-2","MA-4","MO-4"]},"juegos":[{"id":"partir-la-cuenta","nombre":"Partir la cuenta","sinopsis":"Un total visible. Repartirlo en partes que la escena nombra.","estado":"idea","archivo":"calculo/partir-la-cuenta/partir-la-cuenta.html"},{"id":"el-vuelto","nombre":"El vuelto","sinopsis":"Se paga de más. Hay que devolver con las piezas que hay.","estado":"idea","archivo":"calculo/el-vuelto/el-vuelto.html"},{"id":"doble-y-mitad","nombre":"Doble y mitad viva","sinopsis":"Lo que hay se dobla o se parte. El dibujo tiene que crecer o menguar.","estado":"idea","archivo":"calculo/doble-y-mitad/doble-y-mitad.html"},{"id":"faltan-dos","nombre":"Faltan dos","sinopsis":"La mesa pide un número. Se ve lo que hay. Completar.","estado":"idea","archivo":"calculo/faltan-dos/faltan-dos.html"},{"id":"tres-sumandos","nombre":"Tres sumandos","sinopsis":"Llegar al total con tres grupos, no con dos.","estado":"idea","archivo":"calculo/tres-sumandos/tres-sumandos.html"},{"id":"la-bandeja-justa","nombre":"La bandeja justa","sinopsis":"Cada bandeja lleva la misma cantidad. Ajustar la que no.","estado":"idea","archivo":"calculo/la-bandeja-justa/la-bandeja-justa.html"},{"id":"pesos-en-la-balanza","nombre":"Pesos en la balanza","sinopsis":"Equilibrar. Cada pieza tiene un valor que se ve.","estado":"idea","archivo":"calculo/pesos-en-la-balanza/pesos-en-la-balanza.html"},{"id":"de-diez-en-diez","nombre":"De diez en diez","sinopsis":"Saltar por la recta. El salto es el objeto.","estado":"idea","archivo":"calculo/de-diez-en-diez/de-diez-en-diez.html"},{"id":"la-cuenta-del-reparto","nombre":"La cuenta del reparto","sinopsis":"Sobró. Faltó. Decir de quién y por cuánto.","estado":"idea","archivo":"calculo/la-cuenta-del-reparto/la-cuenta-del-reparto.html"},{"id":"agrupar-para-contar","nombre":"Agrupar para contar","sinopsis":"No se puede contar uno a uno. Hay que armar grupos.","estado":"idea","archivo":"calculo/agrupar-para-contar/agrupar-para-contar.html"},{"id":"el-complemento","nombre":"El complemento","sinopsis":"Lo que falta para el entero de la escena.","estado":"idea","archivo":"calculo/el-complemento/el-complemento.html"},{"id":"misma-cantidad-otro-dibujo","nombre":"Misma cantidad, otro dibujo","sinopsis":"Traducir el total a otra representación y comprobar.","estado":"idea","archivo":"calculo/misma-cantidad-otro-dibujo/misma-cantidad-otro-dibujo.html"}]},{"id":"analisis","nombre":"Análisis","lema":"Se mira qué cambia y qué no. Después se habla.","gesto":"Comparar, inferir, leer el esquema","presion":"calma","acento":"#0f2d3a","presentacion":{"que_es":"Hay dos estados, una tabla, una serie o un esquema. El trabajo es decir la regla que los une, o el dato que no encaja.","como_se_articula":"Se muestran los dos polos a la vez (testigo fijo cuando algo no cambia). El estudiante escribe o elige la relación. Luego se varía una entrada para ver si la regla aguanta.","que_no_es":"No es leer un gráfico decorativo. Si el esquema se puede quitar y la pregunta sigue igual, el esquema no trabajaba.","para_el_aula":"El maestro tapa los números y pregunta qué se ve todavía. Si no se ve nada, el análisis no estaba dibujado.","mecanicas":["OR-2","OR-3","BU-2","PR-4"]},"juegos":[{"id":"que-no-cambia","nombre":"Qué no cambia","sinopsis":"Se mueve una variable. Hay que señalar la que se quedó.","estado":"idea","archivo":"analisis/que-no-cambia/que-no-cambia.html"},{"id":"la-serie-rota","nombre":"La serie rota","sinopsis":"Un patrón visible. Un término no pertenece.","estado":"idea","archivo":"analisis/la-serie-rota/la-serie-rota.html"},{"id":"dos-tablas","nombre":"Dos tablas","sinopsis":"Los mismos datos, otra ropa. Decir si cuentan lo mismo.","estado":"idea","archivo":"analisis/dos-tablas/dos-tablas.html"},{"id":"leer-el-esquema","nombre":"Leer el esquema","sinopsis":"La pregunta se responde sobre el dibujo, no sobre un enunciado paralelo.","estado":"idea","archivo":"analisis/leer-el-esquema/leer-el-esquema.html"},{"id":"traducir-el-registro","nombre":"Traducir el registro","sinopsis":"De la tabla al dibujo, o al revés.","estado":"idea","archivo":"analisis/traducir-el-registro/traducir-el-registro.html"},{"id":"la-regla-de-la-columna","nombre":"La regla de la columna","sinopsis":"Tres filas la cumplen. Completar la cuarta.","estado":"idea","archivo":"analisis/la-regla-de-la-columna/la-regla-de-la-columna.html"},{"id":"comparar-sin-contar","nombre":"Comparar sin contar","sinopsis":"Barras o montones. Decir cuál gana antes de numerar.","estado":"idea","archivo":"analisis/comparar-sin-contar/comparar-sin-contar.html"},{"id":"el-dato-que-falta","nombre":"El dato que falta","sinopsis":"La tabla está coja. Inferir la celda.","estado":"idea","archivo":"analisis/el-dato-que-falta/el-dato-que-falta.html"},{"id":"causa-y-cantidad","nombre":"Causa y cantidad","sinopsis":"Un cambio en la escena. Medir su efecto, no narrarlo.","estado":"idea","archivo":"analisis/causa-y-cantidad/causa-y-cantidad.html"},{"id":"tres-lecturas","nombre":"Tres lecturas","sinopsis":"El mismo esquema se interroga tres veces, cada vez más fina.","estado":"idea","archivo":"analisis/tres-lecturas/tres-lecturas.html"},{"id":"el-contraejemplo","nombre":"El contraejemplo","sinopsis":"Proponer un caso que tumbe la regla propuesta.","estado":"idea","archivo":"analisis/el-contraejemplo/el-contraejemplo.html"},{"id":"mapa-de-relaciones","nombre":"Mapa de relaciones","sinopsis":"Unir nodos que se implican. Ninguna flecha de adorno.","estado":"idea","archivo":"analisis/mapa-de-relaciones/mapa-de-relaciones.html"}]},{"id":"construccion","nombre":"Construcción","lema":"Se entra una cantidad. Sale otra. La regla se descubre probando.","gesto":"Manipular el aparato y ensamblar","presion":"calma","acento":"#b55537","presentacion":{"que_es":"Una máquina con entrada visible, proceso y salida. El ciclo entero cabe en una pantalla: se presenta, se prueba libre, se pronostica, se comprueba, se varía.","como_se_articula":"Cinco tiempos juntos. El registro guarda cada ensayo. La regla no se enuncia primero. Se destapa cuando el estudiante ya la sostuvo dos veces.","que_no_es":"No es un botón que calcula. Si no hay prueba libre sin verde ni rojo, no es aparato: es formulario.","para_el_aula":"Un estudiante alimenta. Otro pronostica. El tercero lee el registro. Se rotan.","mecanicas":["MA-2","MA-1","MA-3","MO-5","TR-2"]},"juegos":[{"id":"la-maquina-oculta","nombre":"La máquina oculta","sinopsis":"Entra un número. Sale otro. Descubrir la regla a ensayos.","estado":"idea","archivo":"construccion/la-maquina-oculta/la-maquina-oculta.html"},{"id":"fabrica-de-reglas","nombre":"Fábrica de reglas","sinopsis":"Armar la máquina con piezas (doble, mitad, más tres) y ver qué produce.","estado":"idea","archivo":"construccion/fabrica-de-reglas/fabrica-de-reglas.html"},{"id":"ensamble-a-medida","nombre":"Ensamble a medida","sinopsis":"Construir una figura que cumpla largo, alto y total a la vez.","estado":"idea","archivo":"construccion/ensamble-a-medida/ensamble-a-medida.html"},{"id":"el-comparador","nombre":"El comparador","sinopsis":"Dos salidas lado a lado. Cambiar una entrada y leer el efecto.","estado":"idea","archivo":"construccion/el-comparador/el-comparador.html"},{"id":"laboratorio-abierto","nombre":"Laboratorio abierto","sinopsis":"Tres controles. Ninguna consigna de meta hasta que se pide un pronóstico.","estado":"idea","archivo":"construccion/laboratorio-abierto/laboratorio-abierto.html"},{"id":"la-caja-negra-doble","nombre":"La caja negra doble","sinopsis":"Dos máquinas en serie. La salida de una alimenta la otra.","estado":"idea","archivo":"construccion/la-caja-negra-doble/la-caja-negra-doble.html"},{"id":"testigo-y-maquina","nombre":"Testigo y máquina","sinopsis":"Un conjunto no se toca. El otro pasa por el aparato.","estado":"idea","archivo":"construccion/testigo-y-maquina/testigo-y-maquina.html"},{"id":"construir-el-reto","nombre":"Construir el reto","sinopsis":"El estudiante arma un aparato para el compañero.","estado":"idea","archivo":"construccion/construir-el-reto/construir-el-reto.html"},{"id":"trazo-a-medida","nombre":"Trazo a medida","sinopsis":"Dibujar la longitud pedida. La forma se evalúa.","estado":"idea","archivo":"construccion/trazo-a-medida/trazo-a-medida.html"},{"id":"piezas-que-encajan","nombre":"Piezas que encajan","sinopsis":"Ensamblar para cubrir un contorno sin huecos ni solapes.","estado":"idea","archivo":"construccion/piezas-que-encajan/piezas-que-encajan.html"},{"id":"regla-que-se-invierte","nombre":"Regla que se invierte","sinopsis":"Dada la salida, reconstruir la entrada.","estado":"idea","archivo":"construccion/regla-que-se-invierte/regla-que-se-invierte.html"},{"id":"el-registro-de-ensayos","nombre":"El registro de ensayos","sinopsis":"Cinco pruebas guardadas. Escribir la regla con esas cinco a la vista.","estado":"idea","archivo":"construccion/el-registro-de-ensayos/el-registro-de-ensayos.html"}]}],"ejes":{"gesto":[["elegir","Elegir"],["mover","Mover"],["producir","Producir"],["manipular","Manipular"],["buscar","Buscar"],["retener","Retener"],["organizar","Organizar"]],"presion":[["calma","Calma"],["ritmo","Ritmo"],["reloj","Reloj que sube"]],"azar":[["ninguno","Sin azar"],["visible","Azar a la vista"],["oculto","Regla oculta"]],"producto":[["opcion","Una opción"],["orden","Un orden o un lugar"],["escritura","Una producción"],["pronostico","Un pronóstico"]],"social":[["solo","Un estudiante a la vista"],["turno","Turnos"],["clase","La clase pronostica"]],"capa":[["conteo","Conteo y cantidad"],["operacion","Operación con sentido"],["relacion","Relación y patrón"],["espacio","Espacio y medida"],["dato","Dato y esquema"],["incertidumbre","Incertidumbre"],["cambio","Cambio y máquina"]]}};
-const $ = (id) => document.getElementById(id);
-function ir(vista){
-  document.querySelectorAll('.vista').forEach(v => v.classList.remove('activa'));
-  $(vista).classList.add('activa');
-  $('tabSala').setAttribute('aria-pressed', vista === 'vista-aparato' ? 'false' : 'true');
-  $('tabAparato').setAttribute('aria-pressed', vista === 'vista-aparato' ? 'true' : 'false');
-}
-function pintarSala(){
-  const el = $('vista-sala');
-  el.innerHTML = `<div class="sala-intro">
-    <h2>Diez zonas. Los juegos se acumulan aquí.</h2>
-    <p>Lora en los títulos, Nunito en el cuerpo, Source Code Pro en las cuentas. El gesto largo de cada zona vive dentro de la habitación, no sobre el botón Entrar.</p>
-  </div><div class="rejilla"></div>`;
-  const grid = el.querySelector('.rejilla');
-  DATA.zonas.forEach((z,i)=>{
-    const listos = z.juegos.filter(j => j.estado === 'listo').length;
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'zona-tile';
-    b.style.setProperty('--z-acento', z.acento);
-    b.innerHTML = `<span class="n">${i+1} · ${z.juegos.length} semillas${listos ? ' · ' + listos + ' listo' : ''}</span>
-      <h3>${z.nombre}</h3>
-      <p class="lema">${z.lema}</p>
-      <div class="barra"></div>
-      <div class="pie"><span>Zona</span><span>Entrar</span></div>`;
-    b.addEventListener('click', ()=> pintarZona(z.id));
-    grid.appendChild(b);
-  });
-}
-function pintarZona(id){
-  const z = DATA.zonas.find(x=>x.id===id);
-  const el = $('vista-zona');
-  const p = z.presentacion;
-  el.innerHTML = `<div class="zona-view">
-    <aside class="presenta" style="border-top:6px solid ${z.acento}">
-      <button type="button" class="back" id="volerSala">← La sala</button>
-      <div class="kicker">Zona ${z.id}</div>
-      <h2>${z.nombre}</h2>
-      <p style="color:#e4c5b5;margin-bottom:8px">${z.lema}</p>
-      <h4>Qué es</h4><p>${p.que_es}</p>
-      <h4>Cómo se articula</h4><p>${p.como_se_articula}</p>
-      <h4>Qué no es</h4><p>${p.que_no_es}</p>
-      <h4>En el aula</h4><p>${p.para_el_aula}</p>
-      <h4>Mecánicas de casa</h4>
-      <div class="chips">${p.mecanicas.map(m=>`<span class="chip">${m}</span>`).join('')}</div>
-    </aside>
-    <div class="lista"></div>
-  </div>`;
-  const lista = el.querySelector('.lista');
-  z.juegos.forEach(j=>{
-    const c = document.createElement('button');
-    c.type='button';
-    c.className='juego';
-    c.innerHTML = `<span class="est">${j.estado}</span>
-      <h3>${j.nombre}</h3>
-      <p>${j.sinopsis}</p>
-      <div class="ruta">${j.archivo}</div>`;
-    c.addEventListener('click', ()=> pintarFicha(z,j));
-    lista.appendChild(c);
-  });
-  $('volerSala').addEventListener('click', ()=>{ pintarSala(); ir('vista-sala'); });
-  ir('vista-zona');
-}
-function pintarFicha(z,j){
-  const el = $('vista-ficha');
-  const entra = j.estado === 'listo'
-    ? `<p><a class="ir" href="${j.archivo}">Entrar al juego</a></p>`
-    : `<p>Aún es semilla. Cuando lo pidas, se construye en esa ruta.</p>`;
-  el.innerHTML = `<article class="ficha-box">
-    <button type="button" class="back" id="volerZona" style="background:none;border:0;color:#8f3a1e;font:800 .8rem var(--nunito);letter-spacing:.1em;text-transform:uppercase;cursor:pointer">← ${z.nombre}</button>
-    <div class="kicker" style="color:#8f3a1e">${z.nombre} · ${j.estado}</div>
-    <h2>${j.nombre}</h2>
-    <p>${j.sinopsis}</p>
-    ${entra}
-    <p class="ruta" style="font-family:var(--mono);background:#ece3d7;padding:8px 12px;border-radius:10px">${j.archivo}</p>
-  </article>`;
-  $('volerZona').addEventListener('click', ()=> pintarZona(z.id));
-  ir('vista-ficha');
-}
-function resolver(sel){
-  let z = 'desafio';
-  if(sel.azar === 'visible' || sel.capa === 'incertidumbre') z = 'probabilidad';
-  else if(sel.presion === 'reloj') z = 'velocidad';
-  else if(sel.gesto === 'retener') z = 'memoria';
-  else if(sel.azar === 'oculto' || sel.gesto === 'manipular' || sel.capa === 'cambio') z = 'construccion';
-  else if(sel.gesto === 'organizar' || sel.capa === 'dato' || sel.capa === 'relacion') z = 'analisis';
-  else if(sel.capa === 'espacio') z = 'tiempo';
-  else if(sel.capa === 'operacion') z = 'calculo';
-  else if(sel.gesto === 'buscar') z = 'concentracion';
-  else if(sel.producto === 'pronostico' || sel.social === 'turno') z = 'estrategia';
-  return DATA.zonas.find(x=>x.id===z);
-}
-const RECETA = {
-  desafio:"Fija un criterio. Sube una sola variable por peldaño.",
-  memoria:"Se muestra, se tapa, se usa. Lo tapado es cantidad o relación.",
-  velocidad:"Un criterio. Ráfaga. Reloj que sube. Sin ranking.",
-  estrategia:"Reserva visible. Cada jugada gasta.",
-  concentracion:"Escena casi correcta. Un defecto. El aviso orienta.",
-  probabilidad:"La urna se ve. Se pronostica. Se extrae. Se registra.",
-  tiempo:"El reloj o la línea son el material.",
-  calculo:"Primero el desajuste. Después la cuenta.",
-  analisis:"Dos estados a la vez. Qué cambia y qué no.",
-  construccion:"Entrada, proceso, salida. Prueba libre y pronóstico."
-};
-function pintarAparato(){
-  const el = $('vista-aparato');
-  const ejes = DATA.ejes;
-  const campos = [['gesto','Gesto'],['presion','Presión'],['azar','Azar'],['producto','Producto'],['social','Social'],['capa','Capa matemática']];
-  el.innerHTML = `<div class="aparato"><div class="maquina"><h2>El aparato</h2><p style="color:#e4c5b5;font-weight:650">Seis ejes. La máquina señala la zona y deja la receta.</p><div class="ejes"></div></div><div class="salida" id="salida"></div></div>`;
-  const box = el.querySelector('.ejes');
-  campos.forEach(([k,lab])=>{
-    const d = document.createElement('div');
-    d.className = 'eje';
-    d.innerHTML = `<label for="eje-${k}">${lab}</label><select id="eje-${k}">${ejes[k].map(([v,n])=>`<option value="${v}">${n}</option>`).join('')}</select>`;
-    box.appendChild(d);
-  });
-  const leer = ()=>{
-    const sel = {};
-    campos.forEach(([k])=> sel[k] = $('eje-'+k).value);
-    const z = resolver(sel);
-    $('salida').innerHTML = `<span class="badge">Categoría</span><h3>${z.nombre}</h3><p>${z.lema}</p><div class="receta">${RECETA[z.id]}</div><button type="button" class="ir" id="irZona">Abrir ${z.nombre}</button>`;
-    $('irZona').addEventListener('click', ()=> pintarZona(z.id));
+(function(){
+  const RECETA = {
+    desafio:"Fija un criterio. Sube una sola variable por peldaño.",
+    memoria:"Se muestra, se tapa, se usa. Lo tapado es cantidad o relación.",
+    velocidad:"Un criterio. Ráfaga. Reloj que sube. Sin ranking.",
+    estrategia:"Reserva visible. Cada jugada gasta.",
+    concentracion:"Escena casi correcta. Un defecto. El aviso orienta.",
+    probabilidad:"La urna se ve. Se pronostica. Se extrae. Se registra.",
+    tiempo:"El reloj o la línea son el material.",
+    calculo:"Primero el desajuste. Después la cuenta.",
+    analisis:"Dos estados a la vez. Qué cambia y qué no.",
+    construccion:"Entrada, proceso, salida. Prueba libre y pronóstico."
   };
-  campos.forEach(([k])=> $('eje-'+k).addEventListener('change', leer));
-  leer();
-}
-$('tabSala').addEventListener('click', ()=>{ pintarSala(); ir('vista-sala'); });
-$('tabAparato').addEventListener('click', ()=>{ pintarAparato(); ir('vista-aparato'); });
-pintarSala();
+  const PORQUE = {
+    probabilidad:"El azar está a la vista, o la capa matemática es la incertidumbre.",
+    velocidad:"La presión es un reloj que sube.",
+    memoria:"El gesto dominante es retener.",
+    construccion:"Hay regla oculta, manipulación o una capa de cambio.",
+    analisis:"El gesto es organizar, o la capa es un dato o una relación.",
+    tiempo:"La capa matemática es el espacio y la medida.",
+    calculo:"La capa matemática es una operación con sentido.",
+    concentracion:"El gesto dominante es buscar.",
+    estrategia:"El producto es un pronóstico o el trabajo es por turnos.",
+    desafio:"Ningún otro eje desplaza la exigencia creciente."
+  };
+  const PRESION = {"calma-exigente":"Calma exigente", calma:"Calma", ritmo:"Ritmo", reloj:"Reloj que sube"};
+  const MARCAS = {
+    desafio:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M6 52h14V38h14V24h14V10h10" fill="none" stroke="currentColor" stroke-width="2"/><path class="trazo" d="M48 10h10v10" fill="none" stroke-width="2"/></svg>',
+    memoria:'<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="14" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2"/><rect class="trazo" x="24" y="26" width="28" height="28" fill="none" stroke-width="2" stroke-dasharray="4 3"/></svg>',
+    velocidad:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 40h48" stroke="currentColor" stroke-width="2"/><path class="trazo" d="M14 40v-6M26 40v-12M38 40v-18M50 40v-24" stroke-width="2"/></svg>',
+    estrategia:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 32h16" stroke="currentColor" stroke-width="2"/><path class="trazo" d="M26 32l14-16M26 32l14 16" fill="none" stroke-width="2"/><circle cx="48" cy="16" r="3" fill="currentColor"/><circle cx="48" cy="48" r="3" fill="currentColor"/></svg>',
+    concentracion:'<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="16" width="20" height="32" fill="none" stroke="currentColor" stroke-width="2"/><rect x="34" y="16" width="20" height="32" fill="none" stroke="currentColor" stroke-width="2"/><path class="trazo" d="M38 28h12" stroke-width="2"/></svg>',
+    probabilidad:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 50h44" stroke="currentColor" stroke-width="2"/><path class="trazo" d="M14 50V36h8V22h8V40h8V14h8V30h8V50" fill="none" stroke-width="2"/></svg>',
+    tiempo:'<svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 32h48" stroke="currentColor" stroke-width="2"/><path class="trazo" d="M18 24v16M46 24v16" stroke-width="2"/><path d="M18 32h28" stroke="currentColor" stroke-width="2"/></svg>',
+    calculo:'<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="26" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"/><rect x="20" y="26" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"/><path class="trazo" d="M34 31h8M46 22h12v20H46" fill="none" stroke-width="2"/></svg>',
+    analisis:'<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="16" width="20" height="32" fill="none" stroke="currentColor" stroke-width="2"/><rect x="38" y="16" width="20" height="32" fill="none" stroke="currentColor" stroke-width="2"/><path class="trazo" d="M26 32h12" stroke-width="2"/></svg>',
+    construccion:'<svg viewBox="0 0 64 64" aria-hidden="true"><rect x="4" y="22" width="14" height="20" fill="none" stroke="currentColor" stroke-width="2"/><rect class="trazo" x="25" y="22" width="14" height="20" fill="none" stroke-width="2"/><rect x="46" y="22" width="14" height="20" fill="none" stroke="currentColor" stroke-width="2"/><path d="M18 32h7M39 32h7" stroke="currentColor" stroke-width="2"/></svg>'
+  };
+
+  const DataRepository = {
+    raw: null,
+    load(){ this.raw = JSON.parse(document.getElementById("datos").textContent); return this.raw; },
+    zonas(){ return this.raw.zonas; },
+    zona(id){ return this.raw.zonas.find(z => z.id === id) || null; },
+    juego(zid, jid){ const z = this.zona(zid); return z ? (z.juegos.find(j => j.id === jid) || null) : null; },
+    todos(){
+      const out = [];
+      this.raw.zonas.forEach((z, i) => z.juegos.forEach(j => out.push({ zona:z, juego:j, orden:i })));
+      return out;
+    },
+    ejes(){ return this.raw.ejes; }
+  };
+  const DataValidator = {
+    run(data){
+      const errores = [];
+      if (!data || !Array.isArray(data.zonas) || data.zonas.length !== 10) errores.push("Deben existir diez salas.");
+      const ids = new Set();
+      let n = 0;
+      (data.zonas || []).forEach(z => {
+        if (ids.has(z.id)) errores.push("Sala repetida: " + z.id);
+        ids.add(z.id);
+        ["nombre","lema","gesto","presion","presentacion","juegos"].forEach(k => { if (z[k] == null) errores.push("Falta " + k + " en " + z.id); });
+        (z.juegos || []).forEach(j => {
+          n++;
+          ["id","nombre","sinopsis","estado","archivo"].forEach(k => { if (!j[k]) errores.push("Falta " + k + " en " + z.id + "/" + j.id); });
+          if (j.estado !== "idea" && j.estado !== "listo") errores.push("Estado no admitido: " + j.estado);
+        });
+      });
+      if (n !== 109) errores.push("El catálogo no tiene 109 juegos.");
+      const listo = (data.zonas || []).flatMap(z => z.juegos).filter(j => j.estado === "listo");
+      if (listo.length !== 1 || listo[0].archivo !== "juegos/desafio/tres-condiciones/tres-condiciones.html") errores.push("La ruta de Tres condiciones cambió.");
+      ["gesto","presion","azar","producto","social","capa"].forEach(k => { if (!data.ejes || !data.ejes[k]) errores.push("Falta el eje " + k); });
+      return errores;
+    }
+  };
+
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {"&":"\u0026amp;","<":"\u0026lt;",">":"\u0026gt;","\"":"\u0026quot;","'":"\u0026#39;"}[c];
+    });
+  }
+  function plano(s){
+    return String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  }
+  function disp(z){
+    const listos = z.juegos.filter(j => j.estado === "listo").length;
+    const n = z.juegos.length;
+    if (listos > 0) return { clase:"ok", estado:"Disponible", detalle: listos === 1 ? "1 juego disponible" : listos + " juegos disponibles", total: n + (n === 1 ? " juego" : " juegos") };
+    return { clase:"espera", estado:"En desarrollo", detalle: n + (n === 1 ? " juego previsto" : " juegos previstos"), total: n + (n === 1 ? " juego" : " juegos") };
+  }
+  function totales(){
+    let listos = 0, n = 0;
+    DataRepository.zonas().forEach(z => { n += z.juegos.length; listos += z.juegos.filter(j => j.estado === "listo").length; });
+    return { listos, n, previstos: n - listos };
+  }
+
+  const Motion = { reducido: () => window.matchMedia("(prefers-reduced-motion: reduce)").matches };
+  const Focus = {
+    mapa: {},
+    scroll: {},
+    guardar(){
+      const id = document.activeElement && document.activeElement.id;
+      const h = location.hash || "#inicio";
+      if (id) this.mapa[h] = id;
+      this.scroll[h] = window.scrollY;
+    },
+    poner(el){
+      if (!el) return;
+      if (!/^(A|BUTTON|INPUT|SELECT|TEXTAREA)$/.test(el.tagName)) el.tabIndex = -1;
+      el.focus({ preventScroll:true });
+    }
+  };
+  const State = {
+    pila:["#inicio"],
+    catalogo:{ q:"", sala:"", disp:"", orden:"sala" },
+    aparato:null,
+    proyeccion:false,
+    timer:0
+  };
+
+  const Router = {
+    parse(hash){
+      const raw = (hash || location.hash || "#inicio").replace(/^#/, "");
+      const [a, b, c] = raw.split("/").map(decodeURIComponent);
+      if (!a || a === "inicio") return { vista:"inicio" };
+      if (a === "salas") return { vista:"salas" };
+      if (a === "catalogo") return { vista:"catalogo" };
+      if (a === "orientador") return { vista:"orientador" };
+      if (a === "sala") return DataRepository.zona(b) ? { vista:"sala", zonaId:b } : { vista:"inicio", aviso:"Esa sala no está en la plataforma." };
+      if (a === "juego") return (DataRepository.zona(b) && DataRepository.juego(b, c)) ? { vista:"ficha", zonaId:b, juegoId:c } : { vista:"inicio", aviso:"Ese juego no está en el catálogo." };
+      return { vista:"inicio", aviso:"Esa dirección no corresponde a ninguna sección." };
+    },
+    hash(){ return location.hash || "#inicio"; },
+    go(hash, opts){
+      opts = opts || {};
+      Focus.guardar();
+      const modo = opts.volver ? "atras" : "adelante";
+      if (this.hash() !== hash){
+        history.pushState(null, "", hash);
+        if (opts.volver){
+          const i = State.pila.lastIndexOf(hash);
+          if (i >= 0) State.pila = State.pila.slice(0, i + 1);
+        } else State.pila.push(hash);
+      }
+      View.transicion(modo);
+    }
+  };
+
+  function anunciar(t){ document.getElementById("aviso").textContent = t; }
+  function syncNav(vista){
+    const mapa = { inicio:"nav-inicio", salas:"nav-salas", sala:"nav-salas", ficha:"nav-salas", catalogo:"nav-catalogo", orientador:"nav-orientador" };
+    document.querySelectorAll(".nav a").forEach(a => a.removeAttribute("aria-current"));
+    const id = mapa[vista];
+    if (id) document.getElementById(id).setAttribute("aria-current", "page");
+  }
+
+  const Views = {
+    inicio(r){
+      const t = totales();
+      const aviso = r.aviso ? '<p class="aviso" role="status">' + esc(r.aviso) + "</p>" : "";
+      const listo = DataRepository.todos().find(x => x.juego.estado === "listo");
+      const indice = DataRepository.zonas().map((z, i) => {
+        const n = String(i + 1).padStart(2, "0");
+        return '<li><a id="atajo-' + z.id + '" data-go="#sala/' + z.id + '" href="#sala/' + z.id + '"><span class="n">' + n + '</span><strong>' + esc(z.nombre) + '</strong></a></li>';
+      }).join("");
+      return '<section class="portada"><div class="entrada"><p class="kicker">Plataforma</p><h1>Diez salas, un gesto cada una.</h1><p class="bajada">Aquí se organizan los juegos de matemática escolar. Cada sala pide una forma distinta de actuar. El catálogo crece por salas, no como una lista suelta.</p><p class="resumen"><span>' + t.listos + ' disponible ahora</span><span>' + t.previstos + ' previstos</span><span>10 salas</span></p><div class="acciones"><a class="btn-primario" data-go="#salas" href="#salas">Explorar salas</a><a class="btn btn-ghost" data-go="#catalogo" href="#catalogo">Abrir catálogo</a><a class="btn btn-ghost" data-go="#orientador" href="#orientador">Usar el orientador</a></div>' + aviso + '</div><article class="papel ahora"><div><p class="kicker" style="color:var(--ti-t)">Se puede abrir ahora</p><h2>' + esc(listo.juego.nombre) + '</h2><p>' + esc(listo.juego.sinopsis) + '</p><p class="estado">Sala ' + esc(listo.zona.nombre) + '. Disponible.</p><div class="fila-acc"><a class="accion" href="' + esc(listo.juego.archivo) + '">Abrir juego</a><button type="button" class="btn-sec" id="ficha-ahora" data-go="#juego/' + listo.zona.id + '/' + listo.juego.id + '">Ver ficha</button></div></div><div>' + MARCAS[listo.zona.id] + '</div></article><section><h2 style="color:var(--crema);margin:0 0 12px">Las salas</h2><ol class="indice">' + indice + '</ol></section></section>';
+    },
+    salas(){
+      const cards = DataRepository.zonas().map((z, i) => {
+        const d = disp(z);
+        const n = String(i + 1).padStart(2, "0");
+        return '<button type="button" class="sala-btn" data-sala="' + z.id + '" id="sala-' + z.id + '" data-go="#sala/' + z.id + '" style="--marca:' + z.acento + '"><span>' + MARCAS[z.id] + '</span><span><span class="n">' + n + '</span><h2>' + esc(z.nombre) + '</h2><p class="lema">' + esc(z.lema) + '</p><p class="gesto">' + esc(z.gesto) + '</p></span><span class="pie"><span class="' + d.clase + '">' + esc(d.estado) + '. ' + esc(d.detalle) + '</span><span class="cue">Entrar en ' + esc(z.nombre) + '</span></span></button>';
+      }).join("");
+      return '<section><p class="kicker">Salas</p><h1>Diez lógicas de juego</h1><p class="bajada">El orden va del 1 al 10. Cada sala conserva su gesto. Entra en una para ver sus juegos.</p></section><div class="mosaico" style="margin-top:24px">' + cards + '</div>';
+    },
+    sala(id){
+      const z = DataRepository.zona(id);
+      const d = disp(z);
+      const n = String(DataRepository.zonas().indexOf(z) + 1).padStart(2, "0");
+      const bloques = [["que","Qué es", z.presentacion.que_es],["como","Cómo funciona", z.presentacion.como_se_articula],["no","Qué no es", z.presentacion.que_no_es],["aula","En el aula", z.presentacion.para_el_aula]];
+      const tabs = bloques.map((b, i) => '<button type="button" role="tab" id="tab-' + b[0] + '" aria-controls="panel-' + b[0] + '" aria-selected="' + (i ? "false" : "true") + '" tabindex="' + (i ? "-1" : "0") + '">' + b[1] + '</button>').join("");
+      const panels = bloques.map((b, i) => '<div role="tabpanel" class="papel panel" id="panel-' + b[0] + '" aria-labelledby="tab-' + b[0] + '"' + (i ? " hidden" : "") + '><p>' + esc(b[2]) + '</p>' + (i ? "" : '<p class="mecanicas">Mecánicas ' + esc(z.presentacion.mecanicas.join(", ")) + '</p>') + '</div>').join("");
+      const juegos = z.juegos.map(j => tarjetaJuego(z, j)).join("");
+      return '<article class="cabeza-sala"><button type="button" class="volver" id="volver-salas" data-go="#salas" data-volver="1">Volver a las salas</button><p class="kicker">' + n + ' · ' + esc(PRESION[z.presion] || z.presion) + '</p><h1>' + esc(z.nombre) + '</h1><p class="bajada">' + esc(z.lema) + '</p><p class="meta">' + esc(z.gesto) + '. ' + esc(d.estado) + '. ' + esc(d.detalle) + '.</p></article><div class="layout-sala"><div><h2 style="margin:0 0 12px">Juegos</h2><ul class="catalogo">' + juegos + '</ul></div><div class="pedagogia"><div class="tabs" role="tablist" aria-label="Información de la sala">' + tabs + '</div>' + panels + '</div></div>';
+    },
+    ficha(zid, jid){
+      const z = DataRepository.zona(zid);
+      const j = DataRepository.juego(zid, jid);
+      const listo = j.estado === "listo";
+      const cuerpo = listo
+        ? '<p class="sinopsis">' + esc(j.sinopsis) + '</p><p class="estado">Disponible. El juego abre en su propia página.</p><div class="fila-acc"><a class="accion" href="' + esc(j.archivo) + '">Abrir juego</a></div>'
+        : '<p class="sinopsis">' + esc(j.sinopsis) + '</p><p class="estado">En desarrollo. Todavía no se puede abrir.</p>';
+      return '<article class="ficha"><button type="button" class="volver" id="volver-sala" data-go="#sala/' + z.id + '" data-volver="1">Volver a ' + esc(z.nombre) + '</button><p class="kicker">' + esc(z.nombre) + ' · ' + esc(z.gesto) + '</p><h1>' + esc(j.nombre) + '</h1><div class="papel panel">' + cuerpo + '<p class="estado" style="margin-top:12px">Esta ficha pertenece a la sala ' + esc(z.nombre) + '. ' + esc(z.lema) + '</p></div></article>';
+    },
+    catalogo(){
+      const salas = DataRepository.zonas().map(z => '<option value="' + z.id + '">' + esc(z.nombre) + '</option>').join("");
+      return '<section><p class="kicker">Catálogo</p><h1>Todos los juegos</h1><p class="bajada">Busca por nombre o por lo que dice la sinopsis. Filtra por sala o por lo que ya se puede abrir.</p></section><form class="filtros" id="form-catalogo" style="margin-top:24px" role="search"><div class="campo"><label for="buscar">Buscar</label><input id="buscar" type="search" autocomplete="off" value="' + esc(State.catalogo.q) + '"></div><div class="campo"><label for="filtro-sala">Sala</label><select id="filtro-sala"><option value="">Todas las salas</option>' + salas + '</select></div><div class="campo"><label for="filtro-estado">Disponibilidad</label><select id="filtro-estado"><option value="">Todas</option><option value="listo">Disponibles</option><option value="idea">En desarrollo</option></select></div><button type="button" class="btn-sec" id="limpiar" style="color:var(--crema);border-color:rgba(247,241,233,.28)">Limpiar filtros</button></form><p class="cuenta" id="cuenta" aria-live="polite"></p><ul class="lista" id="lista-juegos"></ul><div class="papel vacio" id="vacio" hidden><p>Ningún juego coincide. Prueba otro nombre o limpia los filtros.</p><div class="fila-acc" style="margin-top:12px"><button type="button" class="btn-sec" id="limpiar-vacio">Limpiar filtros</button></div></div>';
+    },
+    orientador(){
+      const campos = [["gesto","Gesto","La acción que hace el estudiante."],["presion","Presión","El pulso de la ronda."],["azar","Azar","Si el azar se ve, se esconde o no entra."],["producto","Producto","Lo que queda al terminar."],["social","Social","Quién actúa delante de la clase."],["capa","Capa matemática","El tipo de contenido que se pone en juego."]];
+      let guardado = State.aparato;
+      try { if (!guardado) guardado = JSON.parse(sessionStorage.getItem("s321-orientador") || "null"); } catch (e) { guardado = null; }
+      const ejes = campos.map(([k, lab, ayuda]) => {
+        const opts = DataRepository.ejes()[k].map(([v, n]) => '<option value="' + esc(v) + '"' + (guardado && guardado[k] === v ? " selected" : "") + '>' + esc(n) + '</option>').join("");
+        return '<div class="campo eje"><label for="eje-' + k + '">' + lab + '</label><select id="eje-' + k + '">' + opts + '</select><p class="nota">' + ayuda + '</p></div>';
+      }).join("");
+      return '<section class="entrada"><p class="kicker">Orientador</p><h1>Encontrar la sala</h1><p class="bajada">Seis ejes para localizar la lógica dominante. No es una clasificación cerrada: una propuesta puede compartir rasgos con más de una sala.</p></section><div class="ejes">' + ejes + '</div><div class="papel resultado" id="salida" aria-live="polite"></div>';
+    }
+  };
+
+  function tarjetaJuego(z, j){
+    const listo = j.estado === "listo";
+    const acciones = listo
+      ? '<a class="accion" href="' + esc(j.archivo) + '">Abrir juego</a><button type="button" class="btn-sec" id="concepto-' + z.id + '-' + j.id + '" data-go="#juego/' + z.id + '/' + j.id + '">Ver ficha</button>'
+      : '<button type="button" class="btn-sec" id="concepto-' + z.id + '-' + j.id + '" data-go="#juego/' + z.id + '/' + j.id + '">Ver concepto</button>';
+    return '<li><p class="estado">' + esc(z.nombre) + '</p><h3>' + esc(j.nombre) + '</h3><p class="sinopsis">' + esc(j.sinopsis) + '</p><p class="estado">' + (listo ? "Disponible" : "En desarrollo") + '</p><div class="fila-acc">' + acciones + '</div></li>';
+  }
+
+  const Catalog = {
+    items: [],
+    mount(){
+      const selS = document.getElementById("filtro-sala");
+      const selE = document.getElementById("filtro-estado");
+      if (selS) selS.value = State.catalogo.sala;
+      if (selE) selE.value = State.catalogo.disp;
+      const lista = document.getElementById("lista-juegos");
+      this.items = DataRepository.todos();
+      lista.innerHTML = this.items.map(x => tarjetaJuego(x.zona, x.juego)).join("");
+      this.apply(false);
+    },
+    apply(anuncia){
+      const q = plano(State.catalogo.q);
+      const sala = State.catalogo.sala;
+      const disp = State.catalogo.disp;
+      const lis = document.querySelectorAll("#lista-juegos li");
+      let n = 0;
+      this.items.forEach((x, i) => {
+        const texto = plano(x.juego.nombre + " " + x.juego.sinopsis);
+        const ok = (!q || texto.includes(q)) && (!sala || x.zona.id === sala) && (!disp || x.juego.estado === disp);
+        lis[i].hidden = !ok;
+        if (ok) n++;
+      });
+      const cuenta = document.getElementById("cuenta");
+      const vacio = document.getElementById("vacio");
+      const frase = n === 1 ? "1 juego" : n + " juegos";
+      if (cuenta) cuenta.textContent = frase;
+      if (vacio) vacio.hidden = n !== 0;
+      const lista = document.getElementById("lista-juegos");
+      if (lista) lista.hidden = n === 0;
+      if (anuncia && cuenta) anunciar(frase);
+    },
+    schedule(){
+      clearTimeout(State.timer);
+      State.timer = setTimeout(() => {
+        State.catalogo.q = document.getElementById("buscar").value;
+        this.apply(true);
+      }, 200);
+    },
+    limpiar(){
+      State.catalogo = { q:"", sala:"", disp:"", orden:"sala" };
+      const b = document.getElementById("buscar");
+      if (b) b.value = "";
+      document.getElementById("filtro-sala").value = "";
+      document.getElementById("filtro-estado").value = "";
+      this.apply(true);
+      b.focus();
+    }
+  };
+
+  function orientar(sel){
+    let id = "desafio";
+    if (sel.azar === "visible" || sel.capa === "incertidumbre") id = "probabilidad";
+    else if (sel.presion === "reloj") id = "velocidad";
+    else if (sel.gesto === "retener") id = "memoria";
+    else if (sel.azar === "oculto" || sel.gesto === "manipular" || sel.capa === "cambio") id = "construccion";
+    else if (sel.gesto === "organizar" || sel.capa === "dato" || sel.capa === "relacion") id = "analisis";
+    else if (sel.capa === "espacio") id = "tiempo";
+    else if (sel.capa === "operacion") id = "calculo";
+    else if (sel.gesto === "buscar") id = "concentracion";
+    else if (sel.producto === "pronostico" || sel.social === "turno") id = "estrategia";
+    return { zona: DataRepository.zona(id), porque: PORQUE[id] };
+  }
+  const Orientation = {
+    leer(){
+      const sel = {};
+      ["gesto","presion","azar","producto","social","capa"].forEach(k => { sel[k] = document.getElementById("eje-" + k).value; });
+      State.aparato = sel;
+      try { sessionStorage.setItem("s321-orientador", JSON.stringify(sel)); } catch (e) {}
+      const r = orientar(sel);
+      const z = r.zona;
+      document.getElementById("salida").innerHTML = '<p class="kicker" style="color:var(--ti-t)">Orientación</p><h2>' + esc(z.nombre) + '</h2><p>' + esc(z.lema) + '</p><p class="estado">' + esc(r.porque) + '</p><div class="receta">' + esc(RECETA[z.id]) + '</div><button type="button" class="btn-primario" data-go="#sala/' + z.id + '">Abrir sala ' + esc(z.nombre) + '</button>';
+    }
+  };
+
+  const Projection = {
+    set(on){
+      State.proyeccion = on;
+      document.body.classList.toggle("proyeccion", on);
+      const b = document.getElementById("btnProyeccion");
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+      b.textContent = on ? "Cerrar proyección" : "Ampliar proyección";
+    }
+  };
+
+  const View = {
+    pintar(modo){
+      const r = Router.parse();
+      const lienzo = document.getElementById("lienzo");
+      let html = "";
+      if (r.vista === "inicio") html = Views.inicio(r);
+      else if (r.vista === "salas") html = Views.salas();
+      else if (r.vista === "sala") html = Views.sala(r.zonaId);
+      else if (r.vista === "ficha") html = Views.ficha(r.zonaId, r.juegoId);
+      else if (r.vista === "catalogo") html = Views.catalogo();
+      else html = Views.orientador();
+      lienzo.innerHTML = html;
+      if (r.vista === "catalogo") Catalog.mount();
+      if (r.vista === "orientador") Orientation.leer();
+      if (r.vista === "sala") this.tabs();
+      syncNav(r.vista);
+      const titulo = lienzo.querySelector("h1");
+      anunciar(titulo ? titulo.textContent : "Sala de juegos");
+      if (modo === "atras"){
+        const dest = document.getElementById(Focus.mapa[Router.hash()] || "");
+        Focus.poner(dest || titulo);
+        window.scrollTo(0, Focus.scroll[Router.hash()] || 0);
+      } else {
+        window.scrollTo(0, 0);
+        Focus.poner(titulo);
+      }
+    },
+    transicion(modo){
+      const lienzo = document.getElementById("lienzo");
+      if (Motion.reducido() || !lienzo.firstChild){ this.pintar(modo); return; }
+      lienzo.classList.add("sale");
+      setTimeout(() => {
+        this.pintar(modo);
+        lienzo.classList.remove("sale");
+      }, 150);
+    },
+    tabs(){
+      const btns = [...document.querySelectorAll('#lienzo [role="tab"]')];
+      function elegir(i, focus){
+        btns.forEach((t, k) => {
+          const on = k === i;
+          t.setAttribute("aria-selected", on ? "true" : "false");
+          t.tabIndex = on ? 0 : -1;
+          document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+        });
+        if (focus) btns[i].focus();
+      }
+      btns.forEach((t, i) => {
+        t.addEventListener("click", () => elegir(i, false));
+        t.addEventListener("keydown", (e) => {
+          if (!["ArrowRight","ArrowLeft","Home","End"].includes(e.key)) return;
+          e.preventDefault();
+          let n = i;
+          if (e.key === "ArrowRight") n = (i + 1) % btns.length;
+          if (e.key === "ArrowLeft") n = (i - 1 + btns.length) % btns.length;
+          if (e.key === "Home") n = 0;
+          if (e.key === "End") n = btns.length - 1;
+          elegir(n, true);
+        });
+      });
+    }
+  };
+
+  document.body.addEventListener("click", (e) => {
+    const limpiar = e.target.closest("#limpiar, #limpiar-vacio");
+    if (limpiar){ e.preventDefault(); Catalog.limpiar(); return; }
+    const go = e.target.closest("[data-go]");
+    if (!go) return;
+    if (e.target.closest("a.accion")) return;
+    e.preventDefault();
+    Router.go(go.getAttribute("data-go"), { volver: go.hasAttribute("data-volver") });
+  });
+  document.body.addEventListener("input", (e) => {
+    if (e.target.id === "buscar") Catalog.schedule();
+  });
+  document.body.addEventListener("change", (e) => {
+    if (e.target.id === "filtro-sala" || e.target.id === "filtro-estado"){
+      State.catalogo.sala = document.getElementById("filtro-sala").value;
+      State.catalogo.disp = document.getElementById("filtro-estado").value;
+      Catalog.apply(true);
+    }
+    if (e.target.id && e.target.id.indexOf("eje-") === 0) Orientation.leer();
+  });
+  document.getElementById("btnProyeccion").addEventListener("click", () => Projection.set(!State.proyeccion));
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && State.proyeccion){ Projection.set(false); document.getElementById("btnProyeccion").focus(); }
+  });
+  window.addEventListener("popstate", () => {
+    const h = Router.hash();
+    const i = State.pila.lastIndexOf(h);
+    const atras = i >= 0 && i < State.pila.length - 1;
+    if (atras) State.pila = State.pila.slice(0, i + 1);
+    else if (State.pila[State.pila.length - 1] !== h) State.pila.push(h);
+    View.transicion(atras ? "atras" : "adelante");
+  });
+
+  const data = DataRepository.load();
+  const errores = DataValidator.run(data);
+  if (errores.length){
+    document.getElementById("lienzo").innerHTML = '<h1>El catálogo no se pudo abrir</h1><p class="aviso">' + esc(errores[0]) + '</p>';
+  } else if (!location.hash){
+    history.replaceState(null, "", "#inicio");
+    View.pintar("adelante");
+  } else {
+    View.pintar("adelante");
+  }
+})();
 </script>
 </body>
 </html>
