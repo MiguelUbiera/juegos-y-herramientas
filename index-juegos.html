@@ -516,7 +516,13 @@ body[data-marco="retrato"] h1,body[data-marco="telefono"] h1{font-size:clamp(35.
 .entrada{gap:28px}
 .entrada h1,.bajada{line-height:1.22}
 .bajada,.destacado .lectura p{line-height:1.62}
-.portada{column-gap:clamp(24px, 3vw, 48px); row-gap:32px}
+.portada{grid-template-columns:minmax(0, 36rem) max-content; justify-content:start; align-items:start; column-gap:clamp(24px, 3vw, 48px); row-gap:32px}
+.escena-salas{width:max-content; max-width:100%}
+.indice{grid-template-columns:228px 228px; width:max-content; max-width:100%}
+.indice a{width:228px; max-width:100%}
+.destacado{width:max-content; max-width:100%; grid-template-columns:minmax(0, 460px) 220px; justify-content:start}
+.destacado .lectura{max-width:460px}
+.dominos{width:220px}
 .escena-salas{gap:16px}
 .indice{gap:12px 16px}
 .destacado{margin-top:96px}
@@ -542,7 +548,10 @@ body[data-marco="cine"] .lienzo:has(> .portada){display:block; height:auto; over
 body[data-marco="ancho"] .indice a,
 body[data-marco="cine"] .indice a{height:auto; min-height:44px}
 @media (max-width:720px){
-  .portada,.destacado,.indice{grid-template-columns:1fr}
+  .portada,.destacado{grid-template-columns:1fr}
+  .indice{grid-template-columns:minmax(0, 228px); width:100%}
+  .indice a{width:100%; max-width:228px}
+  .destacado{width:100%}
   .nav{margin-left:0; width:100%; justify-content:flex-start}
 }
 body.pagina-cargando{visibility:hidden}
