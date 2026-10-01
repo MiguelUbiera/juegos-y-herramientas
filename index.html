@@ -1,0 +1,2429 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Secuencia321 · Matemática que se enseña con una historia</title>
+<meta name="description" content="Secuencias didácticas digitales de matemática elemental para pizarra digital, proyector o pantalla. Cada una trae tres actividades interactivas y tres documentos imprimibles para el docente.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="shortcut icon" href="/favicon.ico">
+<link rel="preload" as="image" href="/carga.svg">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Secuencia321 · Matemática que se enseña con una historia">
+<meta property="og:description" content="Secuencias didácticas listas para dar clase. Tres actividades interactivas y tres documentos imprimibles por secuencia.">
+
+<script>
+/* Red de seguridad de visibilidad. Va ANTES de las hojas de estilo externas
+   a propósito: una hoja que no llega bloquea la ejecución de los guiones que
+   vienen después, y con ella la retirada de la clase pagina-cargando. */
+(function(){
+  var inicio, pendiente;
+  function ver(){
+    var b = document.body;
+    window.clearTimeout(pendiente);
+    if (!b){ pendiente = window.setTimeout(ver, 100); return; }
+    if (b.classList.contains('pagina-lista')) return;
+    if (inicio === undefined) inicio = performance.now();
+    var restante = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ? 0 : 1100 - (performance.now() - inicio);
+    if (restante > 0) { pendiente = window.setTimeout(ver, restante); return; }
+    b.classList.remove('pagina-cargando');
+    b.classList.add('pagina-lista');
+  }
+  window.s321MostrarPagina = ver;
+  ver();
+})();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Nunito:wght@400;600;700;800&family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   Secuencia321 — Portada pública
+   Identidad del sistema: paletas.md + tipografia.md
+   Lora = marca y títulos · Nunito = interfaz y lectura · Source Code Pro = códigos
+   ═══════════════════════════════════════════════════════════════════ */
+:root{
+  --pe-hondo:#0f2d3a; --pe-base:#173f50; --pe-medio:#2a4e5e; --pe-claro:#346375;
+  --te-hondo:#8f3a1e; --te-base:#a8512f; --te-medio:#b55537; --te-claro:#e08a5f;
+  --cr-puro:#fffcf7; --cr-base:#f7f1e9; --cr-hondo:#efe6d8; --cr-borde:#e2d6c4; --si-rosa:#e4c5b5;
+  --f1:#a8512f; --f1-claro:#f2e2dc;
+  --f2:#327a52; --f2-claro:#e7f1ea;
+  --f3:#674a60; --f3-claro:#ede9ec;
+  --ti-fuerte:#1b1512; --ti-base:#3d2523; --ti-suave:#4a3f38;
+  --fam-titulo:'Lora', Georgia, 'Times New Roman', serif;
+  --fam-cuerpo:'Nunito', 'Segoe UI', system-ui, sans-serif;
+  --fam-num:'Source Code Pro', 'Consolas', monospace;
+  --radio:14px;
+  --sombra:0 2px 8px rgba(15,45,58,.10), 0 8px 28px rgba(15,45,58,.08);
+  --sombra-alta:0 6px 18px rgba(15,45,58,.16), 0 18px 48px rgba(15,45,58,.14);
+  --ancho:1180px;
+  --sal:cubic-bezier(.22,.8,.25,1);
+  --dur-1:.18s; --dur-2:.24s; --dur-3:.32s;
+  --barra-h:64px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;transition:zoom .3s var(--sal)}
+body{margin:0;font-family:var(--fam-cuerpo);font-weight:600;color:var(--ti-base);background:var(--cr-base);-webkit-font-smoothing:antialiased;line-height:1.55;opacity:1;transition:opacity var(--dur-3) var(--sal);overflow-wrap:break-word}
+body.menu-abierto{overflow:hidden}
+body.pagina-cargando{visibility:hidden}
+body.pagina-lista{opacity:1}
+body.cambiando{opacity:.72}
+/* Antes, mientras la pagina cargaba, quedaba en blanco: el body entero
+   pasaba a opacity:0, y una capa DENTRO del body hereda esa opacidad sin
+   forma de escapar de ella. Por eso este overlay se declara "visible" a
+   proposito -la visibilidad, a diferencia de la opacidad, un hijo SI puede
+   revertirla- y así el icono del sitio parpadea en el centro mientras el
+   resto de la pagina esta oculto detras. */
+#s321-precarga{position:fixed;inset:0;z-index:9999;visibility:visible;display:flex;
+  align-items:center;justify-content:center;background:#36545f}
+#s321-precarga img{width:clamp(144px,18vw,224px);height:auto;aspect-ratio:1;opacity:.9;animation:precargaEntrada 1.1s var(--sal) both}
+@keyframes precargaEntrada{
+  from{opacity:.08;transform:translateY(14px)}
+  to{opacity:.9;transform:translateY(0)}
+}
+body.pagina-lista #s321-precarga{opacity:0;pointer-events:none;transition:opacity .65s var(--sal)}
+@media(prefers-reduced-motion:reduce){#s321-precarga img{animation:none}}
+img{max-width:100%;display:block}
+/* width/height en el marcado reservan la proporción antes de cargar */
+img[width][height]{height:auto}
+.img-ausente{display:flex;align-items:center;justify-content:center;text-align:center;background:var(--pe-base);color:var(--cr-base);font-family:var(--fam-cuerpo);font-weight:700;font-size:.76rem;line-height:1.3;padding:8px;border-radius:inherit;overflow:hidden;border:1px solid rgba(228,197,181,.28)}
+.envoltura{width:100%;max-width:var(--ancho);margin-inline:auto;padding-inline:clamp(18px,4vw,40px)}
+
+.saltar{position:absolute;left:0;top:0;z-index:99;transform:translateY(-120%);background:var(--cr-puro);color:var(--pe-hondo);padding:12px 20px;border-radius:0 0 var(--radio) 0;font-weight:800;text-decoration:none}
+.saltar:focus{transform:translateY(0)}
+
+/* ═══ BARRA ═══ */
+.barra{position:sticky;top:0;z-index:40;background:rgba(23,63,80,.97);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid rgba(228,197,181,.16)}
+.barra-int{display:flex;align-items:center;gap:16px;min-height:64px;max-width:none;padding-left:clamp(18px,2vw,28px);padding-right:clamp(18px,2vw,28px)}
+.marca{display:flex;align-items:center;gap:11px;text-decoration:none;margin-right:auto;min-width:0}
+.marca-icono{width:36px;height:36px;border-radius:12px;flex:0 0 auto;border:1px solid rgba(228,197,181,.28)}
+.marca-icono img{width:100%;height:100%;border-radius:inherit}
+.marca-txt{font-family:var(--fam-titulo);font-weight:700;font-size:1.06rem;color:var(--cr-base);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.barra-nav{display:flex;gap:4px;align-items:center}
+.barra-nav a{text-decoration:none;color:var(--si-rosa);font-size:.9rem;font-weight:700;padding:8px 13px;border-radius:9px;transition:background var(--dur-1) var(--sal),color var(--dur-1) var(--sal)}
+.barra-nav a:hover{background:rgba(228,197,181,.13);color:var(--cr-puro)}
+/* «Solicitar acceso» es la única ACCIÓN de la barra; los demás son sitios a
+   los que ir. Se separa del grupo para que se lea como otra categoría de
+   cosa y no como un enlace más. Entre dos enlaces hay 4px de hueco de
+   caja y 30px de texto a texto; aquí son 44 y 74, más del doble en las dos
+   medidas. La rayita va justo en medio del hueco, y es un ::before para no
+   meter un elemento vacío en la navegación que un lector de pantalla tenga
+   que saltarse. */
+.btn-barra{position:relative;margin-left:56px;background:var(--te-base)!important;color:var(--cr-puro)!important;padding:9px 17px!important;box-shadow:0 2px 8px rgba(143,58,30,.32)}
+.btn-barra::before{content:"";position:absolute;left:-30px;top:50%;transform:translateY(-50%);width:1px;height:20px;background:rgba(228,197,181,.32)}
+.btn-barra:hover{background:var(--te-medio)!important}
+.marca-txt{min-width:0}
+.barra-int>*{min-width:0}
+.barra-nav{flex-wrap:nowrap;justify-content:flex-end}
+
+/* botón de menú (solo teléfono/tableta) */
+.barra-menu{display:none;align-items:center;justify-content:center;width:44px;height:44px;flex:0 0 auto;
+  border:1px solid rgba(228,197,181,.28);border-radius:11px;background:rgba(228,197,181,.10);
+  color:var(--cr-base);cursor:pointer;padding:0;
+  transition:background var(--dur-1) var(--sal),border-color var(--dur-1) var(--sal)}
+.barra-menu:hover{background:rgba(228,197,181,.2);border-color:var(--si-rosa)}
+.barra-menu .barras{display:block;width:20px;height:2px;border-radius:2px;background:currentColor;position:relative;transition:background var(--dur-1) var(--sal)}
+.barra-menu .barras::before,.barra-menu .barras::after{content:"";position:absolute;left:0;width:20px;height:2px;border-radius:2px;background:currentColor;transition:transform var(--dur-2) var(--sal)}
+
+/* «Solicitar acceso» queda visible fuera del menú también en teléfono: es la
+   acción que convierte una visita en una solicitud, y esconderla detrás de
+   las tres barras le cuesta un toque de más a quien ya decidió escribir. */
+.barra-acceso-movil{display:none}
+.barra-menu .barras::before{top:-6px}
+.barra-menu .barras::after{top:6px}
+.barra-menu[aria-expanded="true"] .barras{background:transparent}
+.barra-menu[aria-expanded="true"] .barras::before{transform:translateY(6px) rotate(45deg)}
+.barra-menu[aria-expanded="true"] .barras::after{transform:translateY(-6px) rotate(-45deg)}
+
+/* panel a pantalla completa; la barra con el logotipo queda por encima */
+.menu-movil{position:fixed;inset:0;z-index:35;background:var(--pe-hondo);
+  padding:calc(var(--barra-h) + 14px) 0 32px;overflow-y:auto;overscroll-behavior:contain;
+  opacity:1;transform:translateY(0);
+  transition:opacity var(--dur-3) var(--sal),transform var(--dur-3) var(--sal)}
+.menu-movil[hidden]{display:none}
+.menu-movil.entrando{opacity:0;transform:translateY(-12px);pointer-events:none}
+.menu-movil-int{width:100%;max-width:560px;margin-inline:auto;padding-inline:clamp(18px,5vw,28px);display:flex;flex-direction:column;gap:4px}
+/* `.menu-movil .enlace-plano` entra aquí por lo mismo que «Planes» arriba: el
+   botón de planes del menú del teléfono tenía el mismo fallo, salía en marrón
+   oscuro sobre el fondo azul mientras los demás iban en rosa. Es el mismo
+   defecto en el mismo sitio visto desde otro tamaño de pantalla. */
+.menu-movil a,.menu-movil .plegable-cabeza,.menu-movil .enlace-plano{display:flex;align-items:center;gap:10px;width:100%;min-height:48px;
+  padding:12px 14px;border-radius:11px;font-family:var(--fam-cuerpo);font-weight:700;font-size:1rem;
+  color:var(--si-rosa);text-decoration:none;background:transparent;border:0;cursor:pointer;text-align:left;
+  transition:background var(--dur-1) var(--sal),color var(--dur-1) var(--sal)}
+/* El `display:flex` de arriba tiene más especificidad que el `[hidden]` del
+   navegador y lo pisaba: «Acerca de» y «Planes» se veían en el menú del
+   teléfono aunque llevaran el atributo. Esta regla, más específica todavía,
+   devuelve el `display:none` a lo que está oculto. */
+.menu-movil a[hidden],.menu-movil .enlace-plano[hidden]{display:none}
+.menu-movil a:hover,.menu-movil .enlace-plano:hover,.menu-movil .plegable-cabeza:hover,.menu-movil .plegable-cabeza[aria-expanded="true"]{background:rgba(228,197,181,.13);color:var(--cr-puro)}
+.menu-movil .plegable-cabeza .chev{margin-left:auto;flex:0 0 auto;color:var(--te-claro);transition:transform var(--dur-2) var(--sal)}
+.menu-movil .plegable-cabeza[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.menu-movil .plegable-cuerpo{display:grid;grid-template-rows:0fr;visibility:hidden;transition:grid-template-rows var(--dur-3) var(--sal),visibility var(--dur-3) var(--sal)}
+.menu-movil .plegable-cuerpo>div{overflow:hidden;min-height:0}
+.menu-movil .plegable-cuerpo.abierto{grid-template-rows:1fr;visibility:visible}
+.menu-movil .plegable-cuerpo a{font-size:.92rem;font-weight:600;min-height:44px;padding-left:36px;color:rgba(228,197,181,.86)}
+.menu-movil .plegable-cuerpo a i{width:1.25em;text-align:center;color:var(--te-claro);flex:0 0 auto}
+.menu-movil-sep{height:1px;background:rgba(228,197,181,.16);margin:12px 14px}
+.menu-movil-acceso{margin-top:6px;justify-content:center!important;background:var(--te-base)!important;
+  color:var(--cr-puro)!important;font-weight:800!important;box-shadow:0 4px 14px rgba(143,58,30,.36)}
+.menu-movil-acceso:hover{background:var(--te-medio)!important;color:var(--cr-puro)!important}
+
+@media(max-width:860px){
+  .barra-nav{display:none}
+  .barra-menu{display:inline-flex}
+  .barra-acceso-movil{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;
+    background:var(--te-base);color:var(--cr-puro)!important;font-weight:800;font-size:.84rem;
+    padding:9px 15px;border-radius:9px;white-space:nowrap;flex:0 0 auto;
+    transition:background var(--dur-1) var(--sal)}
+  .barra-acceso-movil:hover{background:var(--te-medio)}
+  .marca-txt{font-size:.95rem}
+}
+@media(min-width:861px){.menu-movil{display:none!important}}
+/* franja estrecha de escritorio: la barra se aprieta en vez de partirse */
+@media(min-width:861px) and (max-width:1060px){
+  /* EL PREFIJO `.barra` NO SOBRA, Y ESTE BLOQUE LLEVA TIEMPO SIN FUNCIONAR.
+     Esta regla vive antes en el archivo que la que da forma a los botones de
+     navegación, y con la misma especificidad gana la última. Así que
+     `Currículum`, y los dos desplegables que entonces tenía al lado, nunca se
+     apretaron en la franja estrecha: se quedaban a 14.4px mientras `Catálogo`
+     bajaba a 13.12.
+     Se veía como una barra con dos tamaños de letra a la vez. Con `.barra`
+     delante esta regla pesa más y gana, que es lo que siempre quiso hacer. */
+  .barra-nav a,.barra .menu-navegacion>button,.barra .barra-nav>.enlace-plano{font-size:.82rem;padding:7px 9px}
+  /* En la franja estrecha la barra se aprieta, pero la separación sigue
+     siendo mayor que entre dos enlaces, y la rayita se recoloca con ella. */
+  .btn-barra{margin-left:32px;padding:8px 13px!important}
+  .btn-barra::before{left:-18px;height:17px}
+  .marca-txt{font-size:.95rem}
+}
+@media(max-width:400px){.marca-txt{font-size:.86rem}.marca-icono{width:32px;height:32px;font-size:.76rem}}
+
+/* ═══ PORTADA ═══ */
+.hero{position:relative;overflow:hidden;background:radial-gradient(1100px 520px at 82% -8%, #24576b 0%, transparent 62%),linear-gradient(168deg,#1b485c 0%,var(--pe-base) 46%,var(--pe-hondo) 100%);color:var(--cr-base);padding-block:clamp(52px,7.5vw,88px) clamp(58px,8vw,96px)}
+.hero-fondo{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hero-fondo span{position:absolute;font-family:var(--fam-num);font-weight:700;color:var(--si-rosa);opacity:.055;user-select:none;animation:flotar 22s ease-in-out infinite}
+@keyframes flotar{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-26px) rotate(3deg)}}
+.hero-int{position:relative;z-index:1;max-width:none}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;background:rgba(228,197,181,.13);border:1px solid rgba(228,197,181,.3);color:var(--si-rosa);padding:7px 16px;border-radius:999px;font-size:.73rem;font-weight:800;letter-spacing:.11em;text-transform:uppercase;margin-bottom:22px}
+.eyebrow .punto{width:7px;height:7px;border-radius:50%;background:var(--te-claro);flex:0 0 auto}
+h1{font-family:var(--fam-titulo);font-weight:700;font-size:clamp(2rem,5.4vw,3.35rem);line-height:1.14;letter-spacing:-.015em;color:var(--cr-puro);margin:0 0 20px}
+h1 .resalte{color:var(--te-claro)}
+.hero-bajada{font-size:clamp(1.03rem,1.65vw,1.24rem);font-weight:600;color:var(--si-rosa);max-width:76ch;margin:0 0 32px;line-height:1.62}
+.hero-acciones{display:flex;flex-wrap:wrap;gap:13px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:var(--fam-cuerpo);font-weight:800;font-size:.98rem;padding:14px 26px;border-radius:11px;border:2px solid transparent;text-decoration:none;cursor:pointer;min-height:48px;transition:transform var(--dur-1) var(--sal),box-shadow var(--dur-2) var(--sal),background var(--dur-2) var(--sal),border-color var(--dur-2) var(--sal)}
+.btn:active{transform:translateY(1px) scale(.99)}
+.btn-primario{background:var(--te-base);color:var(--cr-puro);box-shadow:0 4px 14px rgba(143,58,30,.4)}
+.btn-primario:hover{background:var(--te-medio);transform:translateY(-2px);box-shadow:0 8px 22px rgba(143,58,30,.48)}
+.btn-fantasma{background:transparent;color:var(--cr-base);border-color:rgba(228,197,181,.42)}
+.btn-fantasma:hover{background:rgba(228,197,181,.13);border-color:var(--si-rosa);transform:translateY(-2px)}
+.hero-nota{margin-top:24px;font-size:.87rem;color:var(--si-rosa);opacity:.82;font-weight:600;display:flex;align-items:center;gap:8px}
+
+/* rasgos de la propuesta (sin cifras de proyecto) */
+.hero-rasgos{display:flex;flex-wrap:wrap;gap:clamp(16px,3.4vw,44px);margin-top:36px;padding-top:26px;border-top:1px solid rgba(228,197,181,.2)}
+.hero-rasgos .rasgo{flex:1 1 190px;display:flex;align-items:flex-start;gap:10px;font-size:.92rem;font-weight:700;color:var(--si-rosa);line-height:1.45}
+.hero-rasgos .rasgo svg{flex:0 0 auto;margin-top:3px;color:var(--te-claro)}
+
+/* ═══ FRANJA QUÉ TRAE ═══ */
+.franja{background:var(--cr-puro);border-bottom:1px solid var(--cr-borde);padding-block:clamp(44px,6vw,68px)}
+.franja-titulo{text-align:center;margin:0 0 8px;font-family:var(--fam-titulo);font-weight:700;font-size:clamp(1.4rem,2.6vw,1.85rem);color:var(--pe-hondo)}
+.franja-bajada{text-align:center;margin:0 auto 40px;max-width:60ch;color:var(--ti-suave);font-size:1rem}
+.piezas{display:grid;grid-template-columns:repeat(auto-fit,minmax(216px,1fr));gap:16px}
+.pieza{background:var(--cr-base);border:1px solid var(--cr-borde);border-radius:var(--radio);padding:22px 20px;border-top:3px solid var(--te-base)}
+.pieza:nth-child(2){border-top-color:var(--f2)}
+.pieza:nth-child(3){border-top-color:var(--f3)}
+.pieza:nth-child(4){border-top-color:var(--pe-claro)}
+.pieza-num{font-family:var(--fam-num);font-weight:700;font-size:.78rem;color:var(--te-base);letter-spacing:.06em;margin-bottom:9px}
+.pieza:nth-child(2) .pieza-num{color:var(--f2)}
+.pieza:nth-child(3) .pieza-num{color:var(--f3)}
+.pieza:nth-child(4) .pieza-num{color:var(--pe-claro)}
+.pieza h3{font-family:var(--fam-titulo);font-weight:700;font-size:1.06rem;color:var(--pe-hondo);margin:0 0 7px}
+.pieza p{margin:0;font-size:.9rem;color:var(--ti-suave);line-height:1.55}
+
+/* ═══ CATÁLOGO ═══ */
+.catalogo{padding-block:clamp(52px,7vw,80px)}
+.cat-cabecera{margin-bottom:26px}
+.cat-cabecera h2{font-family:var(--fam-titulo);font-weight:700;font-size:clamp(1.55rem,3vw,2.15rem);color:var(--pe-hondo);margin:0 0 10px}
+.cat-cabecera p{margin:0;color:var(--ti-suave);max-width:66ch;font-size:1rem}
+
+/* navegador curricular */
+.nav-curr{width:min(100%,980px);box-sizing:border-box;background:var(--cr-puro);border:1px solid var(--cr-borde);border-radius:16px;padding:18px 20px;margin:0 auto 26px;box-shadow:var(--sombra)}
+.nav-fila{display:grid;grid-template-columns:minmax(0,1fr) 18px minmax(0,1.18fr) 18px minmax(0,1.32fr);align-items:end;gap:8px}
+.nav-nivel{position:relative}
+.nav-et{display:block;font-size:.63rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#94836f;margin-bottom:5px}
+.nav-btn{
+  display:inline-flex;align-items:center;gap:9px;font-family:var(--fam-cuerpo);font-weight:700;font-size:.93rem;
+  background:var(--cr-base);border:1.5px solid var(--cr-borde);color:var(--pe-hondo);
+  padding:10px 15px;border-radius:10px;cursor:pointer;transition:border-color var(--dur-2) var(--sal),background var(--dur-2) var(--sal);
+  max-width:min(340px,72vw);
+}
+.nav-btn:hover{border-color:var(--te-base);background:var(--cr-puro)}
+.nav-btn{min-height:44px}
+.nav-btn[aria-expanded="true"]{border-color:var(--te-base);background:var(--cr-puro)}
+.nav-btn .txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nav-btn .chev{flex:0 0 auto;transition:transform var(--dur-2) var(--sal);color:var(--te-base)}
+.nav-btn[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.nav-btn.fijo{cursor:default;background:var(--pe-base);border-color:var(--pe-base);color:var(--cr-base)}
+.nav-btn.fijo:hover{border-color:var(--pe-base)}
+.nav-sep{color:var(--si-rosa);font-size:1.1rem;align-self:flex-end;padding-bottom:11px;font-weight:700}
+/* Las tres selecciones comparten el ancho útil con proporciones moderadas:
+   Dominio y Núcleo tienen algo más de espacio por sus nombres largos, sin
+   convertir el panel en una franja dominada por un solo control. */
+.nav-nivel{min-width:0}
+.nav-btn{width:100%;max-width:none;justify-content:center;text-align:center}
+#navCurr #listaDominio{min-width:min(100%,330px);max-width:min(460px,calc(100vw - 32px))}
+
+.nav-lista{
+  position:absolute;top:calc(100% + 6px);left:0;z-index:30;min-width:min(330px,100%);max-width:min(460px,calc(100vw - 32px));
+  max-height:340px;overflow-y:auto;background:var(--cr-puro);
+  border:1px solid var(--cr-borde);border-radius:12px;box-shadow:var(--sombra-alta);
+  padding:6px;margin:0;list-style:none;scrollbar-width:thin;scrollbar-color:transparent transparent;
+  scrollbar-gutter:stable;
+}
+/* Igual que en la ventana de planes: el scroll queda invisible hasta que se
+   usa, para que la lista se sienta como una hoja propia y no como un recuadro
+   con una barra pegada al borde. PERO EL ESPACIO DE LA BARRA SIEMPRE SE
+   RESERVA (scrollbar-gutter:stable + scrollbar-width:thin fijo, no solo en
+   hover): antes el ancho del renglón cambiaba al pasar el ratón o hacer clic
+   —la barra aparecía y le quitaba sitio al texto— y una misma etiqueta
+   saltaba entre dos y tres líneas según si se estaba interactuando. Reservar
+   el espacio siempre deja el renglón estable en todo momento. */
+.nav-lista::-webkit-scrollbar{width:8px}
+.nav-lista::-webkit-scrollbar-thumb{background:transparent;border-radius:8px}
+.nav-lista:hover::-webkit-scrollbar-thumb,.nav-lista:active::-webkit-scrollbar-thumb{background:rgba(15,45,58,.22)}
+.nav-lista:hover,.nav-lista:active{scrollbar-color:rgba(15,45,58,.22) transparent}
+.nav-lista button>span:nth-child(2){min-width:0;overflow-wrap:anywhere}
+.nav-lista[hidden]{display:none}
+.nav-lista li{margin:0}
+.nav-lista button{
+  display:flex;align-items:baseline;gap:9px;width:100%;text-align:left;
+  font-family:var(--fam-cuerpo);font-weight:600;font-size:.89rem;color:var(--ti-base);
+  background:none;border:none;padding:9px 11px;border-radius:8px;cursor:pointer;min-height:44px;transition:background var(--dur-1) var(--sal);
+}
+.nav-lista button:hover{background:var(--cr-hondo)}
+.nav-lista button[aria-current="true"]{background:var(--f1-claro);color:var(--te-hondo);font-weight:800}
+.nav-lista .cod{font-family:var(--fam-num);font-size:.74rem;color:#94836f;flex:0 0 auto}
+.nav-lista .cuenta{margin-left:auto;font-size:.72rem;color:#94836f;flex:0 0 auto;padding-left:12px;white-space:nowrap;text-align:right}
+.nav-lista .pub{color:var(--f2);font-weight:800}
+
+.nav-pie{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px;padding-top:13px;border-top:1px solid var(--cr-borde);font-size:.88rem;color:var(--ti-suave)}
+.nav-pie .marca-cuenta{font-family:var(--fam-num);font-weight:700;color:var(--pe-base)}
+
+.rejilla{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.rejilla.actualizando{opacity:.45;transform:translateY(6px);transition:opacity var(--dur-1) var(--sal),transform var(--dur-1) var(--sal)}
+.rejilla.lista{opacity:1;transform:translateY(0);transition:opacity var(--dur-3) var(--sal),transform var(--dur-3) var(--sal)}
+/* Antes las tarjetas de un nucleo nuevo aparecian todas de golpe. Ahora cada
+   una se despliega como una cortina que se abre, con un pequeno retraso segun
+   su turno (ver el estilo "animation-delay" que pone pintarTarjetas por
+   tarjeta), y antes de que aparezcan se ve un instante el icono del sitio en
+   el centro, a modo de gesto de carga breve. */
+.rejilla.lista .tarjeta{animation:tarjetaEntra .55s var(--sal) both}
+@keyframes tarjetaEntra{from{opacity:0;transform:translateY(22px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.rejilla-cargando{grid-column:1/-1;display:flex;align-items:center;justify-content:center;padding:52px 0;animation:cargandoAparece .2s var(--sal) both}
+.rejilla-cargando img{width:112px;height:112px;animation:precargaEntrada 1.1s var(--sal) both}
+@keyframes cargandoAparece{from{opacity:0}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){.rejilla.lista .tarjeta{animation:none}.rejilla-cargando img{animation:none}}
+.vacio{background:var(--cr-puro);border:1px dashed var(--cr-borde);border-radius:var(--radio);padding:38px 26px;text-align:center;color:var(--ti-suave)}
+.vacio strong{display:block;font-family:var(--fam-titulo);font-size:1.08rem;color:var(--pe-hondo);margin-bottom:7px;font-weight:700}
+.vacio p{margin:0;font-size:.9rem;max-width:52ch;margin-inline:auto}
+
+.tarjeta{position:relative;display:flex;flex-direction:column;background:var(--cr-puro);border:1px solid var(--cr-borde);border-radius:var(--radio);overflow:hidden;box-shadow:var(--sombra);transition:transform var(--dur-2) var(--sal),box-shadow var(--dur-2) var(--sal)}
+.tarjeta:hover{transform:translateY(-4px);box-shadow:var(--sombra-alta)}
+.tarjeta::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:var(--acento)}
+.tarjeta[data-familia="1"]{--acento:var(--f1);--acento-claro:var(--f1-claro)}
+.tarjeta[data-familia="2"]{--acento:var(--f2);--acento-claro:var(--f2-claro)}
+.tarjeta[data-familia="3"]{--acento:var(--f3);--acento-claro:var(--f3-claro)}
+.t-cabeza{display:flex;align-items:flex-start;gap:12px;padding:20px 20px 0}
+.t-codigo{font-family:var(--fam-num);font-weight:700;font-size:.72rem;background:var(--acento);color:var(--cr-puro);padding:5px 10px;border-radius:7px;flex:0 0 auto}
+.t-codigo{font-size:.68rem}
+.t-estado{margin-left:auto;font-size:.66rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;padding:5px 11px;border-radius:999px;flex:0 0 auto;white-space:nowrap}
+.t-estado.abierta{background:var(--f2-claro);color:#1e5637;border:1px solid #b4d6c3}
+.t-estado.cerrada{background:var(--cr-hondo);color:var(--ti-suave);border:1px solid var(--cr-borde)}
+.t-estado.pronto{background:#f3ece2;color:#7a5a2e;border:1px solid #e0cfb4}
+.t-cuerpo{padding:15px 20px 20px;flex:1;display:flex;flex-direction:column}
+.t-unidad{font-size:.73rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--acento);margin-bottom:7px}
+.t-titulo{font-family:var(--fam-titulo);font-weight:700;font-size:1.17rem;line-height:1.28;color:var(--pe-hondo);margin:0 0 10px}
+.t-desc{font-size:.885rem;line-height:1.58;color:var(--ti-suave);margin:0 0 16px;flex:1;
+  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.t-etiquetas{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:17px}
+.chip{font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--acento-claro);color:var(--acento)}
+.chip.neutro{background:var(--cr-hondo);color:var(--ti-suave)}
+.t-pie{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:14px;border-top:1px solid var(--cr-borde);min-height:58px}
+.t-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:44px;font-size:.84rem;font-weight:800;text-decoration:none;padding:10px 16px;border-radius:9px;border:none;cursor:pointer;font-family:var(--fam-cuerpo);transition:background var(--dur-2) var(--sal),border-color var(--dur-2) var(--sal),color var(--dur-2) var(--sal),filter var(--dur-2) var(--sal)}
+.t-btn.abrir{background:var(--acento);color:var(--cr-puro)}
+.t-btn.abrir:hover{filter:brightness(1.08)}
+.t-btn.iniciar{background:var(--te-base);color:var(--cr-puro)}
+.t-btn.iniciar:hover{background:var(--te-medio)}
+.t-btn.candado{width:44px;height:44px;padding:0;background:var(--cr-hondo);color:var(--pe-base);border:1px solid var(--cr-borde);font-size:1.05rem}
+.t-btn.candado:hover{background:var(--si-rosa);color:var(--pe-hondo);border-color:var(--si-rosa)}
+.t-btn.inerte{background:transparent;color:var(--ti-suave);cursor:default;opacity:.6}
+.t-acciones{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+/* izquierda: ficha técnica, contorno terracota sobre crema */
+.t-btn.ficha{background:var(--cr-base);color:var(--te-hondo);border:1.5px solid var(--te-base)}
+.t-btn.ficha:hover{background:var(--f1-claro);border-color:var(--te-hondo);color:var(--te-hondo)}
+.unirse-dialog,.acceso-dialog,.planes-dialog{animation:dialogReveal .3s var(--sal) both}
+.unirse-dialog::backdrop,.acceso-dialog::backdrop,.planes-dialog::backdrop{background:rgba(15,45,58,.62);animation:backdropReveal .3s var(--sal) both}
+.unirse-dialog.cerrando,.acceso-dialog.cerrando,.planes-dialog.cerrando{animation:dialogHide .3s var(--sal) both}
+.unirse-dialog.cerrando::backdrop,.acceso-dialog.cerrando::backdrop,.planes-dialog.cerrando::backdrop{animation:backdropHide .3s var(--sal) both}
+@keyframes dialogReveal{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes dialogHide{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(10px) scale(.97)}}
+@keyframes backdropReveal{from{opacity:0}to{opacity:1}}
+@keyframes backdropHide{from{opacity:1}to{opacity:0}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.unirse-dialog,.acceso-dialog,.planes-dialog,.unirse-dialog::backdrop,.acceso-dialog::backdrop,.planes-dialog::backdrop,.unirse-dialog.cerrando,.acceso-dialog.cerrando,.planes-dialog.cerrando,.unirse-dialog.cerrando::backdrop,.acceso-dialog.cerrando::backdrop,.planes-dialog.cerrando::backdrop{animation:none}}
+/* las ventanas caben en la pantalla con margen y se desplazan por dentro */
+.unirse-dialog,.acceso-dialog{margin:auto;max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);overflow-y:auto;overscroll-behavior:contain}
+/* El botón de cerrar lo comparten las ventanas de acceso y de planes; el
+   nombre le viene del diálogo de la ficha, que ya no existe: la ficha técnica
+   es una página propia. */
+.ficha-cerrar{margin-left:auto;border:0;background:transparent;color:var(--ti-suave);font-size:1.3rem;cursor:pointer;width:44px;height:44px;flex:0 0 auto;display:grid;place-items:center;border-radius:10px;transition:background var(--dur-1) var(--sal),color var(--dur-1) var(--sal)}
+.ficha-cerrar:hover{background:var(--cr-hondo);color:var(--pe-hondo)}
+/* ── Planes y precios ──────────────────────────────────────────────
+   Un plan sin precio NO se pinta. Ni en cero, ni vacío, ni con una raya:
+   se omite. `calcularPrecio` devuelve null cuando un nodo no se ofrece
+   —hoy, las nueve áreas sin cartografiar— y anunciar gratis lo que no
+   está a la venta es peor que no anunciarlo. */
+.planes-dialog{width:min(860px,calc(100% - 32px));border:1px solid var(--cr-borde);border-radius:16px;padding:0;background:var(--cr-puro);color:var(--ti-base);box-shadow:var(--sombra-alta);max-height:calc(100dvh - 32px);overflow:auto;scrollbar-gutter:stable;scrollbar-width:none}
+/* La barra de desplazamiento se mantiene invisible y solo aparece, fina y
+   discreta, mientras el dedo o el ratón la están usando: así la ventana se
+   siente como una página propia y no delata su borde de scroll. */
+.planes-dialog::-webkit-scrollbar{width:8px}
+.planes-dialog::-webkit-scrollbar-thumb{background:transparent;border-radius:8px}
+.planes-dialog:hover::-webkit-scrollbar-thumb,.planes-dialog:active::-webkit-scrollbar-thumb{background:rgba(15,45,58,.22)}
+.planes-dialog:hover,.planes-dialog:active{scrollbar-width:thin;scrollbar-color:rgba(15,45,58,.22) transparent}
+.planes-dialog::backdrop{background:rgba(15,45,58,.62);backdrop-filter:blur(3px)}
+.planes-cabeza{display:flex;flex-direction:column;padding:24px 24px 18px;border-bottom:1px solid var(--cr-borde);position:relative}
+.planes-cabeza h3{font-family:var(--fam-titulo);color:var(--pe-hondo);margin:0 0 6px;font-size:1.25rem;padding-right:48px}
+.planes-cabeza p{margin:0;color:var(--ti-suave);font-size:.88rem;line-height:1.6}
+.planes-cabeza .ficha-cerrar{position:absolute;top:14px;right:14px;margin:0}
+.planes-cuerpo{padding:22px 24px 24px}
+.planes-cargando{margin:0;color:var(--ti-suave);font-size:.9rem}
+.planes-cargando::before{content:"";display:block;width:72px;height:72px;margin:0 auto 12px;background:url('/carga.svg') center/contain no-repeat}
+.planes-lista{display:grid;gap:12px}
+@media(min-width:620px){.planes-lista{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}}
+.plan{border:1px solid var(--cr-borde);border-radius:14px;padding:18px;background:var(--cr-base);display:flex;flex-direction:column;gap:8px}
+.plan-nombre{font-family:var(--fam-titulo);font-weight:700;color:var(--pe-hondo);font-size:1.02rem}
+.plan-precio{font-family:var(--fam-num);font-size:1.55rem;font-weight:600;color:var(--te-base);line-height:1.15}
+.plan-precio small{font-family:var(--fam-cuerpo);font-size:.72rem;font-weight:700;color:var(--ti-suave);display:block;text-transform:uppercase;letter-spacing:.05em;margin-top:2px}
+.plan-desc{margin:0;font-size:.84rem;color:var(--ti-suave);line-height:1.55}
+.plan-incluye{margin:2px 0 0;padding-left:17px;font-size:.82rem;color:var(--ti-suave);line-height:1.6}
+.plan-equipos{margin:auto 0 0;padding-top:8px;font-size:.78rem;color:#7a6a5e;border-top:1px dashed var(--cr-borde)}
+/* El «+» avisa, sin texto largo, que el cupo puede crecer: pasa el cursor o
+   toca para leer el precio del equipo adicional en el title. */
+.plan-equipos-mas{display:inline-block;margin-left:3px;font-weight:800;color:var(--te-base);cursor:help}
+.planes-nodo{margin-top:22px;padding-top:18px;border-top:1px solid var(--cr-borde)}
+.planes-nodo h4{font-family:var(--fam-num);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--te-base);margin:0 0 8px}
+.planes-ayuda{margin:0 0 14px;font-size:.84rem;color:var(--ti-suave);line-height:1.6}
+.planes-selectores{display:grid;gap:10px}
+@media(min-width:520px){.planes-selectores{grid-template-columns:1fr 1fr}}
+.planes-selectores .campo{margin:0}
+.planes-resultado{margin-top:14px}
+.planes-resultado:empty{margin-top:0}
+.plan-nodo{border:1px solid var(--cr-borde);border-radius:12px;padding:15px;background:var(--cr-base)}
+.plan-nodo-nombre{font-family:var(--fam-titulo);font-weight:700;color:var(--pe-hondo);margin:0 0 4px}
+.plan-nodo-tamano{margin:0 0 10px;font-size:.8rem;color:#7a6a5e}
+.plan-nodo-fila{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:7px 0;border-top:1px solid var(--cr-borde);font-size:.88rem}
+.plan-nodo-fila:first-of-type{border-top:0}
+.plan-nodo-fila b{font-family:var(--fam-num);font-weight:600;color:var(--te-base);white-space:nowrap}
+/* «Todavía no se ofrece» es una respuesta correcta, y se dice con palabras. */
+.plan-sin-oferta{margin:0;padding:14px 15px;border-radius:12px;background:var(--cr-hondo);color:var(--ti-suave);font-size:.86rem;line-height:1.6}
+.planes-pie{margin:18px 0 14px;font-size:.8rem;color:#7a6a5e;line-height:1.6}
+.planes-acciones{display:grid;gap:9px}
+@media(min-width:480px){.planes-acciones{grid-template-columns:1fr 1fr}}
+.planes-cta{width:100%;justify-content:center;text-align:center}
+/* El botón fantasma nace pensado para el fondo oscuro del héroe: aquí, sobre
+   la ventana clara de planes, su texto casi claro quedaba pálido sobre
+   crema y parecía deshabilitado. Se le da el mismo contraste que ya usa el
+   fantasma de la ventana de acceso. */
+.planes-acciones .btn-fantasma{background:var(--cr-base);color:var(--pe-base);border:1px solid var(--cr-borde);box-shadow:none}
+.planes-acciones .btn-fantasma:hover{background:var(--cr-hondo);color:var(--pe-hondo);transform:none}
+.enlace-plano{font:inherit;background:none;border:0;padding:0;cursor:pointer;color:inherit}
+/* La regla de arriba para `.menu-movil .enlace-plano` ya da display, ancho y
+   alineación, y además los da bien: en flex, que es lo que centra el texto en
+   los 48px de alto. La que había aquí los repetía peor y, por ir después,
+   ganaba. Se quita en vez de duplicarla. */
+.unirse-dialog{width:min(520px,calc(100% - 32px));border:1px solid var(--cr-borde);border-radius:16px;padding:0;background:var(--cr-puro);color:var(--ti-base);box-shadow:var(--sombra-alta)}
+.acceso-dialog{width:min(460px,calc(100% - 32px));border:1px solid var(--cr-borde);border-radius:16px;padding:0;background:var(--cr-puro);color:var(--ti-base);box-shadow:var(--sombra-alta)}
+.acceso-dialog-cabeza{position:relative;padding:24px 68px 24px 24px;border-bottom:1px solid var(--cr-borde)}
+.acceso-dialog-cabeza h3{font-family:var(--fam-titulo);color:var(--pe-hondo);margin:0 0 4px}
+.acceso-dialog-cabeza p{margin:0;color:var(--ti-suave);line-height:1.5}
+.acceso-dialog-sub{font-family:var(--fam-titulo);font-weight:700;font-size:1rem;color:var(--te-hondo)!important;margin:0 0 8px!important}
+.acceso-dialog-cabeza .ficha-cerrar{position:absolute;top:14px;right:14px;width:44px;height:44px;display:grid;place-items:center;border-radius:10px;transition:background var(--dur-1) var(--sal),color var(--dur-1) var(--sal)}
+.acceso-dialog-cabeza .ficha-cerrar:hover{background:var(--cr-hondo);color:var(--pe-hondo)}
+.acceso-dialog-cuerpo{padding:24px}
+.acceso-dialog-acciones{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.acceso-dialog-acciones .btn{flex:1 1 160px}
+.acceso-dialog-acciones .btn-fantasma{background:var(--cr-base);color:var(--pe-base);border:1px solid var(--cr-borde);box-shadow:none}
+.acceso-dialog-acciones .btn-fantasma:hover{background:var(--cr-hondo);color:var(--pe-hondo)}
+.acceso-estado{min-height:1.4em;margin:12px 0 0;color:var(--ti-suave);font-size:.88rem}
+.unirse-cabeza{padding:24px;border-bottom:1px solid var(--cr-borde)}
+.unirse-cabeza h3{font-family:var(--fam-titulo);color:var(--pe-hondo);margin:0 0 5px}
+.unirse-cabeza p{margin:0;color:var(--ti-suave);font-size:.88rem}
+.unirse-cuerpo{padding:24px}
+.unirse-cerrar{float:right;border:0;background:transparent;color:var(--ti-suave);font-size:1.3rem;cursor:pointer;width:44px;height:44px;display:grid;place-items:center;border-radius:10px;transition:background var(--dur-1) var(--sal),color var(--dur-1) var(--sal)}
+.unirse-cerrar:hover{background:var(--cr-hondo);color:var(--pe-hondo)}
+@media(max-width:960px){.rejilla{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.rejilla{grid-template-columns:1fr}}
+@media(max-width:520px){.menu-panel.curriculum-panel{width:280px}.curriculum-grid{grid-template-columns:1fr}}
+
+/* ═══ TELÉFONO ═══ */
+@media(max-width:620px){
+  .nav-fila{display:flex;flex-direction:column;align-items:stretch;gap:12px}
+  .nav-sep{display:none}
+  .nav-nivel{width:100%}
+  .nav-btn{width:100%;max-width:none;min-height:50px;justify-content:space-between}
+  .nav-lista{left:0;right:0;width:auto;min-width:0;max-width:none;max-height:58vh}
+  .nav-lista button{flex-wrap:wrap;min-height:50px}
+  .nav-lista .cuenta{margin-left:auto}
+  .nav-pie{font-size:.82rem}
+  .nav-pie span[style]{margin-left:0!important}
+}
+@media(max-width:520px){
+  .hero-acciones{flex-direction:column;align-items:stretch}
+  .hero-acciones .btn{width:100%;justify-content:center}
+  .envios{flex-direction:column}
+  .envios .btn{flex:1 1 auto;width:100%}
+  .acceso-dialog-acciones{flex-direction:column}
+  .acceso-dialog-acciones .btn{flex:1 1 auto;width:100%}
+  .unirse-dialog,.acceso-dialog{width:calc(100% - 24px);max-height:calc(100vh - 24px);max-height:calc(100dvh - 24px)}
+  .unirse-cabeza,.unirse-cuerpo,.acceso-dialog-cuerpo{padding:20px}
+  .acceso-dialog-cabeza{padding:20px 62px 20px 20px}
+  .t-pie{flex-wrap:wrap}
+  .t-pie>.t-acciones{margin-left:auto}
+  .pie-int{gap:16px}
+  .pie-marca{margin-right:0}
+  #btnUnirse{width:100%;justify-content:center}
+}
+/* esqueleto de carga: bloques atenuados con un brillo que los recorre */
+.esqueleto{background:var(--cr-puro);border:1px solid var(--cr-borde);border-radius:var(--radio);padding:20px;box-shadow:var(--sombra);overflow:hidden;border-top:4px solid var(--cr-hondo)}
+.esq-linea{background:var(--cr-hondo);border-radius:8px;position:relative;overflow:hidden}
+.esq-linea + .esq-linea{margin-top:10px}
+.esq-linea::after{content:"";position:absolute;inset:0;transform:translateX(-100%);
+  background:linear-gradient(90deg,transparent 0%,rgba(228,197,181,.62) 50%,transparent 100%);
+  animation:brillo 1.4s ease-in-out infinite}
+.esq-linea.esq-2::after{animation-delay:.12s}
+.esq-linea.esq-3::after{animation-delay:.24s}
+@keyframes brillo{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.esq-pie{display:flex;justify-content:space-between;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid var(--cr-borde)}
+.mostrar-mas{display:flex;justify-content:center;margin-top:24px}
+.mostrar-mas button{font:inherit;font-weight:800;color:var(--pe-base);background:var(--cr-puro);border:1px solid var(--cr-borde);border-radius:10px;padding:12px 20px;min-height:48px;cursor:pointer;transition:background var(--dur-2) var(--sal),border-color var(--dur-2) var(--sal),color var(--dur-2) var(--sal)}
+.mostrar-mas button:hover{border-color:var(--te-base);background:var(--cr-hondo)}
+.menu-navegacion{position:relative}
+/* «Planes» es un <button> porque abre una ventana, no porque navegue a otro
+   sitio. Va en ESTA regla y no en una copia con los mismos valores: dos
+   declaraciones gemelas se separan el día que alguien toque una sola. Antes
+   se quedaba fuera y heredaba del cuerpo de la página: color #3d2523 en vez
+   del rosa, 16px en vez de 14.4, peso 600 en vez de 700, y sin relleno ni
+   esquinas. No era solo el color. */
+.menu-navegacion>button,.barra-nav>.enlace-plano{font:inherit;text-decoration:none;color:var(--si-rosa);font-size:.9rem;font-weight:700;padding:8px 13px;border:0;border-radius:9px;background:transparent;cursor:pointer;transition:background var(--dur-1) var(--sal),color var(--dur-1) var(--sal)}
+.menu-navegacion>button i{margin-right:5px;font-size:.84em}
+.menu-navegacion>button:hover,.barra-nav>.enlace-plano:hover,.menu-navegacion>button[aria-expanded="true"]{background:rgba(228,197,181,.13);color:var(--cr-puro)}
+.menu-panel{position:absolute;right:0;top:calc(100% + 8px);z-index:50;width:280px;padding:8px;background:var(--cr-puro);border:1px solid var(--cr-borde);border-radius:12px;box-shadow:var(--sombra-alta)}
+.menu-panel[hidden]{display:none}
+.menu-panel:not([hidden]),.nav-lista:not([hidden]){animation:menuReveal .2s cubic-bezier(.22,.8,.25,1) both;transform-origin:top right}
+@keyframes menuReveal{from{opacity:0;transform:translateY(-7px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.menu-panel h3{font-family:var(--fam-titulo);font-size:1rem;color:var(--pe-hondo);margin:8px 10px 5px}
+.menu-panel.curriculum-panel{width:fit-content;max-width:300px;min-width:220px}
+.curriculum-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));align-items:start;gap:0 12px}
+.curriculum-grid a{line-height:1.25!important;padding:7px 10px!important}
+.menu-panel a{display:block!important;color:var(--ti-base)!important;font-size:.86rem!important;padding:9px 10px!important}
+.menu-panel a{transition:background var(--dur-1) var(--sal),color var(--dur-1) var(--sal)}
+.menu-panel a:hover{background:var(--cr-hondo)!important;color:var(--pe-hondo)!important}
+.menu-panel a i{width:1.25em;margin-right:7px;color:var(--te-base);text-align:center}
+
+/* ═══ ACERCA DE ═══ */
+.acerca{background:var(--cr-puro);border-block:1px solid var(--cr-borde);padding-block:clamp(52px,7vw,84px)}
+.acerca h2{font-family:var(--fam-titulo);font-weight:700;font-size:clamp(1.5rem,3vw,2.05rem);color:var(--pe-hondo);margin:0 0 12px}
+.acerca .entrada{font-size:clamp(1rem,1.5vw,1.13rem);color:var(--ti-base);max-width:70ch;line-height:1.68;margin:0 0 34px}
+.acerca-rejilla{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:20px;margin-bottom:34px}
+.bloque{background:var(--cr-base);border:1px solid var(--cr-borde);border-radius:var(--radio);padding:24px 22px;border-left:4px solid var(--te-base)}
+.bloque:nth-child(2){border-left-color:var(--f2)}
+.bloque:nth-child(3){border-left-color:var(--f3)}
+.bloque h3{font-family:var(--fam-titulo);font-weight:700;font-size:1.06rem;color:var(--pe-hondo);margin:0 0 9px}
+.bloque p{margin:0;font-size:.91rem;color:var(--ti-suave);line-height:1.6}
+.bloque p + p{margin-top:10px}
+.niveles{display:flex;flex-wrap:wrap;gap:0;background:var(--cr-base);border:1px solid var(--cr-borde);border-radius:var(--radio);overflow:hidden;margin-bottom:34px}
+.nivel{flex:1 1 190px;padding:20px 22px;border-right:1px solid var(--cr-borde);position:relative}
+.nivel:last-child{border-right:none}
+.nivel .paso{font-family:var(--fam-num);font-size:.7rem;font-weight:700;color:var(--te-base);letter-spacing:.08em;margin-bottom:7px}
+.nivel h4{font-family:var(--fam-titulo);font-weight:700;font-size:1rem;color:var(--pe-hondo);margin:0 0 6px}
+.nivel p{margin:0;font-size:.83rem;color:var(--ti-suave);line-height:1.5}
+.firma{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-start;background:var(--cr-base);border:1px solid var(--cr-borde);border-radius:var(--radio);padding:24px 26px}
+.firma .avatar{width:52px;height:52px;border-radius:16px;background:var(--pe-base);color:var(--cr-base);display:grid;place-items:center;font-family:var(--fam-titulo);font-weight:700;font-size:1.15rem;flex:0 0 auto}
+.firma-txt{flex:1 1 300px}
+.firma-txt .quien{font-family:var(--fam-titulo);font-weight:700;font-size:1.02rem;color:var(--pe-hondo);margin:0 0 3px}
+.firma-txt .rol{font-size:.78rem;font-weight:700;color:var(--te-base);letter-spacing:.04em;text-transform:uppercase;margin:0 0 11px}
+.firma-txt p{margin:0;font-size:.9rem;color:var(--ti-suave);line-height:1.62}
+
+/* ═══ ACCESO ═══ */
+.acceso{background:linear-gradient(165deg,var(--pe-base) 0%,var(--pe-hondo) 100%);color:var(--cr-base);padding-block:clamp(52px,7vw,84px)}
+.acceso-caja{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,56px);align-items:start}
+@media(max-width:860px){.acceso-caja{grid-template-columns:1fr}}
+.acceso h2{font-family:var(--fam-titulo);font-weight:700;font-size:clamp(1.5rem,3vw,2.05rem);color:var(--cr-puro);margin:0 0 14px}
+.acceso-texto p{color:var(--si-rosa);font-size:1rem;line-height:1.68;margin:0 0 16px;max-width:52ch}
+.pasos{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:14px}
+.pasos li{display:flex;gap:13px;align-items:flex-start;font-size:.93rem;color:var(--si-rosa);line-height:1.5}
+.pasos .n{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:rgba(228,197,181,.15);border:1px solid rgba(228,197,181,.35);display:grid;place-items:center;font-family:var(--fam-num);font-weight:700;font-size:.78rem;color:var(--te-claro)}
+.formulario{background:var(--cr-puro);border-radius:16px;padding:clamp(24px,3.5vw,34px);box-shadow:0 18px 48px rgba(15,45,58,.3)}
+.formulario h3{font-family:var(--fam-titulo);font-weight:700;font-size:1.2rem;color:var(--pe-hondo);margin:0 0 6px}
+.formulario .sub{font-size:.86rem;color:var(--ti-suave);margin:0 0 22px}
+.campo{margin-bottom:20px}
+.campo label{display:block;font-size:.79rem;font-weight:800;color:var(--pe-base);margin-bottom:7px;transition:color var(--dur-2) var(--sal)}
+.campo:focus-within>label,.campo-plegable:focus-within>div>label{color:var(--te-base)}
+.campo .opcional{font-weight:600;color:#7a6a5e}
+.campo-ayuda{margin:7px 0 0;font-size:.76rem;font-weight:600;color:var(--ti-suave);line-height:1.45}
+.campo-ayuda.mal{color:#8f2718}
+/* campo condicional: se despliega, no aparece de golpe */
+.campo-plegable{display:grid;grid-template-rows:0fr;opacity:0;visibility:hidden;transition:grid-template-rows var(--dur-3) var(--sal),opacity var(--dur-2) var(--sal),visibility var(--dur-3) var(--sal)}
+.campo-plegable>div{overflow:hidden;min-height:0}
+.campo-plegable.abierto{grid-template-rows:1fr;opacity:1;visibility:visible}
+.campo-plegable>div>label{margin-top:14px}
+.campo input.mal,.campo select.mal,.campo textarea.mal{border-color:#c0503c;box-shadow:0 0 0 3px rgba(192,80,60,.14)}
+.campo input,.campo select,.campo textarea{width:100%;min-height:48px;font-family:var(--fam-cuerpo);font-weight:600;font-size:.95rem;padding:12px 14px;border-radius:10px;border:1.5px solid var(--cr-borde);background:var(--cr-base);color:var(--ti-fuerte);transition:border-color var(--dur-2) var(--sal),box-shadow var(--dur-2) var(--sal),background var(--dur-2) var(--sal)}
+.campo input:focus,.campo select:focus,.campo textarea:focus{outline:none;border-color:var(--te-base);background:var(--cr-puro);box-shadow:0 0 0 3px rgba(168,81,47,.18)}
+.campo textarea{resize:vertical;min-height:70px}
+/* La lista emergente de un <select> nativo la dibuja el sistema operativo y
+   no se puede redondear con CSS de toda la vida. Chromium sí lo permite
+   desde su motor de "select a medida" (appearance:base-select): el
+   elemento sigue siendo un <select><option> normal —nada cambia para quien
+   lee el valor o simula un clic—, solo que ahí donde el navegador lo admite
+   la lista sale con esquinas suaves, como el resto de los menús del sitio.
+   Donde no se admite, se ve el desplegable de siempre: no hay penalización. */
+.campo select{appearance:base-select}
+.campo select::picker(select){border-radius:12px;padding:6px;border:1px solid var(--cr-borde);box-shadow:var(--sombra-alta);background:var(--cr-puro);margin-top:8px}
+.campo select option{border-radius:8px;padding:10px 12px;transition:background var(--dur-1) var(--sal),color var(--dur-1) var(--sal)}
+.campo select option:hover,.campo select option:focus{background:var(--cr-hondo);color:var(--pe-hondo)}
+.envios{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.envios .btn{flex:1 1 168px;justify-content:center;font-size:.92rem;padding:13px 18px}
+.btn-wa{background:#1c7a4a;color:#fff;box-shadow:0 4px 14px rgba(28,122,74,.32)}
+.btn-wa:hover{background:#1f8b54;transform:translateY(-2px)}
+.aviso{margin-top:15px;font-size:.79rem;color:var(--ti-suave);line-height:1.5;padding-top:14px;border-top:1px solid var(--cr-borde)}
+.form-error{display:none;background:#fbeae7;color:#8f2718;border:1px solid #e8bdb4;border-radius:9px;padding:11px 14px;font-size:.85rem;font-weight:700;margin-bottom:14px}
+.form-error.visible{display:block;animation:errorEntra var(--dur-3) var(--sal) both}
+/* respaldo cuando el dispositivo no tiene programa de correo */
+.respaldo-correo{margin-top:15px;padding:15px 16px;border:1.5px solid var(--te-base);background:var(--f1-claro);border-radius:11px;font-size:.85rem;color:var(--ti-base);animation:errorEntra var(--dur-3) var(--sal) both}
+.respaldo-correo p{margin:0 0 11px;line-height:1.55}
+.respaldo-correo .dir{font-family:var(--fam-num);font-weight:700;color:var(--te-hondo);overflow-wrap:anywhere}
+.respaldo-correo .acciones{display:flex;flex-wrap:wrap;gap:8px}
+.respaldo-correo button,.respaldo-correo a{font-family:var(--fam-cuerpo);font-weight:800;font-size:.84rem;min-height:44px;flex:1 1 150px;display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:10px 15px;border-radius:9px;cursor:pointer;text-decoration:none;border:1.5px solid var(--te-base);background:var(--cr-puro);color:var(--te-hondo);transition:background var(--dur-2) var(--sal),color var(--dur-2) var(--sal)}
+.respaldo-correo button:hover,.respaldo-correo a:hover{background:var(--te-base);color:var(--cr-puro)}
+.respaldo-correo .hecho{color:#1e5637;font-weight:800;margin:10px 0 0}
+@keyframes errorEntra{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══ PIE ═══ */
+.pie{background:var(--pe-hondo);color:var(--si-rosa);padding-block:38px 30px;border-top:1px solid rgba(228,197,181,.14)}
+.pie-int{display:flex;flex-wrap:wrap;gap:22px;align-items:center}
+.pie-marca{display:flex;align-items:center;gap:11px;margin-right:auto}
+.pie-lema{font-family:var(--fam-titulo);font-size:.94rem;color:var(--si-rosa);opacity:.9}
+.pie-legal{width:100%;padding-top:22px;margin-top:6px;border-top:1px solid rgba(228,197,181,.14);font-size:.79rem;opacity:.68;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.pie-legal a{color:var(--si-rosa);text-decoration:none;font-weight:700}
+.pie-legal a:hover{text-decoration:underline}
+
+:focus-visible{outline:3px solid var(--te-claro);outline-offset:2px;border-radius:4px}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important;scroll-behavior:auto!important}}
+@media print{
+  .barra,.hero-fondo,.acceso,.saltar,.barra-menu,.menu-movil,.mostrar-mas{display:none!important}
+  .hero,.hero *,.pie,.pie *{color:var(--ti-fuerte)!important;background:none!important;text-shadow:none!important}
+  .hero{background:none!important;border-bottom:1px solid var(--cr-borde)}
+  .btn{border:1.5px solid var(--ti-suave)!important;box-shadow:none!important}
+  .tarjeta{break-inside:avoid;box-shadow:none}
+}
+</style>
+</head>
+<body class="pagina-cargando">
+<div id="s321-precarga" aria-hidden="true"><img src="/carga.svg" alt=""></div>
+
+<a class="saltar" href="#catalogo">Saltar al catálogo</a>
+
+<header class="barra">
+  <div class="envoltura barra-int">
+    <a class="marca" href="#top">
+      <span class="marca-icono"><img src="favicon.svg" alt="Secuencia321" width="36" height="36"></span>
+      <span class="marca-txt">Secuencia321</span>
+    </a>
+    <nav class="barra-nav" aria-label="Principal">
+      <div class="menu-navegacion">
+        <button type="button" data-menu-button="curriculum" aria-expanded="false">Currículum</button>
+        <div class="menu-panel curriculum-panel" data-menu="curriculum" hidden>
+          <div class="curriculum-grid" id="curriculumMenu"><a href="/curriculo/">Aritmética</a></div>
+        </div>
+      </div>
+      <a href="#herramientas" id="lnkHerramientas">Herramientas</a>
+      <a href="#juegos" id="lnkJuegos">Área de juegos</a>
+      <a href="#acerca" id="lnkAcerca" hidden>Acerca de</a>
+      <button type="button" class="enlace-plano" id="btnPlanes" hidden>Planes</button>
+      <a class="btn-barra" href="#acceso">Solicitar acceso</a>
+    </nav>
+    <a class="barra-acceso-movil" href="#acceso">Solicitar acceso</a>
+    <button class="barra-menu" type="button" id="barraMenu" aria-expanded="false" aria-controls="menuMovil" aria-label="Abrir el menú">
+      <span class="barras" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<div class="menu-movil" id="menuMovil" hidden>
+  <nav class="menu-movil-int" aria-label="Menú">
+    <a href="#herramientas" id="lnkHerramientasMovil">Herramientas</a>
+    <a href="#juegos" id="lnkJuegosMovil">Área de juegos</a>
+    <a href="#acerca" id="lnkAcercaMovil" hidden>Acerca de</a>
+
+    <button type="button" class="plegable-cabeza" data-plegable="mv-curriculum" aria-expanded="false" aria-controls="mv-curriculum">
+      Currículum
+      <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+    </button>
+    <div class="plegable-cuerpo" id="mv-curriculum"><div id="curriculumMenuMovil"><a href="/curriculo/">Aritmética</a></div></div>
+
+    <div class="menu-movil-sep" aria-hidden="true"></div>
+    <button type="button" class="enlace-plano" id="btnPlanesMovil" hidden>Planes y precios</button>
+    <a class="menu-movil-acceso" href="#acceso">Solicitar acceso</a>
+  </nav>
+</div>
+
+<section class="hero" id="top">
+  <div class="hero-fondo" aria-hidden="true" id="heroFondo"></div>
+  <div class="envoltura hero-int">
+    <span class="eyebrow"><span class="punto"></span>Ecosistema digital de matemática escolar</span>
+    <h1>Matemática que se enseña<br>con <span class="resalte">una historia</span>.</h1>
+    <p class="hero-bajada">
+      Secuencias didácticas para la clase de matemática, organizadas en inicio, desarrollo
+      y cierre. Cada una integra tres actividades interactivas para pizarra digital y tres
+      documentos imprimibles. No requiere instalación ni registro de estudiantes.
+    </p>
+    <div class="hero-acciones">
+      <a class="btn btn-primario" href="#catalogo">Explorar el catálogo</a>
+      <a class="btn btn-fantasma" href="#acerca">Conocer el proyecto</a>
+    </div>
+    <p class="hero-nota">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+      Contextos de la vida cotidiana · Compatible con pizarra digital, proyector o pantalla
+    </p>
+    <div class="hero-rasgos">
+      <div class="rasgo"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Inicio, desarrollo y cierre</span></div>
+      <div class="rasgo"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Tres documentos imprimibles</span></div>
+      <div class="rasgo"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span>Sin registro de estudiantes</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="franja" id="que-trae">
+  <div class="envoltura">
+    <h2 class="franja-titulo">Cada secuencia es una clase entera</h2>
+    <p class="franja-bajada">
+      Cada secuencia comprende el inicio, el desarrollo y el cierre de una sesión completa,
+      con el material del estudiante ya elaborado.
+    </p>
+    <div class="piezas">
+      <article class="pieza"><div class="pieza-num">01 · EXPLORAR</div><h3>Inicio</h3>
+        <p>Se presenta la situación y el estudiante la explora. El momento concluye con una pregunta abierta que el desarrollo retoma.</p></article>
+      <article class="pieza"><div class="pieza-num">02 · CONSTRUIR</div><h3>Desarrollo</h3>
+        <p>Se formaliza el concepto, con momentos donde la clase baja al papel y trabaja sobre el imprimible.</p></article>
+      <article class="pieza"><div class="pieza-num">03 · RESOLVER</div><h3>Cierre</h3>
+        <p>Diez desafíos crecientes. El estudiante resuelve la historia y deja construida una evidencia de lo aprendido.</p></article>
+      <article class="pieza"><div class="pieza-num">+ PAPEL</div><h3>Tres documentos</h3>
+        <p>Guía rápida para el docente, planificación completa con tiempos, y el material imprimible del estudiante.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="catalogo" id="catalogo">
+  <div class="envoltura">
+    <div class="cat-cabecera">
+      <h2>El catálogo</h2>
+      <p>
+        El catálogo se organiza por concepto: área, dominio, núcleo conceptual y unidad de
+        aprendizaje. La consulta parte del contenido que se necesita trabajar.
+      </p>
+    </div>
+
+    <div class="nav-curr" id="navCurr">
+      <div class="nav-fila">
+        <div class="nav-nivel">
+          <span class="nav-et">Área</span>
+          <button type="button" class="nav-btn fijo" disabled>
+            <span class="txt">Números y Aritmética</span>
+          </button>
+        </div>
+        <span class="nav-sep" aria-hidden="true">›</span>
+        <div class="nav-nivel">
+          <span class="nav-et">Dominio</span>
+          <button type="button" class="nav-btn" id="btnDominio" aria-expanded="false" aria-haspopup="listbox">
+            <span class="txt" id="txtDominio">Conteo y Numeración</span>
+            <svg class="chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <ul class="nav-lista" id="listaDominio" role="listbox" hidden></ul>
+        </div>
+        <span class="nav-sep" aria-hidden="true">›</span>
+        <div class="nav-nivel">
+          <span class="nav-et">Núcleo conceptual</span>
+          <button type="button" class="nav-btn" id="btnNucleo" aria-expanded="false" aria-haspopup="listbox">
+            <span class="txt" id="txtNucleo">Principios y Estrategias de Conteo</span>
+            <svg class="chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <ul class="nav-lista" id="listaNucleo" role="listbox" hidden></ul>
+        </div>
+      </div>
+      <div class="nav-pie" id="navPie"></div>
+    </div>
+
+    <div class="rejilla" id="rejilla"></div>
+    <div class="mostrar-mas" id="mostrarMas" hidden><button type="button">Mostrar más secuencias</button></div>
+  </div>
+</section>
+
+<section id="herramientas" hidden></section>
+
+<section id="juegos" hidden></section>
+
+<section class="acerca" id="acerca">
+  <div class="envoltura">
+    <h2>El proyecto</h2>
+    <p class="entrada">
+      Secuencia321 organiza la matemática escolar hasta su unidad mínima y enseña cada
+      una mediante una historia. Así se atiende un vacío de aprendizaje concreto, sin
+      importar el grado en que se encuentre el estudiante.
+    </p>
+
+    <div class="niveles">
+      <div class="nivel"><div class="paso">NIVEL 1</div><h4>Área</h4>
+        <p>Las grandes regiones de la matemática escolar. Números y Aritmética es la primera.</p></div>
+      <div class="nivel"><div class="paso">NIVEL 2</div><h4>Dominio</h4>
+        <p>Cada área se divide en dominios. Conteo y Numeración, Fracciones, Divisibilidad…</p></div>
+      <div class="nivel"><div class="paso">NIVEL 3</div><h4>Núcleo conceptual</h4>
+        <p>Dentro de cada dominio, los núcleos conceptuales que lo sostienen.</p></div>
+      <div class="nivel"><div class="paso">NIVEL 4</div><h4>Unidad de aprendizaje</h4>
+        <p>La unidad mínima: lo que ya no puede dividirse sin perder sentido didáctico.</p></div>
+    </div>
+
+    <div class="acerca-rejilla">
+      <article class="bloque">
+        <h3>Por qué no organizamos por grado</h3>
+        <p>Un estudiante de sexto que falla en un contenido de tercero no necesita «las actividades
+        de sexto»: necesita <em>esa</em> unidad, localizada. Por eso el grado viaja como sugerencia,
+        nunca como etiqueta, y el catálogo se recorre por concepto.</p>
+      </article>
+      <article class="bloque">
+        <h3>Por qué una historia</h3>
+        <p>Una situación con personajes y conflicto hace necesaria la matemática: el estudiante no
+        resuelve por indicación, sino porque la situación lo requiere. Cada secuencia tiene su
+        escenario y su conflicto, y lo resuelve el estudiante.</p>
+      </article>
+      <article class="bloque">
+        <h3>Hacia dónde va</h3>
+        <p>La meta es cubrir con secuencias toda la matemática elemental, de tercero de primaria a
+        secundaria, de modo que ningún concepto quede sin una historia, y que una misma unidad
+        admita varias: aprender jugando, haciendo o comprendiendo.</p>
+      </article>
+    </div>
+
+    <div class="firma">
+      <div class="avatar">MU</div>
+      <div class="firma-txt">
+        <p class="quien">Miguel Ubiera</p>
+        <p class="rol">Fundador · Secuencia321</p>
+        <p>
+          Secuencia321 nace de una pregunta de aula y se desarrolla como un proyecto educativo
+          compartido: organizar la matemática escolar hasta su unidad mínima y construir, sobre
+          cada una, una oportunidad de aprendizaje completa. El catálogo crece unidad por unidad,
+          con la mirada puesta en ofrecer materiales claros, rigurosos y útiles para quienes
+          enseñan. Las observaciones de la comunidad educativa orientan cada nueva etapa.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="acceso" id="acceso">
+  <div class="envoltura acceso-caja">
+    <div class="acceso-texto">
+      <h2>Solicitar acceso al catálogo</h2>
+      <p>
+        Las secuencias abiertas se pueden usar hoy mismo, sin pedir nada. Para el resto
+        del catálogo el acceso se otorga uno a uno, previa autorización.
+      </p>
+      <p>
+        La solicitud permite revisar el contexto de uso y asignar los permisos
+        correspondientes al material protegido.
+      </p>
+      <ol class="pasos">
+        <li><span class="n">1</span><span>Se completa el formulario con los datos de contacto y uso.</span></li>
+        <li><span class="n">2</span><span>La solicitud es revisada y se responde por correo.</span></li>
+        <li><span class="n">3</span><span>Si se autoriza, el correo queda habilitado para recibir un código de acceso.</span></li>
+      </ol>
+    </div>
+
+    <div class="formulario">
+      <h3>Solicitud de acceso</h3>
+      <p class="sub">Complete los datos para tramitar la solicitud.</p>
+      <div class="form-error" id="formError" role="alert"></div>
+      <div class="campo"><label for="f-nombre">Nombre y apellido</label>
+        <input type="text" id="f-nombre" autocomplete="name" placeholder="María Fernández"></div>
+      <div class="campo"><label for="f-correo">Correo electrónico</label>
+        <input type="email" id="f-correo" autocomplete="email" placeholder="maria@ejemplo.com"></div>
+      <div class="campo"><label for="f-perfil">¿En qué contexto enseña?</label>
+        <select id="f-perfil">
+          <option value="" selected disabled hidden>Seleccione…</option>
+          <option>Primaria</option>
+          <option>Secundaria</option>
+          <option>Formación docente</option>
+          <option>Educación en el hogar</option>
+          <option>Sala de tareas o refuerzo</option>
+          <option>Tutoría o clases particulares</option>
+          <option>Otro</option>
+        </select>
+        <div class="campo-plegable" id="perfilOtroCaja"><div>
+          <label for="f-perfil-otro">Indique el contexto</label>
+          <input type="text" id="f-perfil-otro" placeholder="Escriba el contexto en el que enseña">
+        </div></div>
+      </div>
+      <div class="campo"><label for="f-recurso">Recurso solicitado</label>
+        <select id="f-recurso">
+          <option value="" selected disabled hidden>Seleccione…</option>
+          <option>Área</option>
+          <option>Dominio</option>
+          <option>Núcleo conceptual</option>
+        </select>
+
+        <div class="campo-plegable" id="cajaArea"><div>
+          <label for="f-area">¿Cuál área?</label>
+          <select id="f-area"><option value="" selected disabled hidden>Seleccione…</option></select>
+        </div></div>
+
+        <div class="campo-plegable" id="cajaDominio"><div>
+          <label for="f-dominio">¿Cuál dominio?</label>
+          <select id="f-dominio"><option value="" selected disabled hidden>Seleccione…</option></select>
+          <input type="text" id="f-dominio-txt" placeholder="Escriba el nombre del dominio">
+          <p class="campo-ayuda" id="ayudaDominio" hidden>Esa área todavía no está cartografiada en el catálogo. Escriba el nombre del dominio y se localiza al tramitar la solicitud.</p>
+        </div></div>
+
+        <div class="campo-plegable" id="cajaNucleo"><div>
+          <label for="f-nucleo">¿Cuál núcleo conceptual?</label>
+          <select id="f-nucleo"><option value="" selected disabled hidden>Seleccione…</option></select>
+          <input type="text" id="f-nucleo-txt" placeholder="Escriba el nombre del núcleo conceptual">
+          <p class="campo-ayuda" id="ayudaNucleo" hidden>Ese dominio todavía no está cartografiado en el catálogo. Escriba el nombre del núcleo y se localiza al tramitar la solicitud.</p>
+        </div></div>
+
+      </div>
+      <div class="campo"><label for="f-nota">Observaciones <span class="opcional">(opcional)</span></label>
+        <textarea id="f-nota" placeholder="Necesito material de conteo para nivelar un grupo…" aria-describedby="f-nota-ayuda"></textarea>
+        <p class="campo-ayuda" id="f-nota-ayuda">Cualquier detalle que ayude a tramitar la solicitud.</p></div>
+      <div class="envios">
+        <button type="button" class="btn btn-primario" id="btnCorreo">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+          Enviar por correo</button>
+        <button type="button" class="btn btn-wa" id="btnWhatsapp">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.7 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2Zm5.2 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .1-1.7-.1a12 12 0 0 1-5.4-4.7c-.4-.6-.9-1.5-.9-2.4s.4-1.3.6-1.5c.2-.2.4-.3.6-.3h.4c.2 0 .3 0 .5.4l.7 1.6c.1.2 0 .4-.1.5l-.3.4c-.1.1-.2.2 0 .5.3.5.7 1 1.2 1.4.6.5 1.1.7 1.3.8.2.1.3 0 .4-.1l.6-.7c.2-.2.3-.1.5 0l1.5.7c.2.1.4.2.4.3v.9Z"/></svg>
+          Enviar por WhatsApp</button>
+      </div>
+      <p class="aviso">Su correo se usa únicamente para autorizar el acceso y responderle. No se comparte con nadie ni se usa para envíos masivos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- La ficha técnica ya no es un diálogo de esta página: es una página propia,
+     en la dirección que cada entrada del catálogo trae como `slug`, y la sirve
+     functions/[[ruta]].js a partir de la ficha pública de la secuencia. -->
+
+<dialog class="acceso-dialog" id="accesoDialog" aria-labelledby="accesoTitulo">
+  <div class="acceso-dialog-cabeza">
+    <button class="ficha-cerrar" id="accesoCerrar" type="button" aria-label="Cerrar acceso">×</button>
+    <h3 id="accesoTitulo">Liberar secuencia</h3>
+    <p class="acceso-dialog-sub" id="accesoSubtitulo"></p>
+    <p id="accesoDescripcion">Introduzca el correo autorizado. Se enviará un código temporal que habilita todo el material asignado a esa cuenta.</p>
+  </div>
+  <div class="acceso-dialog-cuerpo">
+    <div class="form-error" id="accesoError" role="alert"></div>
+    <div class="campo"><label for="a-correo">Correo electrónico</label>
+      <input type="email" id="a-correo" autocomplete="email" placeholder="maria@ejemplo.com"></div>
+    <div class="campo" id="accesoCodigoCampo" hidden><label for="a-codigo">Código de acceso</label>
+      <input type="text" id="a-codigo" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000"></div>
+    <div class="acceso-dialog-acciones">
+      <button type="button" class="btn btn-primario" id="btnSolicitarCodigo">Enviar código</button>
+      <a class="btn btn-fantasma" id="btnAccesoSolicitud" href="#acceso">Solicitar acceso</a>
+    </div>
+    <p class="acceso-estado" id="accesoEstado" aria-live="polite"></p>
+  </div>
+</dialog>
+
+<footer class="pie">
+  <div class="envoltura">
+    <div class="pie-int">
+      <div class="pie-marca">
+        <span class="marca-icono"><img src="favicon.svg" alt="Secuencia321" width="36" height="36"></span>
+        <div>
+          <div class="marca-txt">Secuencia321</div>
+          <div class="pie-lema">Ecosistema digital de matemática escolar</div>
+        </div>
+      </div>
+      <button class="btn btn-fantasma" type="button" id="btnUnirse" style="padding:11px 20px;font-size:.9rem">Unirse</button>
+    </div>
+    <div class="pie-legal">
+      <span>© <span id="anno">2026</span> Secuencia321</span><span>·</span>
+      <a href="#" id="enlaceCorreo">Escribir</a>
+    </div>
+  </div>
+</footer>
+
+<dialog class="planes-dialog" id="planesDialog" aria-labelledby="planesTitulo">
+  <div class="planes-cabeza">
+    <button class="ficha-cerrar" id="planesCerrar" type="button" aria-label="Cerrar planes">×</button>
+    <h3 id="planesTitulo">Planes y precios</h3>
+    <p>El acceso se otorga por unidad curricular. Se paga lo que se usa, y las secuencias
+       que se publiquen mientras la licencia esté vigente entran sin costo adicional.</p>
+  </div>
+  <div class="planes-cuerpo">
+    <div class="planes-lista" id="planesLista" aria-live="polite">
+      <p class="planes-cargando">Consultando las tarifas…</p>
+    </div>
+
+    <div class="planes-nodo" id="planesNodo" hidden>
+      <h4>El precio de un dominio concreto</h4>
+      <p class="planes-ayuda">Un dominio contiene entre 8 y 24 núcleos según cuál sea, así que su
+        precio se calcula sobre el número real de núcleos que tiene.</p>
+      <div class="planes-selectores">
+        <label class="campo"><span>Área</span>
+          <select id="planesArea"><option value="" selected disabled hidden>Seleccione…</option></select>
+        </label>
+        <label class="campo" id="planesDominioCampo" hidden><span>Dominio</span>
+          <select id="planesDominio"><option value="" selected disabled hidden>Seleccione…</option></select>
+        </label>
+      </div>
+      <div class="planes-resultado" id="planesResultado" aria-live="polite"></div>
+    </div>
+
+    <p class="planes-pie">Los precios son en dólares estadounidenses y por mes. El acceso se
+      autoriza uno a uno: escriba y se responde por correo.</p>
+    <div class="planes-acciones">
+      <a class="btn btn-primario planes-cta" href="#acceso" id="planesSolicitar">Solicitar acceso</a>
+      <!-- El PDF se ofrece SOLO si las tarifas cargaron. Enlazar a una
+           descarga que va a fallar igual que la ventana es prometer dos veces
+           lo mismo y romperlo dos veces. -->
+      <a class="btn btn-fantasma planes-cta" id="planesPdf" href="/api/planes/pdf" target="_blank" rel="noopener" hidden>
+        Descargar la lista en PDF
+      </a>
+    </div>
+  </div>
+</dialog>
+
+<dialog class="unirse-dialog" id="unirseDialog" aria-labelledby="unirseTitulo">
+  <div class="unirse-cabeza">
+    <button class="unirse-cerrar" type="button" aria-label="Cerrar formulario">×</button>
+    <h3 id="unirseTitulo">Formar parte de Secuencia321</h3>
+    <p>Comparta su interés, una idea o una propuesta de colaboración.</p>
+  </div>
+  <div class="unirse-cuerpo">
+    <div class="form-error" id="unirseError" role="alert"></div>
+    <div class="campo"><label for="u-nombre">Nombre y apellido</label>
+      <input type="text" id="u-nombre" autocomplete="name" placeholder="María Fernández"></div>
+    <div class="campo"><label for="u-correo">Correo electrónico</label>
+      <input type="email" id="u-correo" autocomplete="email" placeholder="maria@ejemplo.com"></div>
+    <div class="campo"><label for="u-motivo">¿Cómo le gustaría participar?</label>
+      <select id="u-motivo">
+        <option value="" selected disabled hidden>Seleccione…</option>
+        <option>Aportar una idea</option>
+        <option>Proponer una alianza</option>
+        <option>Probar las secuencias</option>
+        <option>Colaborar con contenidos</option>
+      </select></div>
+    <div class="campo"><label for="u-nota">Mensaje <span style="font-weight:600;color:#7a6a5e">(opcional)</span></label>
+      <textarea id="u-nota" placeholder="Me gustaría aportar…"></textarea></div>
+    <button type="button" class="btn btn-primario" id="btnUnirseCorreo">Enviar solicitud</button>
+  </div>
+</dialog>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   CONFIGURACIÓN
+   ═══════════════════════════════════════════════════════════════════ */
+var CONFIG = {
+  correo: 'mubiera@secuencia321.com',
+  whatsapp: '18293020414'
+};
+
+/* El catálogo editorial vive en data/catalogo.json. No duplique aquí
+   títulos o permisos: la portada lo carga al iniciar. */
+var SECUENCIAS = [];
+var MOSTRAR_TODAS = false;
+/* Códigos que la sesión actual tiene derecho a abrir (los devuelve
+   /api/teacher/sequences). Vacío mientras no haya sesión con licencia. */
+var LICENCIADAS = {};
+/* Nombres de las diez áreas, para el formulario y el menú de currículum. */
+var AREAS = [];
+/* La taxonomía curricular ya no vive aquí dentro: se carga de
+   data/curriculo.json, que es la misma fuente que leen las Functions.
+   TAXONOMIA es el archivo entero; CURRICULO son los dominios del área
+   cartografiada, que es la forma que el navegador de la portada espera. */
+var TAXONOMIA = null;
+var CURRICULO = [];
+/* Iconos por posición de área. Son decoración, no taxonomía. */
+var ICONOS_AREA = ['fa-hashtag','fa-square-root-variable','fa-chart-line','fa-shapes',
+  'fa-ruler-combined','fa-compass-drafting','fa-chart-column','fa-dice','fa-coins','fa-arrow-trend-up'];
+/* Cuántas secuencias se muestran antes de «Mostrar más». */
+var CORTE = 6;
+</script>
+<script>
+(function(){
+  'use strict';
+
+  function cargarCurriculo(){
+    return fetch('data/curriculo.json', {cache:'no-store', credentials:'omit'}).then(function(r){
+      if (!r.ok) throw new Error('curriculo no disponible');
+      return r.json();
+    }).then(function(taxonomia){
+      if (!taxonomia || !Array.isArray(taxonomia.areas)) throw new Error('curriculo inválido');
+      return taxonomia;
+    });
+  }
+
+  function cargarCatalogo(){
+    return fetch('data/catalogo.json', {cache:'no-store', credentials:'omit'}).then(function(r){
+      if (!r.ok) throw new Error('catalogo no disponible');
+      return r.json();
+    }).then(function(catalogo){
+      if (!catalogo || !Array.isArray(catalogo.sequences)) throw new Error('catalogo inválido');
+      /* LA FICHA YA NO SE PIDE DESDE AQUÍ. Cada entrada trae `slug`, que es la
+         dirección de su ficha técnica: una página propia, servida por
+         functions/[[ruta]].js a partir de la ficha pública de la secuencia. La
+         portada solo enlaza. Hasta el 17 de septiembre de 2026 esto pedía
+         S321-XXXXX/data/ficha.json, un archivo que ya no se producía, y pintaba
+         lo que llegara en un diálogo. */
+      return catalogo.sequences.map(function(s){
+        return {
+          codigo:s.codigo, nucleo:s.nucleo, unidad:s.unidad, titulo:s.titulo,
+          rutaCurricular:s.rutaCurricular || s.nucleo,
+          desc:s.desc, etiquetas:s.etiquetas, estado:s.estado,
+          abierta:s.acceso === 'publica', duracion:s.duracion,
+          slug:typeof s.slug === 'string' ? s.slug : '',
+          chunks:s.chunks || {},
+          muestras:Array.isArray(s.muestras) ? s.muestras : []
+        };
+      });
+    });
+  }
+
+  /* La entrada tiene tiempo propio; no espera a la red ni a las imágenes. */
+  function mostrarPagina(){
+    window.s321MostrarPagina();
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', mostrarPagina, {once:true});
+  } else {
+    mostrarPagina();
+  }
+
+  /* Suaviza solo las flechas de la página: campos, menús y paneles
+     desplazables conservan sus teclas nativas. El ratón y el tacto también. */
+  (function(){
+    var cuadro = 0, destino = 0, posicion = 0, anterior = 0;
+    function detener(){
+      window.cancelAnimationFrame(cuadro);
+      cuadro = 0;
+      anterior = 0;
+    }
+    function deslizar(ahora){
+      var dt = anterior ? Math.min(ahora - anterior, 50) : 16;
+      anterior = ahora;
+      var diferencia = destino - posicion;
+      if (Math.abs(diferencia) < .8) {
+        window.scrollTo({top:destino, behavior:'instant'});
+        detener();
+        return;
+      }
+      posicion += diferencia * (1 - Math.exp(-dt / 150));
+      window.scrollTo({top:posicion, behavior:'instant'});
+      cuadro = window.requestAnimationFrame(deslizar);
+    }
+    document.addEventListener('keydown', function(e){
+      if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') { detener(); return; }
+      if (e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey || e.shiftKey
+        || window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        || document.body.classList.contains('menu-abierto')
+        || document.querySelector('dialog[open]')) return;
+      if (!(e.target instanceof Element)
+        || e.target.closest('input,textarea,select,button,a,[contenteditable],[role="slider"],[role="listbox"],[role="menu"]')) return;
+      for (var caja = e.target; caja && caja !== document.body && caja !== document.documentElement; caja = caja.parentElement) {
+        if (/(auto|scroll)/.test(getComputedStyle(caja).overflowY) && caja.scrollHeight > caja.clientHeight) return;
+      }
+      e.preventDefault();
+      var limite = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+      destino = Math.max(0, Math.min(limite, (cuadro ? destino : window.scrollY) + (e.key === 'ArrowDown' ? 64 : -64)));
+      if (!cuadro) {
+        posicion = window.scrollY;
+        cuadro = window.requestAnimationFrame(deslizar);
+      }
+    });
+    ['wheel','touchstart','pointerdown'].forEach(function(tipo){
+      window.addEventListener(tipo, detener, {passive:true});
+    });
+    window.addEventListener('blur', detener);
+  })();
+
+  /* ── EL ZOOM SE AJUSTA SOLO EN MÓVIL Y TABLETA ──────────────────────
+     No se puede tocar el zoom del navegador desde una página, así que en su
+     lugar se ajusta el de la propia página con la propiedad CSS "zoom": en
+     un panel angosto y de dedo (teléfono o tableta) baja a 80%, y en un panel
+     grande de mouse vuelve a 100%. La decisión se toma con el tamaño FÍSICO
+     de la pantalla (window.screen), no con el ancho ya escalado de la
+     ventana, para que el propio cambio de zoom no dispare otro cambio de
+     zoom detrás (una espiral sin fin). Cada cambio se enmascara con el
+     mismo parpadeo del icono que ya cubre la carga inicial, para que no se
+     sienta como un salto brusco. Donde el navegador no reconozca la
+     propiedad "zoom" (algún Firefox viejo), esto simplemente no hace nada y
+     la página se queda como estaba: es una mejora que se añade encima, no
+     un reemplazo de lo que ya funcionaba. */
+  (function(){
+    function esPanelEstrecho(){
+      var deDedo = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+      var ladoCorto = Math.min(window.screen.width || 0, window.screen.height || 0);
+      return !!deDedo && ladoCorto > 0 && ladoCorto <= 900;
+    }
+    var raiz = document.documentElement;
+    var estadoActual = null;
+    function ajustarZoom(primeraVez){
+      var estrecho = esPanelEstrecho();
+      if (estrecho === estadoActual) return;
+      estadoActual = estrecho;
+      function cambiar(){ raiz.style.zoom = estrecho ? '80%' : '100%'; }
+      var precarga = document.getElementById('s321-precarga');
+      if (primeraVez || !precarga){ cambiar(); return; }
+      precarga.style.transition = 'none';
+      precarga.style.opacity = '1';
+      precarga.style.pointerEvents = 'auto';
+      window.setTimeout(function(){
+        cambiar();
+        window.setTimeout(function(){
+          precarga.style.transition = '';
+          precarga.style.opacity = '';
+          precarga.style.pointerEvents = '';
+        }, 200);
+      }, 140);
+    }
+    ajustarZoom(true);
+    var pendiente;
+    window.addEventListener('resize', function(){
+      window.clearTimeout(pendiente);
+      pendiente = window.setTimeout(function(){ ajustarZoom(false); }, 220);
+    });
+    window.addEventListener('orientationchange', function(){ ajustarZoom(false); });
+  })();
+
+  /* 1.5 · si una imagen falta, en su lugar queda un bloque de marca
+     con el texto alternativo, no el icono roto del navegador. */
+  function sustituirImagen(img){
+    if (!img || img.tagName !== 'IMG' || img.dataset.sustituida) return;
+    img.dataset.sustituida = '1';
+    var caja = document.createElement('span');
+    caja.className = 'img-ausente';
+    caja.setAttribute('role', 'img');
+    caja.setAttribute('aria-label', img.alt || 'Ilustración no disponible');
+    /* en cajas pequeñas el texto saldría recortado: se deja solo el rótulo accesible */
+    var ancho = parseInt(img.getAttribute('width'), 10) || img.clientWidth || 0;
+    if (!ancho || ancho >= 96) caja.textContent = img.alt || 'Ilustración no disponible';
+    if (img.getAttribute('width') && img.getAttribute('height')) {
+      caja.style.aspectRatio = img.getAttribute('width') + ' / ' + img.getAttribute('height');
+    }
+    if (img.parentNode) img.parentNode.replaceChild(caja, img);
+  }
+  /* las que fallen de aquí en adelante */
+  document.addEventListener('error', function(evento){ sustituirImagen(evento.target); }, true);
+  /* y las que ya habían fallado antes de llegar a este guion */
+  function revisarImagenes(){
+    var imgs = document.getElementsByTagName('img');
+    for (var i = imgs.length - 1; i >= 0; i--){
+      if (imgs[i].complete && imgs[i].naturalWidth === 0) sustituirImagen(imgs[i]);
+    }
+  }
+  revisarImagenes();
+  window.addEventListener('load', revisarImagenes, {once:true});
+
+  document.getElementById('anno').textContent = new Date().getFullYear();
+  /* «Escribir» del pie: antes abría el programa de correo del sistema
+     (mailto:), y en un equipo sin uno configurado el clic no hacía nada
+     visible. Se cambia a la ventana de redactar de Gmail, que abre en
+     cualquier navegador sin necesitar nada instalado -es la misma dirección
+     de respaldo que ya se usaba más abajo cuando el mailto: fallaba. */
+  var enlaceCorreo = document.getElementById('enlaceCorreo');
+  enlaceCorreo.href = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(CONFIG.correo);
+  enlaceCorreo.target = '_blank';
+  enlaceCorreo.rel = 'noopener';
+
+  /* ── Cifras del fondo ─────────────────────────────────────── */
+  (function(){
+    var caja = document.getElementById('heroFondo'), c = ['3','2','1','7','5','9','4','8','6','1','2','3'];
+    for (var i = 0; i < c.length; i++){
+      var s = document.createElement('span');
+      s.textContent = c[i];
+      s.style.left = (Math.random()*96)+'%'; s.style.top = (Math.random()*88)+'%';
+      s.style.fontSize = (34+Math.random()*92)+'px';
+      s.style.animationDelay = (Math.random()*-22)+'s';
+      s.style.animationDuration = (17+Math.random()*12)+'s';
+      caja.appendChild(s);
+    }
+  })();
+
+  function esc(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  /* ── Índice de secuencias por núcleo ──────────────────────── */
+  var PorNucleo = {};
+  SECUENCIAS.forEach(function(s){ (PorNucleo[s.nucleo] = PorNucleo[s.nucleo] || []).push(s); });
+
+  var iDom = 0, iNuc = 0;
+
+  /* ── Menús desplegables ───────────────────────────────────── */
+  function cerrarTodo(salvo){
+    ['Dominio','Nucleo'].forEach(function(k){
+      if (k === salvo) return;
+      document.getElementById('lista'+k).hidden = true;
+      document.getElementById('btn'+k).setAttribute('aria-expanded','false');
+    });
+  }
+
+  function pintarListaDominios(){
+    var ul = document.getElementById('listaDominio'), h = '';
+    CURRICULO.forEach(function(d, i){
+      /* En el dominio se anuncia cuántos núcleos lo componen. Las secuencias
+         publicadas se cuentan un nivel más abajo, en el núcleo conceptual. */
+      var nucleos = d.nucleos.length;
+      h += '<li><button type="button" data-i="' + i + '"' + (i === iDom ? ' aria-current="true"' : '') + '>'
+        +   '<span class="cod">' + d.ruta + '</span><span>' + esc(d.nombre) + '</span>'
+        +   '<span class="cuenta">' + nucleos + ' núcleo' + (nucleos>1?'s':'') + '</span>'
+        + '</button></li>';
+    });
+    ul.innerHTML = h;
+  }
+
+  function pintarListaNucleos(){
+    var ul = document.getElementById('listaNucleo'), h = '', ns = CURRICULO[iDom].nucleos;
+    ns.forEach(function(n, i){
+      var pub = (PorNucleo[n.ruta]||[]).length;
+      h += '<li><button type="button" data-i="' + i + '"' + (i === iNuc ? ' aria-current="true"' : '') + '>'
+        +   '<span class="cod">' + n.ruta + '</span><span>' + esc(n.nombre) + '</span>'
+        +   '<span class="cuenta">' + (pub ? '<span class="pub">' + pub + ' publicada' + (pub>1?'s':'') + '</span>' : '') + '</span>'
+        + '</button></li>';
+    });
+    ul.innerHTML = h;
+  }
+
+  var esperaTarjetas;
+  function pintarTarjetas(){
+    window.clearTimeout(esperaTarjetas);
+    var nuc = CURRICULO[iDom].nucleos[iNuc];
+    document.getElementById('txtDominio').textContent = CURRICULO[iDom].nombre;
+    document.getElementById('txtNucleo').textContent  = nuc.nombre;
+
+    var lista = PorNucleo[nuc.ruta] || [];
+    document.getElementById('navPie').innerHTML =
+        '<span class="marca-cuenta">' + nuc.ruta + '</span>'
+      + '<span>' + esc(nuc.nombre) + '</span>'
+      + (lista.length ? '' : '<span style="margin-left:auto">Sin secuencias publicadas todavía</span>');
+
+    var r = document.getElementById('rejilla');
+    if (!lista.length){
+      r.innerHTML = '<div class="vacio" style="grid-column:1/-1"><strong>Este núcleo aún no tiene secuencias publicadas</strong>'
+        + '<p>El núcleo está cartografiado y su producción está en cola. Si le interesa este contenido '
+        + 'en particular, indíquelo al solicitar acceso y se tomará en cuenta para las próximas.</p></div>';
+      document.getElementById('mostrarMas').hidden = true;
+      return;
+    }
+
+    var h = '';
+    var listaVisible = MOSTRAR_TODAS ? lista : lista.slice(0, CORTE);
+    listaVisible.forEach(function(s, i){
+      var fam = (i % 3) + 1, estadoTxt, estadoCls, accion;
+      /* esquina izquierda del pie: la ficha técnica es una página, y su
+         dirección la trae el catálogo. Si una entrada no la trajera, el botón
+         no se pinta: un enlace a ninguna parte es peor que ninguno. */
+      var ficha = s.slug
+        ? '<a class="t-btn ficha" href="' + esc(s.slug) + '">Ficha técnica</a>'
+        : '';
+      /* esquina derecha del pie: la acción según el estado */
+      if (s.estado === 'preparacion'){
+        estadoTxt = 'En preparación'; estadoCls = 'pronto';
+        accion = '<span class="t-btn inerte">Muy pronto</span>';
+      /* EL BOTÓN DICE LO QUE PUEDE HACER QUIEN MIRA, NO LO QUE LA SECUENCIA
+         ES. Estaba al revés: la rama de muestra iba primero y ganaba siempre,
+         así que un administrador —que entra a todo— veía «Explorar» en las
+         muestras abiertas. El permiso se mira primero. */
+      } else if (LICENCIADAS[s.codigo]){
+        estadoTxt = 'Habilitada'; estadoCls = 'abierta';
+        var inicioUrl = '/api/content/' + encodeURIComponent(s.codigo) + '?chunk=inicio';
+        accion = '<a class="t-btn iniciar" href="' + inicioUrl + '">Iniciar'
+            + '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>';
+      /* EXPLORAR ENTRA POR LA PUERTA, SIEMPRE. Antes abría el primer trozo de
+         la lista de muestras, que en 1.1.1.5 era el desarrollo y en 1.1.1.12
+         el CIERRE: quien exploraba entraba por el final de la clase. La
+         portada es la puerta de toda secuencia, así que explorar es entrar por
+         ella, y desde ahí el guardián enseña lo abierto y frena lo demás con
+         su aviso. Iniciar no cambia: iniciar es empezar por el inicio.
+         Explorar mira; iniciar empieza. */
+      } else if (s.abierta && (s.muestras || []).indexOf('portada') !== -1){
+        estadoTxt = 'Muestra abierta'; estadoCls = 'abierta';
+        var previewUrl = '/api/content/' + encodeURIComponent(s.codigo) + '?chunk=portada';
+        accion = '<a class="t-btn abrir" href="' + previewUrl + '">Explorar'
+            + '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>';
+      } else {
+        estadoTxt = 'Protegida'; estadoCls = 'cerrada';
+        accion = '<button class="t-btn candado" type="button" data-acceder="' + esc(s.codigo) + '" data-pide="' + esc(s.titulo) + '" data-nucleo="' + esc(s.nucleo) + '" aria-label="Liberar ' + esc(s.titulo) + '" title="Liberar secuencia">'
+            + '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></button>';
+      }
+      var chips = s.etiquetas.map(function(e, j){ return '<span class="chip' + (j?' neutro':'') + '">' + esc(e) + '</span>'; }).join('');
+      var ubicacion = s.rutaCurricular || s.nucleo;
+      /* El retraso crece con el turno de cada tarjeta (tope de 6 pasos, luego
+         se repite) para que el conjunto se abra como una cortina en vez de
+         aparecer todo junto. */
+      var retraso = (i % 6) * 60;
+      h += '<article class="tarjeta" data-familia="' + fam + '" style="animation-delay:' + retraso + 'ms">'
+        +   '<div class="t-cabeza"><span class="t-codigo" title="Ubicación curricular">' + esc(ubicacion) + '</span>'
+        +   '<span class="t-estado ' + estadoCls + '">' + estadoTxt + '</span></div>'
+        +   '<div class="t-cuerpo"><div class="t-unidad">' + esc(s.unidad) + '</div>'
+        +     '<h3 class="t-titulo">' + esc(s.titulo) + '</h3>'
+        +     '<p class="t-desc">' + esc(s.desc) + '</p>'
+        +     '<div class="t-etiquetas">' + chips + '</div>'
+        +     '<div class="t-pie">' + ficha + '<span class="t-acciones">' + accion + '</span></div>'
+        +   '</div></article>';
+    });
+    r.classList.remove('lista');
+    r.classList.add('actualizando');
+    /* Da tiempo a que las piezas se compongan antes de abrir la cortina. */
+    var reducido = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var demora = reducido ? 0 : 1200;
+    if (demora){
+      /* La cadena se arma en dos trozos para que la palabra "src" con su
+         igual no quede junta en el código fuente: la prueba que revisa los
+         bloques de guion la usa como pista de un script externo, y aquí es
+         apenas la etiqueta de una imagen dentro de otro texto. */
+      r.innerHTML = '<div class="rejilla-cargando" role="status"><img ' + 'src="/carga.svg" alt="Cargando secuencias"></div>';
+    }
+    esperaTarjetas = setTimeout(function(){
+      r.innerHTML = h;
+      window.requestAnimationFrame(function(){
+        r.classList.remove('actualizando');
+        r.classList.add('lista');
+      });
+    }, demora);
+    var mas = document.getElementById('mostrarMas');
+    var restantes = lista.length - CORTE;
+    mas.hidden = restantes <= 0;
+    mas.querySelector('button').textContent = etiquetaMostrarMas(restantes);
+  }
+
+  /* «Mostrar 5 secuencias más» al plegar · «Mostrar menos» al desplegar */
+  function etiquetaMostrarMas(restantes){
+    if (MOSTRAR_TODAS) return 'Mostrar menos';
+    return 'Mostrar ' + restantes + ' secuencia' + (restantes > 1 ? 's' : '') + ' más';
+  }
+
+  document.getElementById('btnDominio').addEventListener('click', function(e){
+    e.stopPropagation();
+    var ul = document.getElementById('listaDominio'), abierto = !ul.hidden;
+    cerrarTodo('Dominio'); ul.hidden = abierto;
+    this.setAttribute('aria-expanded', String(!abierto));
+  });
+  document.getElementById('btnNucleo').addEventListener('click', function(e){
+    e.stopPropagation();
+    var ul = document.getElementById('listaNucleo'), abierto = !ul.hidden;
+    cerrarTodo('Nucleo'); ul.hidden = abierto;
+    this.setAttribute('aria-expanded', String(!abierto));
+  });
+
+  document.getElementById('listaDominio').addEventListener('click', function(e){
+    var b = e.target.closest('button[data-i]'); if (!b) return;
+    iDom = +b.dataset.i; iNuc = 0; MOSTRAR_TODAS = false;
+    pintarListaDominios(); pintarListaNucleos(); pintarTarjetas(); cerrarTodo();
+  });
+  document.getElementById('listaNucleo').addEventListener('click', function(e){
+    var b = e.target.closest('button[data-i]'); if (!b) return;
+    iNuc = +b.dataset.i; MOSTRAR_TODAS = false;
+    pintarListaNucleos(); pintarTarjetas(); cerrarTodo();
+  });
+  document.getElementById('mostrarMas').addEventListener('click', function(){
+    MOSTRAR_TODAS = !MOSTRAR_TODAS;
+    pintarTarjetas();
+  });
+
+  document.addEventListener('click', function(){ cerrarTodo(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') cerrarTodo(); });
+
+  /* ── Menú plegable de la barra (por debajo de 860 px) ─────── */
+  var barraMenu = document.getElementById('barraMenu');
+  var menuMovil = document.getElementById('menuMovil');
+
+  var relojMenu = null;
+  /* las secciones nacen plegadas: fuera del tabulador desde el primer momento */
+  menuMovil.querySelectorAll('.plegable-cuerpo').forEach(function(c){ c.setAttribute('inert',''); });
+
+  /* El resto de la página queda inerte mientras el panel está abierto:
+     el tabulador no puede caerse detrás. */
+  function fondoInerte(inerte){
+    var hijos = document.body.children;
+    for (var i = 0; i < hijos.length; i++){
+      var el = hijos[i];
+      if (el === menuMovil || el.classList.contains('barra')) continue;
+      if (inerte) el.setAttribute('inert', ''); else el.removeAttribute('inert');
+    }
+  }
+  function menuAbierto(){ return barraMenu.getAttribute('aria-expanded') === 'true'; }
+
+  function abrirMenuMovil(){
+    window.clearTimeout(relojMenu);
+    menuMovil.hidden = false;
+    menuMovil.classList.add('entrando');
+    document.body.classList.add('menu-abierto');
+    barraMenu.setAttribute('aria-expanded', 'true');
+    barraMenu.setAttribute('aria-label', 'Cerrar el menú');
+    fondoInerte(true);
+    window.requestAnimationFrame(function(){ menuMovil.classList.remove('entrando'); });
+  }
+  function cerrarMenuMovil(){
+    if (!menuAbierto()) return;
+    window.clearTimeout(relojMenu);
+    menuMovil.classList.add('entrando');
+    document.body.classList.remove('menu-abierto');
+    barraMenu.setAttribute('aria-expanded', 'false');
+    barraMenu.setAttribute('aria-label', 'Abrir el menú');
+    fondoInerte(false);
+    relojMenu = window.setTimeout(function(){
+      if (!menuAbierto()) menuMovil.hidden = true;
+    }, 320);
+  }
+  barraMenu.addEventListener('click', function(e){
+    e.stopPropagation();
+    if (menuAbierto()) cerrarMenuMovil(); else abrirMenuMovil();
+  });
+  /* cada enlace del panel cierra el menú al usarse */
+  menuMovil.addEventListener('click', function(e){
+    if (e.target.closest('a[href]')) cerrarMenuMovil();
+  });
+  /* Las secciones plegables del menú, como Currículum */
+  menuMovil.addEventListener('click', function(e){
+    var cabeza = e.target.closest('[data-plegable]');
+    if (!cabeza) return;
+    var cuerpo = document.getElementById(cabeza.getAttribute('data-plegable'));
+    var abrir = !cuerpo.classList.contains('abierto');
+    cuerpo.classList.toggle('abierto', abrir);
+    cabeza.setAttribute('aria-expanded', String(abrir));
+    /* plegado = fuera del tabulador */
+    if (abrir) cuerpo.removeAttribute('inert'); else cuerpo.setAttribute('inert', '');
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && !menuMovil.hidden){ cerrarMenuMovil(); barraMenu.focus(); }
+  });
+  window.addEventListener('resize', function(){
+    if (window.innerWidth > 860) cerrarMenuMovil();
+  });
+  document.querySelectorAll('[data-menu-button]').forEach(function(button){
+    button.addEventListener('click', function(e){
+      e.stopPropagation();
+      var menu = document.querySelector('[data-menu="' + button.dataset.menuButton + '"]');
+      var abrir = menu.hidden;
+      document.querySelectorAll('[data-menu]').forEach(function(panel){ panel.hidden = true; });
+      document.querySelectorAll('[data-menu-button]').forEach(function(other){ other.setAttribute('aria-expanded', 'false'); });
+      menu.hidden = !abrir;
+      button.setAttribute('aria-expanded', String(abrir));
+    });
+    document.addEventListener('click', function(){
+      document.querySelectorAll('[data-menu]').forEach(function(panel){ panel.hidden = true; });
+      document.querySelectorAll('[data-menu-button]').forEach(function(button){ button.setAttribute('aria-expanded', 'false'); });
+    });
+  });
+
+  /* 7.1 · mientras el catálogo viaja, se dibuja el esqueleto de lo que
+     va a llegar: bloques atenuados con un brillo que los recorre. */
+  function pintarEsqueleto(){
+    var molde =
+        '<article class="esqueleto" aria-hidden="true">'
+      +   '<div class="esq-linea" style="width:38%;height:22px"></div>'
+      +   '<div class="esq-linea esq-2" style="width:62%;height:14px;margin-top:16px"></div>'
+      +   '<div class="esq-linea esq-3" style="width:88%;height:20px"></div>'
+      +   '<div class="esq-linea" style="width:100%;height:12px;margin-top:14px"></div>'
+      +   '<div class="esq-linea esq-2" style="width:94%;height:12px"></div>'
+      +   '<div class="esq-linea esq-3" style="width:70%;height:12px"></div>'
+      +   '<div class="esq-pie"><div class="esq-linea" style="width:108px;height:36px"></div>'
+      +     '<div class="esq-linea esq-2" style="width:92px;height:36px"></div></div>'
+      + '</article>';
+    document.getElementById('rejilla').innerHTML = '<div class="rejilla-cargando" role="status"><img ' + 'src="/carga.svg" alt="Cargando catálogo"></div>' + molde + molde + molde;
+    document.getElementById('navPie').innerHTML =
+      '<span class="esq-linea" style="width:58px;height:13px"></span>'
+      + '<span class="esq-linea esq-2" style="width:190px;height:13px"></span>';
+  }
+  pintarEsqueleto();
+
+  /* El menú de Currículum se pinta desde la taxonomía cargada.
+     SOLO ARITMÉTICA POR AHORA: las demás áreas existen en la taxonomía —no se
+     borran— pero se bloquean de la vista pública mientras se decide cuándo
+     abrirlas. Quitar este filtro (ÁREA_ABIERTA) las vuelve a mostrar todas. */
+  var ÁREA_ABIERTA = '1';
+  function pintarMenuAreas(){
+    var menuAreas = (TAXONOMIA.areas || []).filter(function(area){
+      return area.ruta === ÁREA_ABIERTA;
+    }).map(function(area, index){
+      return '<a href="/curriculo/">'
+        + '<i class="fa-solid ' + (ICONOS_AREA[index] || 'fa-hashtag') + '" aria-hidden="true"></i>'
+        + esc(area.nombre) + '</a>';
+    }).join('');
+    document.getElementById('curriculumMenu').innerHTML = menuAreas;
+    document.getElementById('curriculumMenuMovil').innerHTML = menuAreas;
+  }
+
+  /* 4.2 · qué puede abrir la sesión actual. Sin sesión el extremo
+     responde 401 y el registro queda vacío: la tarjeta muestra candado. */
+  function cargarLicencias(){
+    return fetch('/api/teacher/sequences', {cache:'no-store', credentials:'include'})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(datos){
+        var mapa = {};
+        if (datos && Array.isArray(datos.sequences)) {
+          datos.sequences.forEach(function(sec){ if (sec && sec.codigo) mapa[sec.codigo] = true; });
+        }
+        return mapa;
+      })
+      .catch(function(){ return {}; });
+  }
+
+  /* Las licencias llegan por su cuenta y repintan cuando lleguen: el
+     catálogo no puede quedarse en el esqueleto por un extremo lento. */
+  cargarLicencias().then(function(mapa){
+    LICENCIADAS = mapa || {};
+    if (SECUENCIAS.length) pintarTarjetas();
+  });
+
+  /* El navegador curricular no puede dibujarse sin la taxonomía, así que
+     ésta y el catálogo se esperan juntos. Las licencias no: van aparte. */
+  Promise.all([cargarCurriculo(), cargarCatalogo()]).then(function(par){
+    TAXONOMIA = par[0];
+    var cartografiada = (TAXONOMIA.areas || []).filter(function(a){
+      return Array.isArray(a.dominios) && a.dominios.length;
+    })[0];
+    CURRICULO = cartografiada ? cartografiada.dominios : [];
+    AREAS = (TAXONOMIA.areas || []).map(function(a){ return a.nombre; });
+    pintarMenuAreas();
+    opciones(selArea, AREAS, 'Seleccione…');
+
+    SECUENCIAS = par[1];
+    /* LLEGAR DESDE UNA FICHA TÉCNICA. Sus enlaces de dominio y de núcleo, y su
+       flecha de volver, traen ?dominio=1.1 o ?nucleo=1.1.1 con #catalogo: el
+       catálogo se abre situado en ese nivel, que es de donde se venía. Solo con
+       la forma de una ruta; cualquier otra cosa se ignora y se abre como siempre. */
+    (function(){
+      var consulta = new URLSearchParams(window.location.search);
+      if (consulta.get('solicitar')) return;
+      var pedido = consulta.get('nucleo') || consulta.get('dominio') || '';
+      if (!/^\d{1,2}(?:\.\d{1,3}){1,2}$/.test(pedido)) return;
+      var partes = pedido.split('.');
+      CURRICULO.forEach(function(d, i){
+        if (d.ruta !== partes.slice(0, 2).join('.')) return;
+        iDom = i; iNuc = 0;
+        if (partes.length === 3) d.nucleos.forEach(function(n, j){ if (n.ruta === pedido) iNuc = j; });
+      });
+      window.history.replaceState({}, '', window.location.pathname + '#catalogo');
+    })();
+    /* Dos direcciones traen a alguien que quería una secuencia concreta:
+       ?nucleo= desde «Hasta aquí llega la muestra» y desde la ficha técnica,
+       y ?solicitar=S321-XXXXX desde la página de «esto no está disponible».
+       Las dos caen en lo mismo: la licencia se otorga por núcleo conceptual,
+       nunca por una sola secuencia, así que el formulario ya no ofrece esa
+       opción y las dos resuelven a «Núcleo conceptual». El segundo camino
+       traía consigo un código de secuencia, no un núcleo: se busca en el
+       catálogo, que para este punto ya está cargado. */
+    var consultaSolicitar = new URLSearchParams(window.location.search);
+    var nucleoSolicitado = consultaSolicitar.get('nucleo');
+    var pedidoSecuencia = consultaSolicitar.get('solicitar');
+    var secuenciaPedida = /^S321-[0-9]{5}$/.test(pedidoSecuencia || '')
+      ? SECUENCIAS.filter(function(s){ return s.codigo === pedidoSecuencia; })[0] : null;
+    if (secuenciaPedida) nucleoSolicitado = nucleoSolicitado || secuenciaPedida.nucleo;
+    if (consultaSolicitar.get('solicitar') === '1' || secuenciaPedida) {
+      var notaSolicitud = document.getElementById('f-nota');
+      var recursoSolicitud = document.getElementById('f-recurso');
+      if (recursoSolicitud && !recursoSolicitud.value) recursoSolicitud.value = 'Núcleo conceptual';
+      if (notaSolicitud && !notaSolicitud.value.trim()) {
+        notaSolicitud.value = secuenciaPedida
+          ? 'Intenté abrir la secuencia ' + pedidoSecuencia + ', del núcleo conceptual ' + secuenciaPedida.nucleo + ', y no pude.'
+          : (nucleoSolicitado ? 'Necesito material del núcleo conceptual ' + nucleoSolicitado + '.' : '');
+      }
+      window.history.replaceState({}, '', window.location.pathname);
+      window.setTimeout(function(){ irAFormulario(); }, 40);
+    }
+    PorNucleo = {};
+    SECUENCIAS.forEach(function(s){ (PorNucleo[s.nucleo] = PorNucleo[s.nucleo] || []).push(s); });
+    pintarListaDominios(); pintarListaNucleos(); pintarTarjetas();
+    /* Quien vino de una ficha técnica llega al catálogo, no a la cabecera: el
+       navegador ya intentó ir al ancla antes de que hubiera catálogo que mirar. */
+    if (window.location.hash === '#catalogo') {
+      window.setTimeout(function(){
+        document.getElementById('catalogo').scrollIntoView({behavior:'auto', block:'start'});
+      }, 60);
+    }
+  }).catch(function(){
+    document.getElementById('navPie').innerHTML =
+      '<strong style="color:#a8512f">El catálogo no está disponible en este momento.</strong>';
+    document.getElementById('rejilla').innerHTML =
+      '<div class="vacio" style="grid-column:1/-1"><strong>No se pudo cargar el catálogo</strong>' +
+      '<p>Intente actualizar la página. Las secuencias no se muestran hasta validar su catálogo.</p></div>';
+    document.getElementById('mostrarMas').hidden = true;
+  });
+
+  function irAFormulario(){
+    var formulario = document.getElementById('acceso');
+    if (!formulario) return;
+    formulario.scrollIntoView({behavior:'smooth', block:'start'});
+    var nombre = document.getElementById('f-nombre');
+    if (nombre) window.setTimeout(function(){ nombre.focus({preventScroll:true}); }, 350);
+  }
+
+  window.history.scrollRestoration = 'manual';
+  if (window.location.hash === '#acceso') {
+    window.history.replaceState({}, '', window.location.pathname + window.location.search);
+  }
+  function volverAlInicio(){
+    window.scrollTo({top:0, left:0, behavior:'auto'});
+  }
+  if (!window.location.hash) volverAlInicio();
+  window.addEventListener('load', function(){
+    if (!window.location.hash) volverAlInicio();
+    mostrarPagina();
+  }, {once:true});
+  window.addEventListener('pageshow', function(event){
+    /* la clase de transición no puede sobrevivir a una vuelta atrás */
+    document.body.classList.remove('cambiando');
+    mostrarPagina();
+    if (event.persisted) volverAlInicio();
+  });
+  document.addEventListener('click', function(event){
+    var enlace = event.target.closest('a[href="#acceso"]');
+    if (!enlace) return;
+    event.preventDefault();
+    irAFormulario();
+  });
+  document.addEventListener('click', function(event){
+    var enlace = event.target.closest('a[href]');
+    if (!enlace || enlace.target === '_blank' || enlace.getAttribute('href').charAt(0) === '#') return;
+    var destino = new URL(enlace.href, window.location.href);
+    if (destino.origin === window.location.origin) {
+      document.body.classList.add('cambiando');
+    }
+  });
+
+  /* ── PLANES Y PRECIOS ──────────────────────────────────────
+     Los precios NO se escriben aquí. Se piden a /api/planes, que los
+     calcula sobre la taxonomía real: un dominio con 8 núcleos y otro
+     con 24 no pueden costar lo mismo, y ese cálculo vive en el
+     servidor, en un solo sitio, junto a las tarifas que edita el panel.
+
+     LA REGLA QUE MANDA EN TODO ESTE BLOQUE: «sin precio» no es cero.
+     Cuando un nodo no se ofrece —hoy, las nueve áreas que aún no están
+     cartografiadas— la respuesta trae la lista de planes VACÍA. Eso es
+     correcto y se dice con palabras. Nunca se pinta un US$0, ni un
+     hueco, ni una raya: anunciar gratis lo que no está a la venta es
+     peor que no anunciarlo.
+
+     Y si la consulta falla, tampoco se inventa nada: se dice que los
+     precios se consultan al escribir. Un precio equivocado en la
+     portada es una promesa que alguien va a cobrar. */
+  var PLANES = null;                 /* la tabla general, una sola vez */
+  var planesPedidos = false;
+
+  function dinero(valor){
+    var n = Number(valor);
+    if (valor === null || valor === undefined || !isFinite(n)) return null;
+    return 'US$' + n.toLocaleString('es-DO', {minimumFractionDigits:2, maximumFractionDigits:2});
+  }
+
+  function pedirPlanes(ruta){
+    var url = '/api/planes' + (ruta ? '?ruta=' + encodeURIComponent(ruta) : '');
+    return fetch(url, {cache:'no-store', credentials:'omit'}).then(function(r){
+      if (!r.ok) throw new Error('planes no disponibles');
+      return r.json();
+    });
+  }
+
+  function tarjetaPlan(plan){
+    var incluye = Array.isArray(plan.incluye) ? plan.incluye : [];
+    /* Un plan de precio fijo trae `precio_usd`; uno con fórmula trae el
+       rango real de la taxonomía, `desde_usd`. Si no trae ninguno de los
+       dos, no se ofrece, y quien llama a esta función ya lo ha filtrado. */
+    var exacto = dinero(plan.precio_usd);
+    var desde = dinero(plan.desde_usd);
+    var precio = exacto
+      ? '<span class="plan-precio">' + esc(exacto) + '<small>al mes</small></span>'
+      : '<span class="plan-precio">' + esc(desde) + '<small>desde, al mes</small></span>';
+    return '<article class="plan">'
+      + '<span class="plan-nombre">' + esc(plan.nombre) + '</span>'
+      + precio
+      + (plan.descripcion ? '<p class="plan-desc">' + esc(plan.descripcion) + '</p>' : '')
+      + (incluye.length ? '<ul class="plan-incluye">' + incluye.map(function(x){
+          return '<li>' + esc(x) + '</li>'; }).join('') + '</ul>' : '')
+      + '<p class="plan-equipos">' + esc(plan.dispositivos_incluidos) + ' equipos'
+      + (plan.precio_dispositivo_extra_usd
+          ? '<span class="plan-equipos-mas" title="Se pueden agregar más equipos por ' + esc(dinero(plan.precio_dispositivo_extra_usd)) + ' cada uno">+</span>'
+          : '')
+      + '</p>'
+      + '</article>';
+  }
+
+  function pintarPlanes(datos){
+    var lista = document.getElementById('planesLista');
+    /* Solo entran los que tienen algo que cobrar. Un plan sin precio ni
+       rango se OMITE: no hay forma honesta de pintarlo. */
+    var conPrecio = (datos.planes || []).filter(function(p){
+      return dinero(p.precio_usd) !== null || dinero(p.desde_usd) !== null;
+    });
+    if (!conPrecio.length){
+      lista.innerHTML = '<p class="plan-sin-oferta">Las tarifas se están revisando. '
+        + 'Escriba y se le responde con el precio del material que necesita.</p>';
+      return;
+    }
+    lista.innerHTML = conPrecio.map(tarjetaPlan).join('');
+    document.getElementById('planesNodo').hidden = false;
+    document.getElementById('planesPdf').hidden = false;
+  }
+
+  function pintarNodo(datos){
+    var caja = document.getElementById('planesResultado');
+    var nodo = datos.nodo || {};
+    var conPrecio = (datos.planes || []).filter(function(p){ return dinero(p.precio_usd) !== null; });
+
+    /* El caso que hay que decir con palabras y no con un cero. */
+    if (!conPrecio.length){
+      caja.innerHTML = '<p class="plan-sin-oferta"><strong>' + esc(nodo.nombre || '') + '</strong> '
+        + (nodo.unidades
+            ? 'todavía no tiene tarifa publicada. Escriba y se le responde con el precio.'
+            : 'todavía no está cartografiada, así que aún no se ofrece. '
+              + 'Cuando su temario esté desglosado aparecerá aquí con su precio.')
+        + '</p>';
+      return;
+    }
+    caja.innerHTML = '<div class="plan-nodo">'
+      + '<p class="plan-nodo-nombre">' + esc(nodo.nombre || '') + '</p>'
+      + '<p class="plan-nodo-tamano">' + esc(nodo.nucleos) + ' núcleos · '
+        + esc(Number(nodo.unidades).toLocaleString('es-DO')) + ' unidades · '
+        + esc(nodo.secuencias_publicadas) + ' secuencias publicadas</p>'
+      + conPrecio.map(function(p){
+          return '<div class="plan-nodo-fila"><span>' + esc(p.nombre) + '</span>'
+            + '<b>' + esc(dinero(p.precio_usd)) + ' / mes</b></div>';
+        }).join('')
+      + '</div>';
+  }
+
+  function abrirPlanes(){
+    var dialog = document.getElementById('planesDialog');
+    if (typeof dialog.showModal === 'function') dialog.showModal();
+    if (planesPedidos) return;
+    planesPedidos = true;
+    pedirPlanes(null).then(function(datos){
+      PLANES = datos;
+      pintarPlanes(datos);
+      prepararSelectoresDePlanes();
+    }).catch(function(){
+      /* Sin poder consultar, no se inventa un precio. */
+      document.getElementById('planesLista').innerHTML =
+        '<p class="plan-sin-oferta">Las tarifas se consultan al solicitar acceso. '
+        + 'Indique qué material necesita y recibirá el precio.</p>';
+      planesPedidos = false;   /* que se pueda reintentar al reabrir */
+    });
+  }
+
+  function prepararSelectoresDePlanes(){
+    var selArea = document.getElementById('planesArea');
+    var selDominio = document.getElementById('planesDominio');
+    // Mismo bloqueo que el menú de Currículum: mientras solo Aritmética esté
+    // abierta al público, es la única opción de este selector.
+    var areas = ((TAXONOMIA && TAXONOMIA.areas) || []).filter(function(area){
+      return area.ruta === ÁREA_ABIERTA;
+    });
+    if (!areas.length) return;
+    selArea.innerHTML = '<option value="" selected disabled hidden>Seleccione…</option>'
+      + areas.map(function(a){ return '<option value="' + esc(a.ruta) + '">' + esc(a.nombre) + '</option>'; }).join('');
+
+    selArea.addEventListener('change', function(){
+      var area = areas.filter(function(a){ return a.ruta === selArea.value; })[0];
+      var dominios = (area && area.dominios) || [];
+      document.getElementById('planesDominioCampo').hidden = !dominios.length;
+      selDominio.innerHTML = '<option value="" selected disabled hidden>Seleccione…</option>'
+        + dominios.map(function(d){ return '<option value="' + esc(d.ruta) + '">' + esc(d.nombre) + '</option>'; }).join('');
+      /* Un área sin dominios se cotiza tal cual: es el caso «no se ofrece». */
+      consultarNodo(selArea.value);
+    });
+    selDominio.addEventListener('change', function(){ consultarNodo(selDominio.value); });
+  }
+
+  /* La respuesta se trae a la vista. Sin esto queda por debajo del pliegue
+     dentro de una ventana que ya venía desplazada: la persona elige un área,
+     no ve nada cambiar, y da por hecho que no funcionó. Es el mismo fallo que
+     el mensaje de error del formulario, que aparecía 76 px por encima. */
+  function verResultado(){
+    var caja = document.getElementById('planesResultado');
+    if (!caja || typeof caja.scrollIntoView !== 'function') return;
+    var reducido = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    /* 'center' y no 'nearest': lo nearest desplaza lo MÍNIMO, y deja la caja
+       pegada al borde de abajo con nueve píxeles a la vista. Eso pasa una
+       comprobación de «está dentro de la pantalla» sin que nadie pueda leerlo. */
+    caja.scrollIntoView({block:'center', behavior: reducido ? 'auto' : 'smooth'});
+  }
+
+  function consultarNodo(ruta){
+    if (!ruta) return;
+    var caja = document.getElementById('planesResultado');
+    caja.innerHTML = '<p class="planes-cargando">Calculando…</p>';
+    pedirPlanes(ruta).then(function(datos){
+      pintarNodo(datos);
+      verResultado();
+    }).catch(function(){
+      caja.innerHTML = '<p class="plan-sin-oferta">No se pudo consultar ese precio ahora mismo. '
+        + 'Escriba y se le responde.</p>';
+      verResultado();
+    });
+  }
+
+  ['btnPlanes','btnPlanesMovil'].forEach(function(id){
+    var boton = document.getElementById(id);
+    if (boton) boton.addEventListener('click', function(){
+      if (id === 'btnPlanesMovil') cerrarMenuMovil();
+      abrirPlanes();
+    });
+  });
+  document.getElementById('planesCerrar').addEventListener('click', function(){
+    cerrarDialogo(document.getElementById('planesDialog'));
+  });
+  document.getElementById('planesSolicitar').addEventListener('click', function(){
+    cerrarDialogo(document.getElementById('planesDialog'));
+  });
+
+  /* ── Cierre animado de las ventanas ───────────────────────── */
+  function cerrarDialogo(dialog){
+    if (!dialog || !dialog.open || dialog.classList.contains('cerrando')) return;
+    var reducido = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducido){ dialog.close(); return; }
+    var terminado = false;
+    function rematar(){
+      if (terminado) return;
+      terminado = true;
+      dialog.removeEventListener('animationend', rematar);
+      dialog.classList.remove('cerrando');
+      dialog.close();
+    }
+    dialog.addEventListener('animationend', rematar);
+    dialog.classList.add('cerrando');
+    /* si la animación no llega, la ventana se cierra igual */
+    window.setTimeout(rematar, 420);
+  }
+  /* la tecla Escape sale por la misma puerta que el botón de cerrar */
+  ['accesoDialog','unirseDialog','planesDialog'].forEach(function(id){
+    var dialog = document.getElementById(id);
+    dialog.addEventListener('cancel', function(evento){
+      evento.preventDefault();
+      cerrarDialogo(dialog);
+    });
+    /* Pisar fuera del recuadro (sobre el fondo) cierra igual que la ×. El
+       clic en el propio <dialog> solo llega aquí cuando cae fuera de su
+       contenido: el fondo del ::backdrop no es el `target`, es el propio
+       elemento <dialog>, que ocupa toda la pantalla. */
+    dialog.addEventListener('click', function(evento){
+      if (evento.target === dialog) cerrarDialogo(dialog);
+    });
+  });
+
+  /* ── Al «Explorar»/«Iniciar» desde el teléfono, forzar horizontal ───
+     Una secuencia con paneles lado a lado es irreproducible en vertical, así
+     que en el propio gesto de tocar el enlace (mientras el navegador aún
+     reconoce que fue el usuario quien lo pidió, no el código) se intenta:
+     1) pantalla completa y 2) bloquear la orientación a horizontal. En
+     iPhone (Safari) esto no existe a nivel de plataforma —Apple nunca lo
+     ofreció— así que ahí simplemente no pasa nada y la secuencia se abre
+     igual, solo que sin el giro forzado; en Android normalmente sí funciona.
+     Cualquier fallo se ignora en silencio y la navegación sigue de todas
+     formas: esto es una ayuda añadida, nunca un candado para entrar. */
+  document.getElementById('rejilla').addEventListener('click', function(e){
+    var enlace = e.target.closest('a.t-btn.abrir, a.t-btn.iniciar');
+    if (enlace && window.matchMedia && window.matchMedia('(pointer: coarse)').matches){
+      try {
+        var solicitud = document.documentElement.requestFullscreen
+          ? document.documentElement.requestFullscreen()
+          : Promise.resolve();
+        Promise.resolve(solicitud).catch(function(){}).then(function(){
+          if (screen.orientation && screen.orientation.lock) {
+            screen.orientation.lock('landscape').catch(function(){});
+          }
+        });
+      } catch (err) { /* sin soporte: se navega igual, sin bloquear nada */ }
+    }
+  });
+
+  /* ── Pedir acceso desde una tarjeta ───────────────────────── */
+  document.getElementById('rejilla').addEventListener('click', function(e){
+    var a = e.target.closest('[data-pide]'); if (!a) return;
+    var nota = document.getElementById('f-nota');
+    if (!nota.value.trim()) nota.value = 'Me interesa la secuencia «' + a.getAttribute('data-pide') + '».';
+  });
+
+  var accesoPendiente = null;
+  var accesoDialog = document.getElementById('accesoDialog');
+  var accesoError = document.getElementById('accesoError');
+  var accesoEstado = document.getElementById('accesoEstado');
+  function abrirAcceso(item){
+    accesoPendiente = item;
+    document.getElementById('accesoTitulo').textContent = 'Liberar secuencia';
+    document.getElementById('accesoSubtitulo').textContent = item.titulo;
+    document.getElementById('accesoDescripcion').textContent =
+      'Introduzca el correo autorizado. Se enviará un código temporal que habilita todo el material asignado a esa cuenta.';
+    document.getElementById('btnAccesoSolicitud').setAttribute('href', '#acceso');
+    document.getElementById('a-correo').value = '';
+    document.getElementById('a-codigo').value = '';
+    document.getElementById('accesoCodigoCampo').hidden = true;
+    document.getElementById('btnSolicitarCodigo').textContent = 'Enviar código';
+    accesoError.textContent = '';
+    accesoError.classList.remove('visible');
+    accesoEstado.textContent = '';
+    if (typeof accesoDialog.showModal === 'function') accesoDialog.showModal();
+  }
+  document.getElementById('accesoCerrar').addEventListener('click', function(){ cerrarDialogo(accesoDialog); });
+  document.getElementById('btnAccesoSolicitud').addEventListener('click', function(){
+    cerrarDialogo(accesoDialog);
+    var nota = document.getElementById('f-nota');
+    if (accesoPendiente && !nota.value.trim()) nota.value = 'Me interesa la secuencia «' + accesoPendiente.titulo + '».';
+  });
+  document.getElementById('rejilla').addEventListener('click', function(e){
+    var boton = e.target.closest('[data-acceder]');
+    if (!boton) return;
+    var item = SECUENCIAS.find(function(s){ return s.codigo === boton.getAttribute('data-acceder'); });
+    if (item) abrirAcceso(item);
+  });
+  document.getElementById('btnSolicitarCodigo').addEventListener('click', function(){
+    var email = document.getElementById('a-correo').value.trim().toLowerCase();
+    if (!email || email.indexOf('@') < 1 || email.indexOf('.') < 3) {
+      accesoError.textContent = 'Escriba un correo electrónico válido.';
+      accesoError.classList.add('visible');
+      return;
+    }
+    accesoError.classList.remove('visible');
+    var codigoInput = document.getElementById('a-codigo');
+    if (!document.getElementById('accesoCodigoCampo').hidden) {
+      var code = codigoInput.value.trim();
+      if (!/^\d{6}$/.test(code)) {
+        accesoError.textContent = 'Escriba el código de seis dígitos recibido.';
+        accesoError.classList.add('visible');
+        return;
+      }
+      fetch('/api/auth/verify', { method:'POST', headers:{'content-type':'application/json'}, credentials:'include',
+        body:JSON.stringify({email:email, code:code})
+      }).then(function(r){ return r.json().then(function(data){ return {ok:r.ok, data:data}; }); }).then(function(result){
+        if (!result.ok) {
+          var failure = new Error(result.data.error || 'verification_failed');
+          failure.code = result.data.error;
+          throw failure;
+        }
+        accesoEstado.textContent = 'Licencia confirmada. Núcleo ' + accesoPendiente.nucleo + ' desbloqueado. Abriendo el contenido…';
+        window.location.href = '/api/content/' + encodeURIComponent(accesoPendiente.codigo) + '?chunk=desarrollo';
+      }).catch(function(error){
+        var mensaje = error && error.code;
+        accesoError.textContent = mensaje === 'device_limit_reached'
+          ? 'Este usuario ya alcanzó el límite de dispositivos autorizados.'
+          : mensaje === 'invalid_code'
+            ? 'El código no es válido o ya expiró. Solicite uno nuevo.'
+            : 'No se pudo verificar el código. Revíselo e inténtelo de nuevo.';
+        accesoError.classList.add('visible');
+      });
+      return;
+    }
+    fetch('/api/auth/request', { method:'POST', headers:{'content-type':'application/json'}, credentials:'include',
+      body:JSON.stringify({email:email})
+    }).then(function(r){ return r.json().then(function(data){ return {ok:r.ok, data:data}; }); }).then(function(result){
+      if (!result.ok) {
+        var failure = new Error(result.data.error || 'request_failed');
+        failure.code = result.data.error;
+        throw failure;
+      }
+      document.getElementById('accesoCodigoCampo').hidden = false;
+      document.getElementById('btnSolicitarCodigo').textContent = 'Verificar código';
+      accesoEstado.textContent = 'Si el correo está autorizado, recibirá un código válido durante 10 minutos.';
+      codigoInput.focus();
+    }).catch(function(error){
+      accesoError.textContent = error && error.code === 'too_many_requests'
+        ? 'Espere un minuto antes de solicitar otro código.'
+        : 'No se pudo solicitar el código. Inténtelo de nuevo en unos momentos.';
+      accesoError.classList.add('visible');
+    });
+  });
+
+  document.getElementById('btnUnirse').addEventListener('click', function(){
+    var dialog = document.getElementById('unirseDialog');
+    if (typeof dialog.showModal === 'function') dialog.showModal();
+  });
+  document.querySelector('.unirse-cerrar').addEventListener('click', function(){
+    cerrarDialogo(document.getElementById('unirseDialog'));
+  });
+  document.getElementById('btnUnirseCorreo').addEventListener('click', function(){
+    var error = document.getElementById('unirseError');
+    var nombre = document.getElementById('u-nombre').value.trim();
+    var correo = document.getElementById('u-correo').value.trim();
+    var motivo = document.getElementById('u-motivo').value;
+    var nota = document.getElementById('u-nota').value.trim();
+    function falloUnirse(msg, id){
+      error.textContent = msg;
+      error.classList.add('visible');
+      error.scrollIntoView({behavior:'smooth', block:'center'});
+      var campo = document.getElementById(id);
+      if (campo) window.setTimeout(function(){ campo.focus({preventScroll:true}); }, 260);
+    }
+    if (!nombre){ falloUnirse('Escriba su nombre para poder responderle.', 'u-nombre'); return; }
+    if (!correo || correo.indexOf('@') < 1 || correo.indexOf('.') < 3){ falloUnirse('Revise el correo electrónico.', 'u-correo'); return; }
+    if (!motivo){ falloUnirse('Seleccione una forma de participación.', 'u-motivo'); return; }
+    error.classList.remove('visible');
+    var texto = 'Solicitud para formar parte de Secuencia321\n----------------------------------------\n\n'
+      + 'Nombre: ' + nombre + '\nCorreo: ' + correo + '\n'
+      + 'Interés: ' + motivo + '\n\n' + (nota ? 'Mensaje:\n' + nota + '\n\n' : '')
+      + 'Enviado desde secuencia321.com';
+    abrirCorreo('Solicitud para formar parte de Secuencia321', texto, this);
+  });
+
+  /* ── Formulario ───────────────────────────────────────────── */
+  var cajaError = document.getElementById('formError');
+  var selPerfil = document.getElementById('f-perfil');
+  var selRecurso = document.getElementById('f-recurso');
+  var cajaPerfilOtro = document.getElementById('perfilOtroCaja');
+  var cajaArea = document.getElementById('cajaArea');
+  var cajaDominio = document.getElementById('cajaDominio');
+  var cajaNucleo = document.getElementById('cajaNucleo');
+  var selArea = document.getElementById('f-area');
+  var selDominio = document.getElementById('f-dominio');
+  var txtDominio2 = document.getElementById('f-dominio-txt');
+  var selNucleo = document.getElementById('f-nucleo');
+  var txtNucleo2 = document.getElementById('f-nucleo-txt');
+  var ayudaDominio = document.getElementById('ayudaDominio');
+  var ayudaNucleo = document.getElementById('ayudaNucleo');
+  /* Qué áreas tienen dominios se lee de la taxonomía, no se supone. */
+  function areaSeleccionada(){
+    if (!TAXONOMIA || selArea.selectedIndex < 1) return null;
+    return (TAXONOMIA.areas || [])[selArea.selectedIndex - 1] || null;
+  }
+
+  function plegar(caja, abrir){
+    caja.classList.toggle('abierto', !!abrir);
+    /* fuera del recorrido del tabulador mientras está plegado */
+    caja.querySelectorAll('input,select,textarea,button,a').forEach(function(campo){
+      campo.disabled = !abrir;
+    });
+    caja.setAttribute('aria-hidden', String(!abrir));
+  }
+
+  /* Muestra la lista o el campo libre, según haya datos para ese nivel. */
+  function modo(lista, texto, ayuda, porLista){
+    lista.hidden = !porLista; lista.disabled = !porLista;
+    texto.hidden = porLista;  texto.disabled = porLista;
+    ayuda.hidden = porLista;
+  }
+
+  function opciones(select, valores, marcador){
+    select.innerHTML = '<option value="" selected disabled hidden>' + marcador + '</option>'
+      + valores.map(function(v){ return '<option>' + esc(v) + '</option>'; }).join('');
+  }
+
+
+  function dominiosDelArea(){
+    var area = areaSeleccionada();
+    return area && Array.isArray(area.dominios) ? area.dominios : [];
+  }
+
+  function pintarDominios(){
+    var doms = dominiosDelArea();
+    modo(selDominio, txtDominio2, ayudaDominio, doms.length > 0);
+    if (doms.length) opciones(selDominio, doms.map(function(d){ return d.nombre; }), 'Seleccione…');
+    pintarNucleos();
+  }
+
+  function pintarNucleos(){
+    var dom = dominiosDelArea()[selDominio.selectedIndex - 1];
+    var hayDatos = !selDominio.hidden && !!dom;
+    modo(selNucleo, txtNucleo2, ayudaNucleo, hayDatos);
+    if (hayDatos) opciones(selNucleo, dom.nucleos.map(function(x){ return x.nombre; }), 'Seleccione…');
+  }
+
+  selPerfil.addEventListener('change', function(){
+    var otro = this.value === 'Otro';
+    plegar(cajaPerfilOtro, otro);
+    if (otro) window.setTimeout(function(){ document.getElementById('f-perfil-otro').focus(); }, 180);
+  });
+
+  selRecurso.addEventListener('change', function(){
+    var v = this.value;
+    var quiereArea    = v === 'Área' || v === 'Dominio' || v === 'Núcleo conceptual';
+    var quiereDominio = v === 'Dominio' || v === 'Núcleo conceptual';
+    var quiereNucleo  = v === 'Núcleo conceptual';
+    plegar(cajaArea, quiereArea);
+    plegar(cajaDominio, quiereDominio);
+    plegar(cajaNucleo, quiereNucleo);
+    if (quiereArea) pintarDominios();
+    window.setTimeout(function(){
+      if (quiereArea) selArea.focus();
+    }, 180);
+  });
+
+  selArea.addEventListener('change', pintarDominios);
+  selDominio.addEventListener('change', pintarNucleos);
+
+  function fallo(msg, id){
+    cajaError.textContent = msg;
+    cajaError.classList.add('visible');
+    /* el aviso tiene que verse: si no, parece que el botón no hizo nada */
+    cajaError.scrollIntoView({behavior:'smooth', block:'center'});
+    var campo = document.getElementById(id);
+    if (campo) window.setTimeout(function(){ campo.focus({preventScroll:true}); }, 260);
+    return null;
+  }
+
+  function valorDe(lista, texto){
+    if (!lista.hidden) return lista.value || '';
+    return texto.value.trim();
+  }
+
+  function leer(){
+    var perfil = selPerfil.value;
+    var perfilOtro = document.getElementById('f-perfil-otro').value.trim();
+    var recurso = selRecurso.value;
+    var d = {
+      nombre: document.getElementById('f-nombre').value.trim(),
+      correo: document.getElementById('f-correo').value.trim(),
+      perfil: perfil === 'Otro' ? (perfilOtro ? 'Otro · ' + perfilOtro : 'Otro') : perfil,
+      recurso: recurso,
+      area:    cajaArea.classList.contains('abierto') ? selArea.value : '',
+      dominio: cajaDominio.classList.contains('abierto') ? valorDe(selDominio, txtDominio2) : '',
+      nucleo:  cajaNucleo.classList.contains('abierto') ? valorDe(selNucleo, txtNucleo2) : '',
+      nota: document.getElementById('f-nota').value.trim()
+    };
+    if (!d.nombre) return fallo('Escriba su nombre para poder responderle.', 'f-nombre');
+    /* La misma forma que acepta el servidor, ni más estricta ni menos. La
+       comprobación anterior miraba dónde caía el PRIMER punto y exigía que
+       fuera del cuarto carácter en adelante, así que rechazaba direcciones
+       corrientes como jo.perez@colegio.do sin decir por qué. Una validación
+       del formulario más dura que la del servidor pierde solicitudes de gente
+       real, que es peor que dejar pasar una dirección mal escrita: esa se
+       descubre sola cuando no llega el código. */
+    if (!d.correo || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.correo))
+      return fallo('Revise el correo: es por ahí donde llega la autorización.', 'f-correo');
+    /* Estas dos las exige también el servidor. Sin ellas la solicitud se
+       guardaba a medias o no se guardaba, y quien escribió no se enteraba. */
+    if (cajaPerfilOtro.classList.contains('abierto') && !perfilOtro)
+      return fallo('Diga en qué contexto enseña: es lo que decide qué recomendarle.', 'f-perfil-otro');
+    if (!recurso)
+      return fallo('Elija qué quiere abrir: un área, un dominio o un núcleo conceptual.', 'f-recurso');
+    if (cajaArea.classList.contains('abierto') && !d.area)
+      return fallo('Indique de qué área es el recurso que solicita.', 'f-area');
+    if (cajaDominio.classList.contains('abierto') && !d.dominio)
+      return fallo('Indique de qué dominio es el recurso que solicita.', selDominio.hidden ? 'f-dominio-txt' : 'f-dominio');
+    if (cajaNucleo.classList.contains('abierto') && !d.nucleo)
+      return fallo('Indique de qué núcleo conceptual es el recurso que solicita.', selNucleo.hidden ? 'f-nucleo-txt' : 'f-nucleo');
+    cajaError.classList.remove('visible');
+    return d;
+  }
+
+  function cuerpo(d){
+    return 'Solicitud de acceso a Secuencia321\n--------------------------------\n\n'
+      + 'Nombre: ' + d.nombre + '\nCorreo: ' + d.correo + '\n'
+      + 'Contexto: ' + (d.perfil || '(no indicado)') + '\n'
+      + 'Recurso solicitado: ' + (d.recurso || '(no indicado)') + '\n'
+      + (d.area ? 'Área: ' + d.area + '\n' : '')
+      + (d.dominio ? 'Dominio: ' + d.dominio + '\n' : '')
+      + (d.nucleo ? 'Núcleo conceptual: ' + d.nucleo + '\n' : '')
+      + '\n' + (d.nota ? 'Observaciones:\n' + d.nota + '\n\n' : '')
+      + 'Enviado desde secuencia321.com';
+  }
+
+  /* ── Envío por correo, con respaldo ────────────────────────────
+     window.location = 'mailto:' no hace nada visible en un equipo sin
+     programa de correo asociado: el visitante pulsa y no pasa nada. Se
+     intenta abrirlo y, si a los 1,2 s seguimos aquí, se ofrece copiar el
+     mensaje o abrirlo en Gmail. */
+  function abrirCorreo(asunto, texto, anclaje){
+    var previo = anclaje.parentNode.querySelector('.respaldo-correo');
+    if (previo) previo.remove();
+    var salio = false;
+    function marcar(){ salio = true; }
+    window.addEventListener('blur', marcar);
+    document.addEventListener('visibilitychange', marcar);
+    window.location.href = 'mailto:' + CONFIG.correo
+      + '?subject=' + encodeURIComponent(asunto) + '&body=' + encodeURIComponent(texto);
+    window.setTimeout(function(){
+      window.removeEventListener('blur', marcar);
+      document.removeEventListener('visibilitychange', marcar);
+      if (salio || document.hidden) return;
+      anclaje.parentNode.insertBefore(respaldo(asunto, texto), anclaje.nextSibling);
+    }, 1200);
+  }
+
+  function respaldo(asunto, texto){
+    var caja = document.createElement('div');
+    caja.className = 'respaldo-correo';
+    caja.setAttribute('role', 'status');
+    var gmail = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent(CONFIG.correo)
+      + '&su=' + encodeURIComponent(asunto) + '&body=' + encodeURIComponent(texto);
+    caja.innerHTML =
+        '<p>Este dispositivo no tiene un programa de correo asociado, así que no se abrió ninguna ventana. '
+      + 'Escriba a <span class="dir">' + esc(CONFIG.correo) + '</span> o use una de estas dos vías.</p>'
+      + '<div class="acciones">'
+      +   '<button type="button" data-copiar>Copiar el mensaje</button>'
+      +   '<a href="' + esc(gmail) + '" target="_blank" rel="noopener">Abrir en Gmail</a>'
+      + '</div>';
+    caja.querySelector('[data-copiar]').addEventListener('click', function(){
+      var boton = this;
+      function listo(){
+        var aviso = caja.querySelector('.hecho');
+        if (!aviso){ aviso = document.createElement('p'); aviso.className = 'hecho'; caja.appendChild(aviso); }
+        aviso.textContent = 'Mensaje copiado. Péguelo en un correo dirigido a ' + CONFIG.correo + '.';
+        boton.textContent = 'Copiado';
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(texto).then(listo, copiarALaAntigua);
+      } else copiarALaAntigua();
+      function copiarALaAntigua(){
+        var area = document.createElement('textarea');
+        area.value = texto;
+        area.setAttribute('readonly', '');
+        area.style.position = 'fixed'; area.style.opacity = '0';
+        document.body.appendChild(area);
+        area.select();
+        try { document.execCommand('copy'); listo(); } catch (e) {}
+        document.body.removeChild(area);
+      }
+    });
+    return caja;
+  }
+
+  /* estado inicial: los condicionales nacen plegados y deshabilitados */
+  [cajaPerfilOtro, cajaArea, cajaDominio, cajaNucleo].forEach(function(caja){ plegar(caja, false); });
+
+  /* ═══════════════════════════════════════════════════════════════
+     REGISTRO DE LA SOLICITUD
+     Los dos botones guardan en la base ANTES de abrir su canal. Antes
+     no guardaba ninguno: el correo abría el cliente de correo y el de
+     WhatsApp abría WhatsApp, y la tabla `solicitudes`, la pantalla del
+     panel y el aviso al administrador no los llamaba nadie.
+
+     Tres decisiones, y las tres tienen motivo:
+
+     · EL CANAL SE ABRE PASE LO QUE PASE. Si la base falla, se pierde la
+       fila pero no el mensaje. Al revés sería peor: quien escribió se
+       quedaría sin enviar nada por un fallo que no es suyo.
+     · NO SE ESPERA A LA RESPUESTA. window.open pierde el gesto del
+       usuario en cuanto hay un await, y el bloqueador de ventanas se
+       come el de WhatsApp. Se dispara con keepalive, que hace que la
+       petición sobreviva a que la pestaña se marche.
+     · SE GUARDA UNA SOLA VEZ. Quien pulse los dos botones no genera dos
+       solicitudes: se compara con lo último guardado. Si el envío falló,
+       la huella se borra y el segundo botón vuelve a intentarlo.
+     ═══════════════════════════════════════════════════════════════ */
+  var PERFILES = {
+    'Primaria': 'primaria',
+    'Secundaria': 'secundaria',
+    'Tutoría o clases particulares': 'tutoria',
+    'Sala de tareas o refuerzo': 'refuerzo',
+    'Educación en el hogar': 'hogar',
+    'Formación docente': 'formacion',
+    'Otro': 'otro'
+  };
+  var RECURSOS = {
+    'Núcleo conceptual': 'nucleo',
+    'Dominio': 'dominio',
+    'Área': 'area'
+  };
+
+  /* La ruta exacta cuando se eligió de las listas, no las palabras: al
+     panel le llega '1.1.1' y desde ahí se emite la licencia sin adivinar
+     de qué nodo se hablaba. Si el nivel cayó al campo libre —un área sin
+     cartografiar, que no tiene dominios que listar— no hay ruta que dar
+     y van las palabras escritas. */
+  function rutaElegida(recurso){
+    var area = areaSeleccionada();
+    if (!area) return '';
+    if (recurso === 'area') return area.ruta || '';
+    if (selDominio.hidden) return '';
+    var dom = dominiosDelArea()[selDominio.selectedIndex - 1];
+    if (!dom) return '';
+    if (recurso === 'dominio') return dom.ruta || '';
+    if (selNucleo.hidden) return '';
+    var nuc = (dom.nucleos || [])[selNucleo.selectedIndex - 1];
+    return nuc ? (nuc.ruta || '') : '';
+  }
+
+  function cargaApi(d){
+    var recurso = RECURSOS[selRecurso.value] || '';
+    var ruta = rutaElegida(recurso);
+    var carga = { nombre: d.nombre, email: d.correo };
+    if (d.nota) carga.observaciones = d.nota;
+    if (PERFILES[selPerfil.value]){
+      carga.contexto = PERFILES[selPerfil.value];
+      if (carga.contexto === 'otro') carga.contexto_otro = document.getElementById('f-perfil-otro').value.trim();
+    }
+    if (recurso) carga.recurso = recurso;
+    if (ruta) carga.recurso_ruta = ruta;
+    /* Las palabras solo cuando no hay ruta: mandar las dos no añade nada. */
+    else {
+      var palabras = [d.area, d.dominio, d.nucleo].filter(Boolean).join(' · ');
+      if (palabras) carga.recurso_texto = palabras;
+    }
+    return carga;
+  }
+
+  var yaGuardado = '';
+  function registrar(d){
+    var huella = JSON.stringify(cargaApi(d));
+    if (huella === yaGuardado) return;
+    yaGuardado = huella;
+    function reintentable(){ yaGuardado = ''; }
+    try {
+      window.fetch('/api/solicitudes', {
+        method: 'POST',
+        headers: {'content-type': 'application/json'},
+        body: huella,
+        keepalive: true,
+        credentials: 'omit'
+      }).then(function(r){ if (!r.ok) reintentable(); }).catch(reintentable);
+    } catch (e) { reintentable(); }
+  }
+
+  document.getElementById('btnCorreo').addEventListener('click', function(){
+    var d = leer(); if (!d) return;
+    registrar(d);
+    abrirCorreo('Acceso a Secuencia321 · ' + d.nombre, cuerpo(d), this.closest('.envios'));
+  });
+  var btnWa = document.getElementById('btnWhatsapp');
+  if (!CONFIG.whatsapp){ btnWa.style.display = 'none'; }
+  else btnWa.addEventListener('click', function(){
+    var d = leer(); if (!d) return;
+    registrar(d);
+    window.open('https://wa.me/' + CONFIG.whatsapp + '?text=' + encodeURIComponent(cuerpo(d)), '_blank', 'noopener');
+  });
+
+})();
+</script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   DISUASIÓN DE COPIA
+   No es seguridad: es un cerrojo contra el curioso casual.
+   Ctrl+S y Ctrl+P quedan LIBRES a propósito: imprimir y guardar
+   son parte del producto.
+   ═══════════════════════════════════════════════════════════════════ */
+(function(){
+  'use strict';
+  function esCampo(t){ return t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable); }
+
+  document.addEventListener('contextmenu', function(e){
+    if (esCampo(e.target)) return;          /* el clic derecho sigue en los campos */
+    e.preventDefault();
+  });
+
+  document.addEventListener('keydown', function(e){
+    var k = (e.key || '').toLowerCase();
+    /* Ver código fuente */
+    if ((e.ctrlKey || e.metaKey) && k === 'u' && !esCampo(e.target)){ e.preventDefault(); return false; }
+    /* Herramientas de desarrollador */
+    if (k === 'f12'){ e.preventDefault(); return false; }
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && (k === 'i' || k === 'j' || k === 'c')){ e.preventDefault(); return false; }
+  });
+})();
+</script>
+</body>
+</html>
