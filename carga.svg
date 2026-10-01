@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Cargando">
+  <style>
+    .pieza{transform-box:fill-box;transform-origin:center;animation:pieza .62s cubic-bezier(.22,.8,.25,1) both}
+    .p1{animation-delay:0s}.p2{animation-delay:.08s}.p3{animation-delay:.16s}
+    .u1{animation-delay:.26s}.u2{animation-delay:.34s}.u3{animation-delay:.42s}.u4{animation-delay:.50s}
+    @keyframes pieza{
+      from{opacity:0;transform:translateY(4px) scale(.72)}
+      to{opacity:1;transform:translateY(0) scale(1)}
+    }
+    @media(prefers-reduced-motion:reduce){.pieza{animation:none;opacity:1}}
+  </style>
+  <rect class="pieza p1" x="11" y="11" width="19" height="19" rx="4.5" fill="#f7f1e9"/>
+  <rect class="pieza p2" x="34" y="11" width="19" height="19" rx="4.5" fill="#f7f1e9"/>
+  <rect class="pieza p3" x="11" y="34" width="19" height="19" rx="4.5" fill="#f7f1e9"/>
+  <rect class="pieza u1" x="34" y="34" width="8.4" height="8.4" rx="2.4" fill="#e4c5b5"/>
+  <rect class="pieza u2" x="44.6" y="34" width="8.4" height="8.4" rx="2.4" fill="#e4c5b5"/>
+  <rect class="pieza u3" x="34" y="44.6" width="8.4" height="8.4" rx="2.4" fill="#e4c5b5"/>
+  <rect class="pieza u4" x="44.6" y="44.6" width="8.4" height="8.4" rx="2.4" fill="#e08a5f"/>
+</svg>
