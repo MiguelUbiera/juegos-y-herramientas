@@ -411,20 +411,37 @@ body{
   radial-gradient(1100px 520px at 82% -8%, #24576b 0%, transparent 62%),
   linear-gradient(168deg, #1b485c 0%, #173f50 46%, #0f2d3a 100%)}
 .escenario .halo,.escenario .geom,.escenario .vineta{display:none}
-.barra{background:transparent; border-bottom:0}
+.escenario .numeros{position:absolute; inset:0; pointer-events:none; overflow:hidden}
+.escenario .numeros span{position:absolute; font-family:var(--mono); font-weight:700; color:#e4c5b5; opacity:.055; user-select:none; animation:flotar 22s ease-in-out infinite}
+.escenario .numeros span:nth-child(1){left:8%; top:18%; font-size:92px}
+.escenario .numeros span:nth-child(2){right:12%; top:8%; font-size:120px; animation-delay:-6s}
+.escenario .numeros span:nth-child(3){right:22%; top:42%; font-size:72px; animation-delay:-11s}
+.escenario .numeros span:nth-child(4){left:18%; bottom:16%; font-size:84px; animation-delay:-4s}
+.escenario .numeros span:nth-child(5){right:8%; bottom:12%; font-size:96px; animation-delay:-9s}
+.escenario .numeros span:nth-child(6){left:42%; bottom:8%; font-size:64px; animation-delay:-14s}
+.escenario .numeros span:nth-child(7){left:4%; top:48%; font-size:70px; animation-delay:-2s}
+@keyframes flotar{0%,100%{transform:translateY(0)}50%{transform:translateY(-26px)}}
+.barra{background:rgba(23,63,80,.97); border-bottom:1px solid rgba(228,197,181,.16)}
 .marca{gap:11px; color:#f7f1e9; font-weight:700; font-size:1.06rem}
-.nav a,.btn{min-height:40px; padding:8px 13px; font:700 .9rem/1.2 var(--nunito); color:#e4c5b5; border-radius:9px}
-.nav a:hover,.nav a[aria-current="page"]{background:rgba(228,197,181,.13); color:#fffcf7}
+.marca-icono{width:36px; height:36px; border-radius:12px; flex:0 0 auto; border:1px solid rgba(228,197,181,.28); overflow:hidden}
+.marca-icono img{width:100%; height:100%; border-radius:inherit; display:block}
+.marca-txt{font-family:var(--lora); font-weight:700; font-size:1.06rem; color:#f7f1e9}
+.nav a,.btn{min-height:40px; padding:8px 13px; font:700 .9rem/1.2 var(--nunito); color:#e4c5b5; border-radius:9px; background:transparent; border-color:transparent}
+.nav a:hover{background:rgba(228,197,181,.13); color:#fffcf7}
+.nav a[aria-current="page"]{background:transparent; color:#fffcf7}
 .nav a[aria-current="page"]::after{content:none}
+.btn-icono{display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; padding:0; border-radius:11px; border:1px solid rgba(228,197,181,.28); background:rgba(228,197,181,.1); color:#f7f1e9; cursor:pointer}
+.btn-icono svg{width:18px; height:18px}
+.btn-icono:hover{background:rgba(228,197,181,.2); border-color:#e4c5b5}
 .btn-primario,.accion{
-  background:#a8512f; color:#fffcf7; border:0; min-height:44px; height:auto; padding:10px 18px;
-  font:800 16px/1.2 var(--nunito); border-radius:11px; box-shadow:0 4px 14px rgba(143,58,30,.32);
+  background:#a8512f; color:#fffcf7; border:2px solid transparent; min-height:48px; height:auto; padding:14px 26px;
+  font:800 .98rem/1.2 var(--nunito); border-radius:11px; box-shadow:0 4px 14px rgba(143,58,30,.4);
 }
-.btn-primario:hover,.accion:hover{background:#b55537; transform:translateY(-2px)}
+.btn-primario:hover,.accion:hover{background:#b55537; transform:translateY(-2px); box-shadow:0 8px 22px rgba(143,58,30,.48)}
 .btn-primario:hover::after,.accion:hover::after{transform:rotate(45deg)}
 .btn-sec,.btn-ghost{
-  height:auto; padding:8px 16px; font:700 15px/1.2 var(--nunito); color:#f7f1e9;
-  border:1.5px solid rgba(228,197,181,.42);
+  height:auto; min-height:48px; padding:14px 26px; font:800 .98rem/1.2 var(--nunito); color:#f7f1e9;
+  border:2px solid rgba(228,197,181,.42); border-radius:11px; background:transparent;
 }
 .btn-sec:hover,.btn-ghost:hover{background:rgba(228,197,181,.13); border-color:#e4c5b5}
 .entrada h1{max-width:100%; font-size:clamp(28px, 3vw, 46px)}
@@ -450,12 +467,18 @@ body.pagina-lista #s321-precarga{opacity:0; pointer-events:none; transition:opac
 </head>
 <body class="pagina-cargando" data-vista="inicio">
 <div id="s321-precarga" aria-hidden="true"><img src="carga.svg" alt=""></div>
-<div class="escenario" aria-hidden="true"><div class="base"></div><div class="halo"></div><div class="geom"></div><div class="vineta"></div></div>
+<div class="escenario" aria-hidden="true">
+  <div class="base"></div>
+  <div class="numeros"><span>1</span><span>3</span><span>2</span><span>5</span><span>9</span><span>6</span><span>4</span></div>
+</div>
 <a class="skip" href="#contenido">Saltar al contenido</a>
 <div id="marco">
 <div id="app">
   <header class="barra">
-    <a class="marca" href="#inicio" data-go="#inicio">Sala de juegos</a>
+    <a class="marca" href="#inicio" data-go="#inicio">
+      <span class="marca-icono"><img src="favicon.svg" alt="" width="36" height="36"></span>
+      <span class="marca-txt">Juegos</span>
+    </a>
     <nav class="nav" aria-label="Secciones">
       <a href="index.html">Portada</a>
       <a href="#inicio" data-go="#inicio" id="nav-inicio">Inicio</a>
@@ -463,7 +486,9 @@ body.pagina-lista #s321-precarga{opacity:0; pointer-events:none; transition:opac
       <a href="#catalogo" data-go="#catalogo" id="nav-catalogo">Catálogo</a>
       <a href="#orientador" data-go="#orientador" id="nav-orientador">Orientador</a>
     </nav>
-    <button type="button" class="btn btn-ghost" id="btnProyeccion" aria-pressed="false">Pantalla completa</button>
+    <button type="button" class="btn-icono" id="btnProyeccion" aria-pressed="false" aria-label="Pantalla completa">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3"/><path d="M16 3h3a2 2 0 0 1 2 2v3"/><path d="M8 21H5a2 2 0 0 1-2-2v-3"/><path d="M16 21h3a2 2 0 0 0 2-2v-3"/></svg>
+    </button>
   </header>
   <main id="contenido"><div id="lienzo" class="lienzo"></div></main>
   <footer class="pie-pag">
@@ -798,7 +823,7 @@ body.pagina-lista #s321-precarga{opacity:0; pointer-events:none; transition:opac
       document.body.classList.toggle("proyeccion", on);
       const b = document.getElementById("btnProyeccion");
       b.setAttribute("aria-pressed", on ? "true" : "false");
-      b.textContent = on ? "Salir" : "Pantalla completa";
+      b.setAttribute("aria-label", on ? "Salir de pantalla completa" : "Pantalla completa");
     }
   };
 
