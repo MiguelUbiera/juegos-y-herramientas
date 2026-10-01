@@ -85,7 +85,7 @@ body[data-vista="sala"] .escenario .halo{background:radial-gradient(circle, colo
   transform:none; display:flex; flex-direction:column; gap:12px; overflow:visible;
 }
 #app h1,#app h2,#app h3,#app p,#app a,#app button,#app li,#app span,#app label{
-  min-width:0; max-width:100%; overflow-wrap:break-word; word-break:normal; hyphens:auto;
+  min-width:0; max-width:100%; overflow-wrap:normal; word-break:normal; hyphens:none;
 }
 .barra{
   min-height:64px; height:auto; display:flex; align-items:center; gap:12px; flex-wrap:wrap;
@@ -422,14 +422,14 @@ body{
 .escenario .numeros span:nth-child(7){left:4%; top:48%; font-size:70px; animation-delay:-2s}
 @keyframes flotar{0%,100%{transform:translateY(0)}50%{transform:translateY(-26px)}}
 .barra{
-  background:transparent; border:0; flex-wrap:nowrap; align-items:center; gap:8px;
-  min-height:56px;
+  background:transparent; border:0; flex-wrap:wrap; align-items:center; gap:8px 16px;
+  min-height:56px; margin-bottom:12px;
 }
-.marca{gap:11px; color:#f7f1e9; font-weight:700; font-size:1.06rem}
+.marca{gap:11px; color:#f7f1e9; font-weight:700; font-size:1.06rem; flex:0 0 auto}
 .marca-icono{width:36px; height:36px; border-radius:12px; flex:0 0 auto; border:1px solid rgba(228,197,181,.28); overflow:hidden}
 .marca-icono img{width:100%; height:100%; border-radius:inherit; display:block}
-.marca-txt{font-family:var(--lora); font-weight:700; font-size:1.06rem; color:#fffcf7}
-.nav{flex-wrap:nowrap; gap:2px; min-width:0}
+.marca-txt{font-family:var(--lora); font-weight:700; font-size:1.06rem; color:#fffcf7; white-space:nowrap}
+.nav{flex-wrap:wrap; gap:2px; min-width:0; margin-left:auto; justify-content:flex-end}
 .nav a,.btn{white-space:nowrap; overflow-wrap:normal; word-break:keep-all; min-height:40px; padding:8px 11px; font:700 .88rem/1.2 var(--nunito); color:#e4c5b5; border-radius:9px; background:transparent; border-color:transparent}
 .nav a:hover{background:rgba(228,197,181,.13); color:#fffcf7; transform:translateY(-2px)}
 .nav a[aria-current="page"]{background:transparent; color:#fffcf7}
@@ -509,7 +509,37 @@ h1{font-size:37.8px}
 .entrada h1{font-size:clamp(29.4px, 3.15vw, 48.3px)}
 body[data-marco="cine"] .entrada h1{font-size:clamp(29.4px, 3.36vw, 42px)}
 body[data-marco="cine"] .bajada,body[data-marco="cine"] .destacado .lectura p{font-size:18px}
-body[data-marco="retrato"] h1,body[data-marco="telefono"] h1{font-size:clamp(33.6px, 8.4vw, 46.2px)}
+body[data-marco="retrato"] h1,body[data-marco="telefono"] h1{font-size:clamp(33.6px, 8.4vw, 46.2px); line-height:1.2}
+#app{gap:28px}
+.entrada{gap:18px}
+.entrada h1,.bajada{line-height:1.22}
+.bajada,.destacado .lectura p{line-height:1.62}
+.portada{column-gap:clamp(24px, 3vw, 48px); row-gap:32px}
+.escena-salas{gap:16px}
+.indice{gap:12px 16px}
+.indice a{width:92%}
+.acciones{gap:12px; margin-top:8px}
+body[data-marco="telefono"] .indice,
+body[data-marco="telefono"] .portada,
+body[data-marco="telefono"] .destacado{grid-template-columns:1fr}
+body[data-marco="telefono"] .barra,
+body[data-marco="retrato"] .barra{align-items:flex-start}
+body[data-marco="telefono"] .nav,
+body[data-marco="retrato"] .nav{margin-left:0; width:100%; justify-content:flex-start}
+body[data-marco="ancho"] #marco,
+body[data-marco="cine"] #marco{overflow:auto}
+body[data-marco="ancho"] #app,
+body[data-marco="cine"] #app{height:auto; min-height:100%; overflow:visible; display:flex; flex-direction:column; gap:32px}
+body[data-marco="ancho"] .lienzo,
+body[data-marco="cine"] .lienzo,
+body[data-marco="ancho"] .lienzo:has(> .portada),
+body[data-marco="cine"] .lienzo:has(> .portada){display:block; height:auto; overflow:visible}
+body[data-marco="ancho"] .indice a,
+body[data-marco="cine"] .indice a{height:auto; min-height:44px}
+@media (max-width:720px){
+  .portada,.destacado,.indice{grid-template-columns:1fr}
+  .nav{margin-left:0; width:100%; justify-content:flex-start}
+}
 body.pagina-cargando{visibility:hidden}
 #s321-precarga{position:fixed; inset:0; z-index:9999; visibility:visible; display:flex; align-items:center; justify-content:center; background:#36545f}
 #s321-precarga img{width:clamp(144px, 18vw, 224px); height:auto; aspect-ratio:1; opacity:.9; animation:precargaEntrada 1.1s cubic-bezier(.22,.8,.25,1) both}
