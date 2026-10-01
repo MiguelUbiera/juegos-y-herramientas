@@ -546,10 +546,11 @@ body[data-marco="cine"] .indice a{height:auto; min-height:44px}
   .nav{margin-left:0; width:100%; justify-content:flex-start}
 }
 body.pagina-cargando{visibility:hidden}
-#s321-precarga{position:fixed; inset:0; z-index:9999; visibility:visible; display:flex; align-items:center; justify-content:center; background:#36545f}
+#s321-precarga{position:fixed; inset:0; z-index:9999; visibility:visible; display:flex; align-items:center; justify-content:center; background:#36545f; opacity:1; transition:opacity .62s cubic-bezier(.22,.8,.25,1)}
 #s321-precarga img{width:clamp(144px, 18vw, 224px); height:auto; aspect-ratio:1; opacity:.9; animation:precargaEntrada 1.1s cubic-bezier(.22,.8,.25,1) both}
 @keyframes precargaEntrada{from{opacity:.08; transform:translateY(14px)} to{opacity:.9; transform:translateY(0)}}
-body.pagina-lista #s321-precarga{opacity:0; pointer-events:none; transition:opacity .65s cubic-bezier(.22,.8,.25,1)}
+body.pagina-lista #s321-precarga{opacity:0; pointer-events:none}
+body.transita #s321-precarga{opacity:1; pointer-events:auto}
 
 </style>
 </head>
@@ -947,16 +948,26 @@ body.pagina-lista #s321-precarga{opacity:0; pointer-events:none; transition:opac
       }
     },
     transicion(modo){
-      const lienzo = document.getElementById("lienzo");
       const pintar = () => this.pintar(modo);
-      if (Motion.reducido() || !lienzo.firstChild){ pintar(); return; }
-      if (typeof document.startViewTransition === "function"){
-        document.documentElement.dataset.dir = modo;
-        document.startViewTransition(() => pintar());
-        return;
+      if (Motion.reducido()){ pintar(); return; }
+      this._paso = (this._paso || 0) + 1;
+      const paso = this._paso;
+      const velo = document.getElementById("s321-precarga");
+      const img = velo ? velo.querySelector("img") : null;
+      if (img){
+        img.style.animation = "none";
+        void img.offsetWidth;
+        img.style.animation = "";
       }
-      lienzo.classList.add("sale");
-      setTimeout(() => { pintar(); lienzo.classList.remove("sale"); }, 260);
+      document.body.classList.add("transita");
+      window.setTimeout(() => {
+        if (paso !== this._paso) return;
+        pintar();
+        window.setTimeout(() => {
+          if (paso !== this._paso) return;
+          document.body.classList.remove("transita");
+        }, 420);
+      }, 480);
     },
     tabs(){
       const btns = [...document.querySelectorAll('#lienzo [role="tab"]')];
