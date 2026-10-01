@@ -504,50 +504,44 @@ body[data-marco="cine"] .sala-btn{height:auto; min-height:0; overflow:visible}
 .filtros,.eje,.vacio,.ficha-escena{box-shadow:none}
 footer.pie-pag{border:0; justify-content:center; color:#e4c5b5; font-size:13px; min-height:36px}
 
-/* Letras de la sala. Misma casa que las secuencias, con los porcentajes de esta página.
-   Más pequeña: hasta 20 px, sube 20 %. Medio: de 20 a 35 px, sube 15 %.
-   Grande: más de 35 px, sube 5 %. El crédito no entra.
-   Función                         Hoy     Grupo    Sube   Queda
-   número de sala, antetítulo      12      pequeña  20 %   14.4
-   gesto y pie de sala             13      pequeña  20 %   15.6
-   crédito © Secuencia321          13      fuera     0     13
-   estados, metas, etiquetas       14      pequeña  20 %   16.8
-   nombre de sala, lema            15      pequeña  20 %   18
-   navegación                      14.1    pequeña  20 %   16.9
-   botones                         15.7    pequeña  20 %   18.8
-   marca «Juegos», bajada, ficha   17      pequeña  20 %   20.4
-   título de sala en el mosaico    23      medio    15 %   26.5
-   «Las salas»                     24      medio    15 %   27.6
-   «Tres condiciones»              22–28   medio    15 %   25.3–32.2
-   «Diez salas…»                   28–46   grande    5 %   29.4–48.3
+/* Tres grupos, sobre el tamaño de partida (antes de los aumentos).
+   Grande (títulos): +15 %. Mediana (redacción): −5 %. Pequeña: igual.
+   crédito © Secuencia321 queda fuera.
+   Grande   h1 de entrada 28–46 → 32.2–52.9
+            «Las salas» 24 → 27.6
+            «Tres condiciones» 22–28 → 25.3–32.2
+            título de mosaico 23 → 26.45
+   Mediana  bajada y ficha 17 → 16.15
+            h3 18 → 17.1
+   Pequeña  números, gestos, estados, nombres, barra, botones: sin cambio
 */
-.kicker,.indice .n,.sala-btn .n{font-size:14.4px}
-.sala-btn .gesto,.sala-btn .pie{font-size:15.6px}
-.estado,.meta,.cabeza-sala .meta,.campo label,.cuenta,.nota,.destacado .estado,.tabs button{font-size:16.8px}
-.indice a,.indice strong,.sala-btn .lema{font-size:18px}
+.kicker,.indice .n,.sala-btn .n{font-size:12px}
+.sala-btn .gesto,.sala-btn .pie{font-size:13px}
+.estado,.meta,.cabeza-sala .meta,.campo label,.cuenta,.nota,.destacado .estado,.tabs button{font-size:14px}
+.indice a,.indice strong,.sala-btn .lema{font-size:15px}
 .nav a{font-size:1.035rem; color:#e4c5b5}
 .marca,.marca-txt{font-size:1.219rem; color:#f7f1e9}
-.bajada{font-size:27px; color:#e4c5b5; font-weight:600}
-.destacado .lectura p{font-size:27px; color:#3d2523}
-.btn-primario,.accion,.btn-sec,.btn-ghost{font-size:1.176rem}
-.volver,.campo input,.campo select,.campo textarea{font-size:19.2px}
-h3{font-size:21.6px}
-.sala-btn h2{font-size:32px}
-.destacado h2{font-size:clamp(30.6px, 3.34vw, 38.96px)}
-.resultado h2{font-size:38.96px}
+.bajada{font-size:16.15px; color:#e4c5b5; font-weight:600}
+.destacado .lectura p{font-size:16.15px; color:#3d2523}
+.btn-primario,.accion,.btn-sec,.btn-ghost{font-size:.98rem}
+.volver,.campo input,.campo select,.campo textarea{font-size:16px}
+h3{font-size:17.1px}
+.sala-btn h2{font-size:26.45px}
+.destacado h2{font-size:clamp(25.3px, 2.76vw, 32.2px)}
+.resultado h2{font-size:32.2px}
 h1,h2,h3{font-weight:700}
-h2,.escena-salas h2{font-size:35.07px}
-h1{font-size:48.03px}
+h2,.escena-salas h2{font-size:27.6px}
+h1{font-size:41.4px}
 .entrada h1{
   font-family:var(--lora); font-weight:700; letter-spacing:-.015em; color:#fffcf7;
-  font-size:clamp(2rem, 5.4vw, 3.35rem); line-height:1.14; white-space:normal; max-width:11em;
+  font-size:clamp(32.2px, 3.45vw, 52.9px); line-height:1.14; white-space:normal; max-width:11em;
 }
 .entrada h1 .resalte{color:#e08a5f}
-body[data-marco="cine"] .entrada h1{font-size:clamp(1.85rem, 4.6vw, 2.8rem)}
+body[data-marco="cine"] .entrada h1{font-size:clamp(32.2px, 3.68vw, 46px)}
 h2,.escena-salas h2{font-family:var(--lora); font-weight:700; color:#fffcf7}
-body[data-marco="cine"] .bajada,body[data-marco="cine"] .destacado .lectura p{font-size:23.8px}
+body[data-marco="cine"] .bajada,body[data-marco="cine"] .destacado .lectura p{font-size:16.15px}
 body[data-marco="cine"] #app{padding-top:10px}
-body[data-marco="retrato"] h1,body[data-marco="telefono"] h1{font-size:clamp(38.81px, 9.702vw, 53.36px); line-height:1.2}
+body[data-marco="retrato"] h1,body[data-marco="telefono"] h1{font-size:clamp(36.8px, 9.2vw, 50.6px); line-height:1.2}
 #app{gap:28px}
 .entrada{gap:28px}
 .entrada h1,.bajada{line-height:1.22}
@@ -556,7 +550,7 @@ body[data-marco="retrato"] h1,body[data-marco="telefono"] h1{font-size:clamp(38.
 .escena-salas{width:100%; max-width:none}
 .indice{grid-template-columns:1fr 1fr; width:100%; max-width:none}
 .indice a{width:100%; max-width:none}
-.indice strong{font-size:20.7px}
+.indice strong{font-size:15px}
 .destacado{width:75%; max-width:75%; grid-template-columns:minmax(0, 1fr) 210px; justify-content:start}
 .destacado .lectura{max-width:none}
 .escena-salas{gap:16px}
