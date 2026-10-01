@@ -381,6 +381,58 @@ body[data-marco="retrato"] h1{font-size:clamp(32px, 8vw, 44px)}
   ::view-transition-old(lienzo),::view-transition-new(lienzo){animation:none}
 }
 
+/* La misma voz que la portada: degradado suave, sin rejilla, sin brillo metálico. */
+body{
+  font-weight:600; line-height:1.55;
+  background:
+    radial-gradient(1100px 520px at 82% -8%, #24576b 0%, transparent 62%),
+    linear-gradient(168deg, #1b485c 0%, #173f50 46%, #0f2d3a 100%);
+}
+.escenario .base{background:
+  radial-gradient(1100px 520px at 82% -8%, #24576b 0%, transparent 62%),
+  linear-gradient(168deg, #1b485c 0%, #173f50 46%, #0f2d3a 100%)}
+.escenario .halo,.escenario .geom,.escenario .vineta{display:none}
+.barra{background:transparent; border-bottom:1px solid rgba(228,197,181,.16)}
+.marca{gap:11px; color:#f7f1e9; font-weight:700; font-size:1.06rem}
+.marca img{width:36px; height:36px; border-radius:12px; border:1px solid rgba(228,197,181,.28)}
+.nav a,.btn{min-height:40px; padding:8px 13px; font:700 .9rem/1.2 var(--nunito); color:#e4c5b5; border-radius:9px}
+.nav a:hover,.nav a[aria-current="page"]{background:rgba(228,197,181,.13); color:#fffcf7}
+.nav a[aria-current="page"]::after{content:none}
+.btn-primario,.accion{
+  background:#a8512f; color:#fffcf7; border:0; min-height:44px; height:auto; padding:10px 18px;
+  font:800 16px/1.2 var(--nunito); border-radius:11px; box-shadow:0 4px 14px rgba(143,58,30,.32);
+}
+.btn-primario:hover,.accion:hover{background:#b55537; transform:translateY(-2px)}
+.btn-primario:hover::after,.accion:hover::after{transform:rotate(45deg)}
+.btn-sec,.btn-ghost{
+  height:auto; padding:8px 16px; font:700 15px/1.2 var(--nunito); color:#f7f1e9;
+  border:1.5px solid rgba(228,197,181,.42);
+}
+.btn-sec:hover,.btn-ghost:hover{background:rgba(228,197,181,.13); border-color:#e4c5b5}
+.entrada .kicker,.cabeza-sala .kicker{
+  display:inline-flex; align-items:center; gap:8px; width:max-content; max-width:100%;
+  font-family:var(--nunito); font-size:12px; font-weight:800; letter-spacing:.11em; text-transform:uppercase;
+  color:#e4c5b5; background:rgba(228,197,181,.13); border:1px solid rgba(228,197,181,.3);
+  border-radius:999px; padding:6px 14px;
+}
+.entrada .kicker::before,.cabeza-sala .kicker::before{content:""; width:7px; height:7px; border-radius:50%; background:#e08a5f}
+.indice a{background:rgba(255,252,247,.06); border:1px solid rgba(228,197,181,.28); border-radius:12px; color:#f7f1e9}
+.destacado{
+  background:linear-gradient(135deg, rgba(224,138,95,.1), transparent 46%), rgba(15,45,58,.28);
+  border:1px solid rgba(228,197,181,.28); border-radius:18px; box-shadow:none;
+}
+.sala-btn{
+  background:rgba(255,252,247,.05); border:1px solid rgba(228,197,181,.22); border-radius:16px; box-shadow:none;
+}
+.catalogo li,.lista li{background:rgba(255,252,247,.05); border:1px solid rgba(228,197,181,.22); box-shadow:none}
+.filtros,.eje,.vacio,.ficha-escena{box-shadow:none}
+footer.pie-pag{border-top:1px solid rgba(228,197,181,.16); color:#e4c5b5; font-size:14px; height:auto; min-height:48px}
+footer.pie-pag .pie-marca{display:flex; align-items:center; gap:10px}
+footer.pie-pag img{width:28px; height:28px; border-radius:8px}
+footer.pie-pag strong{font-family:var(--lora); font-weight:700; color:#f7f1e9}
+footer.pie-pag .pie-lema{margin:0; font-family:var(--lora); font-size:14px; color:#e4c5b5}
+footer.pie-pag .pie-legal{margin:0; font-size:13px; opacity:.75}
+
 </style>
 </head>
 <body data-vista="inicio">
@@ -389,8 +441,8 @@ body[data-marco="retrato"] h1{font-size:clamp(32px, 8vw, 44px)}
 <div id="marco">
 <div id="app">
   <header class="barra">
-    <a class="marca" href="#inicio" data-go="#inicio">
-      <svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="12" fill="#0f2d3a"/><rect x="11" y="11" width="19" height="19" rx="4" fill="#f7f1e9"/><rect x="34" y="11" width="19" height="19" rx="4" fill="#f7f1e9"/><rect x="11" y="34" width="19" height="19" rx="4" fill="#f7f1e9"/><rect x="34" y="34" width="8.4" height="8.4" rx="2" fill="#e4c5b5"/><rect x="44.6" y="34" width="8.4" height="8.4" rx="2" fill="#e4c5b5"/><rect x="34" y="44.6" width="8.4" height="8.4" rx="2" fill="#e4c5b5"/><rect x="44.6" y="44.6" width="8.4" height="8.4" rx="2" fill="#e08a5f"/></svg>
+    <a class="marca" href="index.html">
+      <img src="favicon.svg" alt="" width="36" height="36">
       Sala de juegos
     </a>
     <nav class="nav" aria-label="Secciones">
@@ -404,8 +456,9 @@ body[data-marco="retrato"] h1{font-size:clamp(32px, 8vw, 44px)}
   </header>
   <main id="contenido"><div id="lienzo" class="lienzo"></div></main>
   <footer class="pie-pag">
-    <p>Secuencia321 · Miguel Ubiera</p>
-    <p>© Secuencia321. Todos los derechos reservados.</p>
+    <p class="pie-marca"><img src="favicon.svg" alt=""><strong>Secuencia321</strong></p>
+    <p class="pie-lema">Ecosistema digital de matemática escolar</p>
+    <p class="pie-legal">© 2026 Secuencia321</p>
   </footer>
 </div>
 </div>
