@@ -27,6 +27,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Nunito:wght@400;600;700;800&family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <style>
 :root{
   --pe-hondo:#0f2d3a; --pe-base:#173f50; --pe-caja:#2a4e5e; --pe-claro:#2c5c70;
@@ -160,7 +161,7 @@ h3{font-size:18px; color:var(--crema)}
   transition:transform var(--dur-rapida) var(--ease-enfasis), background var(--dur-base) var(--ease-estandar);
 }
 .indice a:hover{transform:translateY(-1px)}
-.indice .n{font-family:var(--mono); font-size:12px; color:var(--te-claro)}
+.indice i{color:#e08a5f; font-size:1.05rem; width:1.25em; text-align:center; flex:0 0 auto}
 .indice strong{font-weight:600; font-family:var(--lora); font-size:15px}
 .destacado{
   position:relative; left:auto; top:auto; width:100%; height:auto;
@@ -799,16 +800,27 @@ body.transita #s321-precarga{opacity:1; pointer-events:auto}
     if (id) document.getElementById(id).setAttribute("aria-current", "page");
   }
 
+  const ICONOS = {
+    desafio:"fa-solid fa-stairs",
+    memoria:"fa-solid fa-brain",
+    velocidad:"fa-solid fa-bolt",
+    estrategia:"fa-solid fa-chess-knight",
+    concentracion:"fa-solid fa-bullseye",
+    probabilidad:"fa-solid fa-dice",
+    tiempo:"fa-solid fa-clock",
+    calculo:"fa-solid fa-calculator",
+    analisis:"fa-solid fa-magnifying-glass",
+    construccion:"fa-solid fa-cubes"
+  };
   const Views = {
     inicio(r){
       const aviso = r.aviso ? '<p class="aviso" role="status">' + esc(r.aviso) + "</p>" : "";
       const listo = DataRepository.todos().find(x => x.juego.estado === "listo");
       const indice = DataRepository.zonas().map((z, i) => {
-        const n = String(i + 1).padStart(2, "0");
-        return '<li style="--i:' + i + '"><a id="atajo-' + z.id + '" data-go="#sala/' + z.id + '" href="#sala/' + z.id + '"><span class="n">' + n + '</span><strong>' + esc(z.nombre) + '</strong></a></li>';
+        return '<li style="--i:' + i + '"><a id="atajo-' + z.id + '" data-go="#sala/' + z.id + '" href="#sala/' + z.id + '"><i class="' + ICONOS[z.id] + '" aria-hidden="true"></i><strong>' + esc(z.nombre) + '</strong></a></li>';
       }).join("");
       const dominos = '<svg class="dominos" viewBox="0 0 248 88" aria-hidden="true"><g fill="#f4efe6"><rect x="4" y="8" width="72" height="72" rx="16"/><rect x="88" y="8" width="72" height="72" rx="16"/><rect x="172" y="8" width="72" height="72" rx="16"/></g><g fill="#2a241c"><circle cx="22" cy="26" r="5.5"/><circle cx="58" cy="62" r="5.5"/><circle cx="106" cy="26" r="5.5"/><circle cx="124" cy="44" r="5.5"/><circle cx="142" cy="62" r="5.5"/><circle cx="190" cy="26" r="5.5"/><circle cx="226" cy="26" r="5.5"/><circle cx="208" cy="44" r="5.5"/><circle cx="190" cy="62" r="5.5"/><circle cx="226" cy="62" r="5.5"/></g></svg>';
-      return '<section class="portada"><div class="entrada"><h1>Matemática que se juega<br>en <span class="resalte">diez salas</span>.</h1><p class="bajada">Aquí se organizan los juegos de matemática escolar. Cada sala pide una forma distinta de actuar. El catálogo crece por salas, no como una lista suelta.</p><div class="acciones"><a class="btn-primario" data-go="#salas" href="#salas">Explorar salas</a><a class="btn btn-ghost" data-go="#catalogo" href="#catalogo">Abrir catálogo</a></div>' + aviso + '</div><section class="escena-salas" aria-label="Las diez salas"><h2>Las salas</h2><ol class="indice">' + indice + '</ol></section></section><article class="destacado"><div class="lectura"><h2>' + esc(listo.juego.nombre) + '</h2><p>' + esc(listo.juego.sinopsis) + '</p><div class="fila-acc"><a class="accion" href="' + esc(listo.juego.archivo) + '">Abrir juego</a><button type="button" class="btn-sec" id="ficha-ahora" data-go="#juego/' + listo.zona.id + '/' + listo.juego.id + '" style="color:var(--te-hondo);border-color:var(--borde-calido)">Ver ficha</button></div></div>' + dominos + '</article>';
+      return '<section class="portada"><div class="entrada"><h1>Matemática que se juega<br>con <span class="resalte">las manos</span>.</h1><p class="bajada">Aquí se organizan los juegos de matemática escolar. Cada uno pide una forma distinta de actuar. El catálogo crece por gestos, no como una lista suelta.</p><div class="acciones"><a class="btn-primario" data-go="#salas" href="#salas">Explorar</a><a class="btn btn-ghost" data-go="#catalogo" href="#catalogo">Abrir catálogo</a></div>' + aviso + '</div><section class="escena-salas" aria-label="Los juegos"><ol class="indice">' + indice + '</ol></section></section><article class="destacado"><div class="lectura"><h2>' + esc(listo.juego.nombre) + '</h2><p>' + esc(listo.juego.sinopsis) + '</p><div class="fila-acc"><a class="accion" href="' + esc(listo.juego.archivo) + '">Abrir juego</a><button type="button" class="btn-sec" id="ficha-ahora" data-go="#juego/' + listo.zona.id + '/' + listo.juego.id + '" style="color:var(--te-hondo);border-color:var(--borde-calido)">Ver ficha</button></div></div>' + dominos + '</article>';
     },
     salas(){
       const cards = DataRepository.zonas().map((z, i) => {
