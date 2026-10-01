@@ -421,32 +421,49 @@ body{
 .escenario .numeros span:nth-child(6){left:42%; bottom:8%; font-size:64px; animation-delay:-14s}
 .escenario .numeros span:nth-child(7){left:4%; top:48%; font-size:70px; animation-delay:-2s}
 @keyframes flotar{0%,100%{transform:translateY(0)}50%{transform:translateY(-26px)}}
-.barra{background:rgba(23,63,80,.97); border-bottom:1px solid rgba(228,197,181,.16)}
+.barra{
+  background:transparent; border:0; flex-wrap:nowrap; align-items:center; gap:8px;
+  min-height:56px;
+}
 .marca{gap:11px; color:#f7f1e9; font-weight:700; font-size:1.06rem}
 .marca-icono{width:36px; height:36px; border-radius:12px; flex:0 0 auto; border:1px solid rgba(228,197,181,.28); overflow:hidden}
 .marca-icono img{width:100%; height:100%; border-radius:inherit; display:block}
-.marca-txt{font-family:var(--lora); font-weight:700; font-size:1.06rem; color:#f7f1e9}
-.nav a,.btn{min-height:40px; padding:8px 13px; font:700 .9rem/1.2 var(--nunito); color:#e4c5b5; border-radius:9px; background:transparent; border-color:transparent}
-.nav a:hover{background:rgba(228,197,181,.13); color:#fffcf7}
+.marca-txt{font-family:var(--lora); font-weight:700; font-size:1.06rem; color:#fffcf7}
+.nav{flex-wrap:nowrap; gap:2px; min-width:0}
+.nav a,.btn{white-space:nowrap; overflow-wrap:normal; word-break:keep-all; min-height:40px; padding:8px 11px; font:700 .88rem/1.2 var(--nunito); color:#e4c5b5; border-radius:9px; background:transparent; border-color:transparent}
+.nav a:hover{background:rgba(228,197,181,.13); color:#fffcf7; transform:translateY(-2px)}
 .nav a[aria-current="page"]{background:transparent; color:#fffcf7}
 .nav a[aria-current="page"]::after{content:none}
-.btn-icono{display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; padding:0; border-radius:11px; border:1px solid rgba(228,197,181,.28); background:rgba(228,197,181,.1); color:#f7f1e9; cursor:pointer}
+.btn-icono{
+  display:inline-flex; align-items:center; justify-content:center;
+  width:32px; height:32px; min-height:0; margin-left:10px; padding:0;
+  border:0; border-radius:0; background:transparent; box-shadow:none; color:#e4c5b5; cursor:pointer;
+}
 .btn-icono svg{width:18px; height:18px}
-.btn-icono:hover{background:rgba(228,197,181,.2); border-color:#e4c5b5}
+.btn-icono:hover,.btn-icono:active,.btn-icono[aria-pressed="true"]{
+  background:transparent; border:0; color:#e4c5b5; transform:none; box-shadow:none;
+}
+.btn-primario,.accion,.btn-sec,.btn-ghost,.indice a{
+  transition:transform .32s cubic-bezier(.22,1,.36,1), box-shadow .32s cubic-bezier(.22,1,.36,1), background .2s;
+}
 .btn-primario,.accion{
-  background:#a8512f; color:#fffcf7; border:2px solid transparent; min-height:48px; height:auto; padding:14px 26px;
+  background:#a8512f; color:#fffcf7; border:2px solid transparent; min-height:48px; height:auto; padding:14px 22px;
   font:800 .98rem/1.2 var(--nunito); border-radius:11px; box-shadow:0 4px 14px rgba(143,58,30,.4);
 }
-.btn-primario:hover,.accion:hover{background:#b55537; transform:translateY(-2px); box-shadow:0 8px 22px rgba(143,58,30,.48)}
+.btn-primario:hover,.accion:hover{background:#b55537; transform:translateY(-4px); box-shadow:0 10px 22px rgba(143,58,30,.45)}
+.btn-primario:active,.accion:active,.btn-sec:active,.btn-ghost:active{transform:translateY(2px) scale(.97)}
 .btn-primario:hover::after,.accion:hover::after{transform:rotate(45deg)}
 .btn-sec,.btn-ghost{
-  height:auto; min-height:48px; padding:14px 26px; font:800 .98rem/1.2 var(--nunito); color:#f7f1e9;
+  height:auto; min-height:48px; padding:14px 22px; font:800 .98rem/1.2 var(--nunito); color:#fffcf7;
   border:2px solid rgba(228,197,181,.42); border-radius:11px; background:transparent;
 }
-.btn-sec:hover,.btn-ghost:hover{background:rgba(228,197,181,.13); border-color:#e4c5b5}
-.entrada h1{max-width:100%; font-size:clamp(28px, 3vw, 46px)}
+.btn-sec:hover,.btn-ghost:hover{background:rgba(228,197,181,.13); border-color:#e4c5b5; transform:translateY(-4px)}
+.entrada h1{max-width:100%; font-size:clamp(28px, 3vw, 46px); color:#fffcf7}
 .entrada,.escena-salas{min-width:0}
-.indice a{background:rgba(255,252,247,.08); border:0; border-radius:14px; color:#f7f1e9}
+.indice a{background:rgba(15,45,58,.42); border:0; border-radius:14px; color:#fffcf7}
+.indice a:hover{transform:translateY(-3px); background:rgba(15,45,58,.62)}
+.indice .n{color:#e08a5f; font-weight:700}
+.indice strong{color:#fffcf7; font-weight:700}
 .destacado{
   background:linear-gradient(135deg, rgba(224,138,95,.1), transparent 46%), rgba(15,45,58,.28);
   border:0; border-radius:18px; box-shadow:none;
