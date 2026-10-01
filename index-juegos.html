@@ -519,7 +519,10 @@ body[data-marco="retrato"] h1,body[data-marco="telefono"] h1{font-size:clamp(35.
 .portada{column-gap:clamp(24px, 3vw, 48px); row-gap:32px}
 .escena-salas{gap:16px}
 .indice{gap:12px 16px}
-.indice a{width:92%}
+.destacado{margin-top:56px}
+body[data-marco="ancho"] .destacado,
+body[data-marco="cine"] .destacado{margin-top:56px; height:auto; overflow:visible}
+.destacado .lectura{gap:16px}
 .acciones{gap:12px; margin-top:8px}
 body[data-marco="telefono"] .indice,
 body[data-marco="telefono"] .portada,
