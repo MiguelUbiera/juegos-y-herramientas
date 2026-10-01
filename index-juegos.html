@@ -498,7 +498,7 @@ footer.pie-pag{border:0; justify-content:center; color:#e4c5b5; font-size:13px; 
 .indice a,.indice strong,.sala-btn .lema{font-size:18px}
 .nav a{font-size:1.214rem}
 .marca,.marca-txt{font-size:23.46px}
-.bajada,.destacado .lectura p{font-size:20.4px}
+.bajada,.destacado .lectura p{font-size:23.46px}
 .btn-primario,.accion,.btn-sec,.btn-ghost{font-size:1.176rem}
 .volver,.campo input,.campo select,.campo textarea{font-size:19.2px}
 h3{font-size:21.6px}
@@ -509,20 +509,21 @@ h2,.escena-salas h2{font-size:28.98px}
 h1{font-size:39.69px}
 .entrada h1{font-size:clamp(30.87px, 3.308vw, 50.72px)}
 body[data-marco="cine"] .entrada h1{font-size:clamp(30.87px, 3.528vw, 44.1px)}
-body[data-marco="cine"] .bajada,body[data-marco="cine"] .destacado .lectura p{font-size:18px}
+body[data-marco="cine"] .bajada,body[data-marco="cine"] .destacado .lectura p{font-size:20.7px}
 body[data-marco="cine"] #app{padding-top:10px}
 body[data-marco="retrato"] h1,body[data-marco="telefono"] h1{font-size:clamp(35.28px, 8.82vw, 48.51px); line-height:1.2}
 #app{gap:28px}
 .entrada{gap:28px}
 .entrada h1,.bajada{line-height:1.22}
 .bajada,.destacado .lectura p{line-height:1.62}
-.portada{grid-template-columns:minmax(0, 36rem) max-content; justify-content:start; align-items:start; column-gap:clamp(24px, 3vw, 48px); row-gap:32px}
-.escena-salas{width:max-content; max-width:100%}
-.indice{grid-template-columns:228px 228px; width:max-content; max-width:100%}
-.indice a{width:228px; max-width:100%}
-.destacado{width:max-content; max-width:100%; grid-template-columns:minmax(0, 460px) 220px; justify-content:start}
-.destacado .lectura{max-width:460px}
-.dominos{width:220px}
+.portada{grid-template-columns:minmax(0, 1.28fr) minmax(0, 1fr); justify-content:stretch; align-items:start; width:100%; column-gap:clamp(48px, 6vw, 96px); row-gap:32px}
+.entrada h1{white-space:nowrap}
+.escena-salas{width:100%; max-width:none}
+.indice{grid-template-columns:1fr 1fr; width:100%; max-width:none}
+.indice a{width:100%; max-width:none}
+.indice strong{font-size:20.7px}
+.destacado{width:75%; max-width:75%; grid-template-columns:minmax(0, 1fr) 210px; justify-content:start}
+.destacado .lectura{max-width:none}
 .escena-salas{gap:16px}
 .indice{gap:12px 16px}
 .destacado{margin-top:96px}
@@ -547,10 +548,13 @@ body[data-marco="ancho"] .lienzo:has(> .portada),
 body[data-marco="cine"] .lienzo:has(> .portada){display:block; height:auto; overflow:visible}
 body[data-marco="ancho"] .indice a,
 body[data-marco="cine"] .indice a{height:auto; min-height:44px}
+@media (max-width:1100px){
+  .entrada h1{white-space:normal}
+}
 @media (max-width:720px){
-  .portada,.destacado{grid-template-columns:1fr}
-  .indice{grid-template-columns:minmax(0, 228px); width:100%}
-  .indice a{width:100%; max-width:228px}
+  .portada,.destacado{grid-template-columns:1fr; width:100%; max-width:none}
+  .indice{grid-template-columns:1fr; width:100%}
+  .indice a{width:100%; max-width:none}
   .destacado{width:100%}
   .nav{margin-left:0; width:100%; justify-content:flex-start}
 }
@@ -770,7 +774,7 @@ body.transita #s321-precarga{opacity:1; pointer-events:auto}
         return '<li style="--i:' + i + '"><a id="atajo-' + z.id + '" data-go="#sala/' + z.id + '" href="#sala/' + z.id + '"><span class="n">' + n + '</span><strong>' + esc(z.nombre) + '</strong></a></li>';
       }).join("");
       const dominos = '<svg class="dominos" viewBox="0 0 248 88" aria-hidden="true"><g fill="#f4efe6"><rect x="4" y="8" width="72" height="72" rx="16"/><rect x="88" y="8" width="72" height="72" rx="16"/><rect x="172" y="8" width="72" height="72" rx="16"/></g><g fill="#2a241c"><circle cx="22" cy="26" r="5.5"/><circle cx="58" cy="62" r="5.5"/><circle cx="106" cy="26" r="5.5"/><circle cx="124" cy="44" r="5.5"/><circle cx="142" cy="62" r="5.5"/><circle cx="190" cy="26" r="5.5"/><circle cx="226" cy="26" r="5.5"/><circle cx="208" cy="44" r="5.5"/><circle cx="190" cy="62" r="5.5"/><circle cx="226" cy="62" r="5.5"/></g></svg>';
-      return '<section class="portada"><div class="entrada"><h1>Diez salas, un gesto cada una.</h1><p class="bajada">Aquí se organizan los juegos de matemática escolar. Cada sala pide una forma distinta de actuar. El catálogo crece por salas, no como una lista suelta.</p><div class="acciones"><a class="btn-primario" data-go="#salas" href="#salas">Explorar salas</a><a class="btn btn-ghost" data-go="#catalogo" href="#catalogo">Abrir catálogo</a><a class="btn btn-ghost" data-go="#orientador" href="#orientador">Usar el orientador</a></div>' + aviso + '</div><section class="escena-salas" aria-label="Las diez salas"><h2>Las salas</h2><ol class="indice">' + indice + '</ol></section></section><article class="destacado"><div class="lectura"><h2>' + esc(listo.juego.nombre) + '</h2><p>' + esc(listo.juego.sinopsis) + '</p><div class="fila-acc"><a class="accion" href="' + esc(listo.juego.archivo) + '">Abrir juego</a><button type="button" class="btn-sec" id="ficha-ahora" data-go="#juego/' + listo.zona.id + '/' + listo.juego.id + '" style="color:var(--te-hondo);border-color:var(--borde-calido)">Ver ficha</button></div></div>' + dominos + '</article>';
+      return '<section class="portada"><div class="entrada"><h1>Diez salas, un gesto cada una.</h1><p class="bajada">Aquí se organizan los juegos de matemática escolar. Cada sala pide una forma distinta de actuar. El catálogo crece por salas, no como una lista suelta.</p><div class="acciones"><a class="btn-primario" data-go="#salas" href="#salas">Explorar salas</a><a class="btn btn-ghost" data-go="#catalogo" href="#catalogo">Abrir catálogo</a></div>' + aviso + '</div><section class="escena-salas" aria-label="Las diez salas"><h2>Las salas</h2><ol class="indice">' + indice + '</ol></section></section><article class="destacado"><div class="lectura"><h2>' + esc(listo.juego.nombre) + '</h2><p>' + esc(listo.juego.sinopsis) + '</p><div class="fila-acc"><a class="accion" href="' + esc(listo.juego.archivo) + '">Abrir juego</a><button type="button" class="btn-sec" id="ficha-ahora" data-go="#juego/' + listo.zona.id + '/' + listo.juego.id + '" style="color:var(--te-hondo);border-color:var(--borde-calido)">Ver ficha</button></div></div>' + dominos + '</article>';
     },
     salas(){
       const cards = DataRepository.zonas().map((z, i) => {
