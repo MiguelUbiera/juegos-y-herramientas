@@ -6,9 +6,9 @@
 <title>Secuencia321 · Matemática que se enseña con una historia</title>
 <meta name="description" content="Secuencias didácticas digitales de matemática elemental para pizarra digital, proyector o pantalla. Cada una trae tres actividades interactivas y tres documentos imprimibles para el docente.">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-<link rel="shortcut icon" href="/favicon.ico">
-<link rel="preload" as="image" href="/carga.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="preload" as="image" href="carga.svg">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Secuencia321 · Matemática que se enseña con una historia">
@@ -403,7 +403,7 @@ h1 .resalte{color:var(--te-claro)}
 .planes-cabeza .ficha-cerrar{position:absolute;top:14px;right:14px;margin:0}
 .planes-cuerpo{padding:22px 24px 24px}
 .planes-cargando{margin:0;color:var(--ti-suave);font-size:.9rem}
-.planes-cargando::before{content:"";display:block;width:72px;height:72px;margin:0 auto 12px;background:url('/carga.svg') center/contain no-repeat}
+.planes-cargando::before{content:"";display:block;width:72px;height:72px;margin:0 auto 12px;background:url('carga.svg') center/contain no-repeat}
 .planes-lista{display:grid;gap:12px}
 @media(min-width:620px){.planes-lista{grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}}
 .plan{border:1px solid var(--cr-borde);border-radius:14px;padding:18px;background:var(--cr-base);display:flex;flex-direction:column;gap:8px}
@@ -636,7 +636,7 @@ h1 .resalte{color:var(--te-claro)}
 </style>
 </head>
 <body class="pagina-cargando">
-<div id="s321-precarga" aria-hidden="true"><img src="/carga.svg" alt=""></div>
+<div id="s321-precarga" aria-hidden="true"><img src="carga.svg" alt=""></div>
 
 <a class="saltar" href="#catalogo">Saltar al catálogo</a>
 
@@ -1396,7 +1396,7 @@ var CORTE = 6;
          igual no quede junta en el código fuente: la prueba que revisa los
          bloques de guion la usa como pista de un script externo, y aquí es
          apenas la etiqueta de una imagen dentro de otro texto. */
-      r.innerHTML = '<div class="rejilla-cargando" role="status"><img ' + 'src="/carga.svg" alt="Cargando secuencias"></div>';
+      r.innerHTML = '<div class="rejilla-cargando" role="status"><img ' + 'src="carga.svg" alt="Cargando secuencias"></div>';
     }
     esperaTarjetas = setTimeout(function(){
       r.innerHTML = h;
@@ -1545,7 +1545,7 @@ var CORTE = 6;
       +   '<div class="esq-pie"><div class="esq-linea" style="width:108px;height:36px"></div>'
       +     '<div class="esq-linea esq-2" style="width:92px;height:36px"></div></div>'
       + '</article>';
-    document.getElementById('rejilla').innerHTML = '<div class="rejilla-cargando" role="status"><img ' + 'src="/carga.svg" alt="Cargando catálogo"></div>' + molde + molde + molde;
+    document.getElementById('rejilla').innerHTML = '<div class="rejilla-cargando" role="status"><img ' + 'src="carga.svg" alt="Cargando catálogo"></div>' + molde + molde + molde;
     document.getElementById('navPie').innerHTML =
       '<span class="esq-linea" style="width:58px;height:13px"></span>'
       + '<span class="esq-linea esq-2" style="width:190px;height:13px"></span>';
