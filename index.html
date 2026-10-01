@@ -98,13 +98,13 @@ img[width][height]{height:auto}
 
 /* ═══ BARRA ═══ */
 .barra{position:sticky;top:0;z-index:40;background:rgba(23,63,80,.97);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid rgba(228,197,181,.16)}
-.barra-int{display:flex;align-items:center;gap:16px;min-height:64px;max-width:none;padding-left:clamp(18px,2vw,28px);padding-right:clamp(18px,2vw,28px)}
+.barra-int{display:flex;align-items:center;gap:16px;min-height:70px;max-width:none;padding:20px clamp(18px,2vw,28px) 14px}
 .marca{display:flex;align-items:center;gap:11px;text-decoration:none;margin-right:auto;min-width:0}
 .marca-icono{width:36px;height:36px;border-radius:12px;flex:0 0 auto;border:1px solid rgba(228,197,181,.28)}
 .marca-icono img{width:100%;height:100%;border-radius:inherit}
-.marca-txt{font-family:var(--fam-titulo);font-weight:700;font-size:1.06rem;color:var(--cr-base);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.marca-txt{font-family:var(--fam-titulo);font-weight:700;font-size:1.219rem;color:var(--cr-base);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .barra-nav{display:flex;gap:4px;align-items:center}
-.barra-nav a{text-decoration:none;color:var(--si-rosa);font-size:.9rem;font-weight:700;padding:8px 13px;border-radius:9px;transition:background var(--dur-1) var(--sal),color var(--dur-1) var(--sal)}
+.barra-nav a{text-decoration:none;color:var(--si-rosa);font-size:1.035rem;font-weight:700;padding:8px 13px;border-radius:9px;transition:background var(--dur-1) var(--sal),color var(--dur-1) var(--sal)}
 .barra-nav a:hover{background:rgba(228,197,181,.13);color:var(--cr-puro)}
 /* «Solicitar acceso» es la única ACCIÓN de la barra; los demás son sitios a
    los que ir. Se separa del grupo para que se lea como otra categoría de
@@ -177,11 +177,11 @@ img[width][height]{height:auto}
   .barra-nav{display:none}
   .barra-menu{display:inline-flex}
   .barra-acceso-movil{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;
-    background:var(--te-base);color:var(--cr-puro)!important;font-weight:800;font-size:.84rem;
+    background:var(--te-base);color:var(--cr-puro)!important;font-weight:800;font-size:.966rem;
     padding:9px 15px;border-radius:9px;white-space:nowrap;flex:0 0 auto;
     transition:background var(--dur-1) var(--sal)}
   .barra-acceso-movil:hover{background:var(--te-medio)}
-  .marca-txt{font-size:.95rem}
+  .marca-txt{font-size:1.0925rem}
 }
 @media(min-width:861px){.menu-movil{display:none!important}}
 /* franja estrecha de escritorio: la barra se aprieta en vez de partirse */
@@ -194,14 +194,14 @@ img[width][height]{height:auto}
      bajaba a 13.12.
      Se veía como una barra con dos tamaños de letra a la vez. Con `.barra`
      delante esta regla pesa más y gana, que es lo que siempre quiso hacer. */
-  .barra-nav a,.barra .menu-navegacion>button,.barra .barra-nav>.enlace-plano{font-size:.82rem;padding:7px 9px}
+  .barra-nav a,.barra .menu-navegacion>button,.barra .barra-nav>.enlace-plano{font-size:.943rem;padding:7px 9px}
   /* En la franja estrecha la barra se aprieta, pero la separación sigue
      siendo mayor que entre dos enlaces, y la rayita se recoloca con ella. */
   .btn-barra{margin-left:32px;padding:8px 13px!important}
   .btn-barra::before{left:-18px;height:17px}
-  .marca-txt{font-size:.95rem}
+  .marca-txt{font-size:1.0925rem}
 }
-@media(max-width:400px){.marca-txt{font-size:.86rem}.marca-icono{width:32px;height:32px;font-size:.76rem}}
+@media(max-width:400px){.marca-txt{font-size:.989rem}.marca-icono{width:32px;height:32px;font-size:.76rem}}
 
 /* ═══ PORTADA ═══ */
 .hero{position:relative;overflow:hidden;background:radial-gradient(1100px 520px at 82% -8%, #24576b 0%, transparent 62%),linear-gradient(168deg,#1b485c 0%,var(--pe-base) 46%,var(--pe-hondo) 100%);color:var(--cr-base);padding-block:clamp(52px,7.5vw,88px) clamp(58px,8vw,96px)}
