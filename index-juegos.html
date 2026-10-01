@@ -524,20 +524,22 @@ footer.pie-pag{border:0; justify-content:center; color:#e4c5b5; font-size:13px; 
 .btn-primario,.accion,.btn-sec,.btn-ghost{font-size:1.176rem}
 .volver,.campo input,.campo select,.campo textarea{font-size:19.2px}
 h3{font-size:21.6px}
-.sala-btn h2{font-size:29.1px}
-.destacado h2{font-size:clamp(27.83px, 3.036vw, 35.42px)}
-.resultado h2{font-size:35.42px}
-h2,.escena-salas h2{font-size:31.88px}
-h1{font-size:43.66px}
-.entrada h1{font-size:clamp(33.96px, 3.639vw, 55.79px)}
-body[data-marco="cine"] .entrada h1{font-size:clamp(33.96px, 3.881vw, 48.51px)}
+.sala-btn h2{font-size:32px}
+.destacado h2{font-size:clamp(30.6px, 3.34vw, 38.96px)}
+.resultado h2{font-size:38.96px}
+h1,h2,h3{font-weight:700}
+h2,.escena-salas h2{font-size:35.07px}
+h1{font-size:48.03px}
+.entrada h1{font-size:clamp(37.4px, 4vw, 61.4px); font-weight:700; letter-spacing:-.015em; color:#fffcf7; line-height:1.14}
+.entrada h1 .resalte{color:#e08a5f}
+body[data-marco="cine"] .entrada h1{font-size:clamp(37.4px, 4.27vw, 53.4px)}
 body[data-marco="cine"] .bajada,body[data-marco="cine"] .destacado .lectura p{font-size:23.8px}
 body[data-marco="cine"] #app{padding-top:10px}
 body[data-marco="retrato"] h1,body[data-marco="telefono"] h1{font-size:clamp(38.81px, 9.702vw, 53.36px); line-height:1.2}
 #app{gap:28px}
 .entrada{gap:28px}
 .entrada h1,.bajada{line-height:1.22}
-.bajada,.destacado .lectura p{line-height:1.38}
+.bajada,.destacado .lectura p{line-height:1.13}
 .portada{grid-template-columns:minmax(0, 1.28fr) minmax(0, 1fr); justify-content:stretch; align-items:start; width:100%; column-gap:clamp(48px, 6vw, 96px); row-gap:32px}
 .entrada h1{white-space:nowrap}
 .escena-salas{width:100%; max-width:none}
@@ -796,7 +798,7 @@ body.transita #s321-precarga{opacity:1; pointer-events:auto}
         return '<li style="--i:' + i + '"><a id="atajo-' + z.id + '" data-go="#sala/' + z.id + '" href="#sala/' + z.id + '"><span class="n">' + n + '</span><strong>' + esc(z.nombre) + '</strong></a></li>';
       }).join("");
       const dominos = '<svg class="dominos" viewBox="0 0 248 88" aria-hidden="true"><g fill="#f4efe6"><rect x="4" y="8" width="72" height="72" rx="16"/><rect x="88" y="8" width="72" height="72" rx="16"/><rect x="172" y="8" width="72" height="72" rx="16"/></g><g fill="#2a241c"><circle cx="22" cy="26" r="5.5"/><circle cx="58" cy="62" r="5.5"/><circle cx="106" cy="26" r="5.5"/><circle cx="124" cy="44" r="5.5"/><circle cx="142" cy="62" r="5.5"/><circle cx="190" cy="26" r="5.5"/><circle cx="226" cy="26" r="5.5"/><circle cx="208" cy="44" r="5.5"/><circle cx="190" cy="62" r="5.5"/><circle cx="226" cy="62" r="5.5"/></g></svg>';
-      return '<section class="portada"><div class="entrada"><h1>Diez salas, un gesto cada una.</h1><p class="bajada">Aquí se organizan los juegos de matemática escolar. Cada sala pide una forma distinta de actuar. El catálogo crece por salas, no como una lista suelta.</p><div class="acciones"><a class="btn-primario" data-go="#salas" href="#salas">Explorar salas</a><a class="btn btn-ghost" data-go="#catalogo" href="#catalogo">Abrir catálogo</a></div>' + aviso + '</div><section class="escena-salas" aria-label="Las diez salas"><h2>Las salas</h2><ol class="indice">' + indice + '</ol></section></section><article class="destacado"><div class="lectura"><h2>' + esc(listo.juego.nombre) + '</h2><p>' + esc(listo.juego.sinopsis) + '</p><div class="fila-acc"><a class="accion" href="' + esc(listo.juego.archivo) + '">Abrir juego</a><button type="button" class="btn-sec" id="ficha-ahora" data-go="#juego/' + listo.zona.id + '/' + listo.juego.id + '" style="color:var(--te-hondo);border-color:var(--borde-calido)">Ver ficha</button></div></div>' + dominos + '</article>';
+      return '<section class="portada"><div class="entrada"><h1>Diez salas, <span class="resalte">un gesto cada una.</span></h1><p class="bajada">Aquí se organizan los juegos de matemática escolar. Cada sala pide una forma distinta de actuar. El catálogo crece por salas, no como una lista suelta.</p><div class="acciones"><a class="btn-primario" data-go="#salas" href="#salas">Explorar salas</a><a class="btn btn-ghost" data-go="#catalogo" href="#catalogo">Abrir catálogo</a></div>' + aviso + '</div><section class="escena-salas" aria-label="Las diez salas"><h2>Las salas</h2><ol class="indice">' + indice + '</ol></section></section><article class="destacado"><div class="lectura"><h2>' + esc(listo.juego.nombre) + '</h2><p>' + esc(listo.juego.sinopsis) + '</p><div class="fila-acc"><a class="accion" href="' + esc(listo.juego.archivo) + '">Abrir juego</a><button type="button" class="btn-sec" id="ficha-ahora" data-go="#juego/' + listo.zona.id + '/' + listo.juego.id + '" style="color:var(--te-hondo);border-color:var(--borde-calido)">Ver ficha</button></div></div>' + dominos + '</article>';
     },
     salas(){
       const cards = DataRepository.zonas().map((z, i) => {
