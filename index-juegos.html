@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="s321:pieza" content="sala-de-juegos">
 <title>Sala de juegos · Secuencia321</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Nunito:wght@400;600;700;800&family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --pe-hondo:#0f2d3a; --pe-base:#173f50; --pe-caja:#2a4e5e; --pe-claro:#2c5c70;
@@ -55,29 +58,24 @@ body[data-vista="sala"] .escenario .halo{background:radial-gradient(circle, colo
 :focus{outline:none}
 :focus-visible{outline:2px solid var(--te-claro); outline-offset:3px}
 .sr{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
-#marco{position:fixed; inset:0; overflow:hidden}
+#marco{position:fixed; inset:0; overflow:auto}
 #app{
-  position:absolute; left:50%; top:50%;
-  width:1620px; height:810px;
-  padding:16px 40px 32px;
-  margin:0;
-  transform:translate(-50%, -50%) scale(var(--escala, 1));
-  transform-origin:center center;
-  display:grid;
-  grid-template-rows:64px minmax(0, 1fr) 50px;
-  overflow:hidden;
+  position:relative; left:auto; top:auto;
+  width:100%; min-height:100%; height:auto;
+  margin:0; padding:clamp(12px, 2vw, 36px) clamp(16px, 3vw, 48px);
+  transform:none; display:flex; flex-direction:column; gap:12px; overflow:visible;
 }
 #app h1,#app h2,#app h3,#app p,#app a,#app button,#app li,#app span,#app label{
   min-width:0; max-width:100%; overflow-wrap:break-word; word-break:normal; hyphens:auto;
 }
 .barra{
-  height:64px; min-height:64px; display:flex; align-items:center; gap:12px; flex-wrap:nowrap;
+  min-height:64px; height:auto; display:flex; align-items:center; gap:12px; flex-wrap:wrap;
   background:linear-gradient(180deg, rgba(15,45,58,.5), rgba(15,45,58,.22));
   border-bottom:1px solid rgba(228,197,181,.22);
 }
 .marca{display:flex; align-items:center; gap:12px; color:inherit; text-decoration:none; min-height:44px; font-family:var(--lora); font-weight:600; font-size:20px; line-height:1.2}
 .marca svg{width:36px; height:36px; flex:0 0 auto}
-.nav{display:flex; gap:4px; margin-left:auto; flex-wrap:nowrap}
+.nav{display:flex; gap:4px; margin-left:auto; flex-wrap:wrap}
 .nav a,.btn{
   display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:8px 16px;
   font:500 16px/1.2 var(--nunito); text-decoration:none; color:var(--crema);
@@ -119,54 +117,55 @@ h2{font-size:24px}
 h3{font-size:18px; color:var(--crema)}
 .kicker{margin:0; font-family:var(--mono); font-size:12px; line-height:1.3; letter-spacing:.04em; color:var(--te-claro)}
 .bajada{margin:0; color:#f3e6df; font-size:17px; line-height:1.35}
-.lienzo:has(> .portada){position:relative; overflow:hidden; padding:0}
+.lienzo:has(> .portada){position:relative; overflow:visible; padding:0}
 .portada{
-  position:absolute; left:0; top:20px; width:1540px; height:250px;
-  display:grid; grid-template-columns:720px 792px; column-gap:28px;
+  position:relative; left:auto; top:auto; width:100%; height:auto;
+  display:grid; grid-template-columns:minmax(0, 1.05fr) minmax(280px, .95fr); column-gap:clamp(16px, 2vw, 28px); row-gap:20px;
 }
-.entrada{width:720px; height:250px; display:flex; flex-direction:column; gap:6px}
-.entrada h1{font-size:52px; line-height:1.05; max-width:720px}
-.resumen{display:flex; gap:16px; margin:0; font-size:14px; color:#f3e6df}
+.entrada{width:auto; height:auto; display:flex; flex-direction:column; gap:8px}
+.entrada h1{font-size:clamp(34px, 4vw, 52px); line-height:1.05; max-width:18ch}
+.resumen{display:flex; flex-wrap:wrap; gap:12px 16px; margin:0; font-size:14px; color:#f3e6df}
 .resumen span{border-bottom:1px solid rgba(228,197,181,.35)}
-.acciones{display:flex; gap:8px; margin:0}
-.escena-salas{width:612px; height:250px; display:grid; grid-template-rows:28px 190px; align-content:start; gap:8px}
-.escena-salas h2{font-size:24px; line-height:28px}
+.acciones{display:flex; flex-wrap:wrap; gap:8px; margin:0}
+.escena-salas{width:auto; height:auto; display:grid; grid-template-rows:auto minmax(0, 1fr); align-content:start; gap:8px}
+.escena-salas h2{font-size:24px; line-height:1.2}
 .indice{
-  display:grid; grid-template-columns:300px 300px; grid-template-rows:repeat(5, 38px);
-  gap:7px 12px; margin:0; padding:0; list-style:none;
+  display:grid; grid-template-columns:1fr 1fr; grid-auto-rows:minmax(40px, auto);
+  gap:8px 12px; margin:0; padding:0; list-style:none;
 }
 .indice a{
-  display:flex; align-items:center; gap:8px; width:300px; height:38px; min-height:38px;
+  display:flex; align-items:center; gap:8px; width:100%; height:auto; min-height:44px;
   padding:0 13px; border-radius:11px; font-size:15px;
   color:var(--crema); text-decoration:none; background:rgba(23,63,80,.72);
   border:1px solid var(--no-panel-linea);
+  transition:transform var(--dur-rapida) var(--ease-enfasis), background var(--dur-base) var(--ease-estandar);
 }
+.indice a:hover{transform:translateY(-1px)}
 .indice .n{font-family:var(--mono); font-size:12px; color:var(--te-claro)}
 .indice strong{font-weight:600; font-family:var(--lora); font-size:15px}
 .destacado{
-  position:absolute; left:0; top:294px; width:1540px; height:330px;
-  display:grid; grid-template-columns:810px minmax(0, 1fr); gap:28px;
-  padding:18px; align-items:center;
+  position:relative; left:auto; top:auto; width:100%; height:auto;
+  display:grid; grid-template-columns:minmax(0, 1.4fr) minmax(180px, .6fr); gap:clamp(12px, 2vw, 28px);
+  padding:18px; align-items:center; margin-top:16px;
   background:linear-gradient(135deg, rgba(224,138,95,.16), transparent 42%), #143646;
   border:1px solid rgba(228,197,181,.35); border-radius:28px;
   box-shadow:inset 0 1px 0 rgba(247,241,233,.12), 0 24px 40px rgba(8,24,32,.35);
 }
-.destacado .lectura{width:810px; height:294px; padding:16px; background:var(--papel); color:var(--ti); border-radius:18px; display:flex; flex-direction:column; gap:8px}
-.destacado h2{font-size:28px; color:var(--pe-hondo); line-height:1.1}
+.destacado .lectura{width:auto; height:auto; padding:16px; background:var(--papel); color:var(--ti); border-radius:18px; display:flex; flex-direction:column; gap:8px}
+.destacado h2{font-size:clamp(22px, 2.4vw, 28px); color:var(--pe-hondo); line-height:1.1}
 .destacado .lectura p{font-size:17px; line-height:1.35; margin:0}
 .destacado .estado{font-size:14px; color:var(--ti-t)}
-.dominos{width:380px; height:242px; justify-self:center; align-self:center}
-.lienzo:has(.mosaico){display:grid; grid-template-rows:80px 528px; align-content:start; gap:12px; padding:8px 0 0; overflow:hidden}
+.dominos{width:min(100%, 380px); height:auto; justify-self:center; align-self:center}
+.lienzo:has(.mosaico){display:flex; flex-direction:column; gap:12px; padding:8px 0 0; overflow:visible}
 .mosaico{
-  width:1540px; height:528px; margin:0;
+  width:100%; height:auto; margin:0;
   display:grid;
-  grid-template-columns:repeat(5, minmax(0, 1fr));
-  grid-template-rows:repeat(2, minmax(0, 1fr));
-  column-gap:14px; row-gap:14px;
+  grid-template-columns:repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap:14px;
 }
 .sala-btn{
   --mx:50%; --my:40%;
-  appearance:none; text-align:left; cursor:pointer; width:100%; height:100%; color:var(--crema);
+  appearance:none; text-align:left; cursor:pointer; width:100%; height:auto; min-height:148px; color:var(--crema);
   background:linear-gradient(160deg, rgba(247,241,233,.05), transparent 36%), #16384a;
   border:1px solid rgba(228,197,181,.16); border-radius:18px;
   padding:18px;
@@ -306,6 +305,76 @@ body.flujo .indice{grid-template-columns:1fr; grid-template-rows:none}
 body.flujo .indice a{width:100%}
 body.flujo .sala-btn{height:auto}
 body.flujo .lienzo,body.flujo main{overflow:visible; display:block; height:auto}
+
+/* El marco deja de ser un lienzo fijo de 16:9. Cada orientación tiene su estructura. */
+body[data-marco="ancho"] #marco,
+body[data-marco="cine"] #marco{overflow:hidden}
+body[data-marco="ancho"] #app,
+body[data-marco="cine"] #app{
+  height:100%; min-height:0; overflow:hidden;
+  display:grid; grid-template-rows:auto minmax(0, 1fr) auto; gap:8px;
+}
+body[data-marco="ancho"] main,
+body[data-marco="cine"] main,
+body[data-marco="tabla"] main{min-height:0; flex:1; display:flex; overflow:hidden}
+body[data-marco="ancho"] .lienzo,
+body[data-marco="cine"] .lienzo{flex:1; min-height:0; overflow:hidden; display:flex; flex-direction:column}
+body[data-marco="ancho"] .lienzo:has(> .portada),
+body[data-marco="cine"] .lienzo:has(> .portada){
+  display:grid; grid-template-rows:minmax(0, .92fr) minmax(0, 1.08fr); gap:12px; overflow:hidden;
+}
+body[data-marco="ancho"] .portada,
+body[data-marco="cine"] .portada{min-height:0; align-items:stretch}
+body[data-marco="ancho"] .escena-salas,
+body[data-marco="cine"] .escena-salas{min-height:0}
+body[data-marco="ancho"] .indice,
+body[data-marco="cine"] .indice,
+body[data-marco="tabla"] .indice{height:100%; grid-template-rows:repeat(5, minmax(0, 1fr))}
+body[data-marco="ancho"] .indice a,
+body[data-marco="cine"] .indice a{min-height:0; height:100%}
+body[data-marco="ancho"] .destacado,
+body[data-marco="cine"] .destacado{margin-top:0; min-height:0; height:100%; overflow:hidden}
+body[data-marco="cine"]{font-size:15px}
+body[data-marco="cine"] .entrada h1{font-size:clamp(28px, 3.2vw, 40px)}
+body[data-marco="cine"] #app{padding:8px 20px}
+body[data-marco="cine"] .destacado .lectura p,
+body[data-marco="cine"] .bajada{font-size:15px}
+body[data-marco="tabla"] #app{min-height:100%}
+body[data-marco="tabla"] .portada{grid-template-columns:minmax(0, 1fr) minmax(0, 1fr)}
+body[data-marco="tabla"] .mosaico,
+body[data-marco="ancho"] .mosaico,
+body[data-marco="cine"] .mosaico{
+  flex:1; min-height:0; height:100%;
+  grid-template-columns:repeat(5, minmax(0, 1fr));
+  grid-template-rows:repeat(2, minmax(0, 1fr));
+}
+body[data-marco="tabla"] .sala-btn,
+body[data-marco="ancho"] .sala-btn,
+body[data-marco="cine"] .sala-btn{height:100%; min-height:0}
+body[data-marco="retrato"] .portada,
+body[data-marco="telefono"] .portada,
+body[data-marco="retrato"] .destacado,
+body[data-marco="telefono"] .destacado{grid-template-columns:1fr}
+body[data-marco="telefono"] .indice{grid-template-columns:1fr}
+body[data-marco="telefono"] .barra{align-items:flex-start}
+body[data-marco="telefono"] .nav{margin-left:0; width:100%}
+body[data-marco="telefono"] .mosaico,
+body[data-marco="retrato"] .mosaico{grid-template-columns:1fr}
+body[data-marco="retrato"] .mosaico{grid-template-columns:1fr 1fr}
+body[data-marco="telefono"] .layout-sala,
+body[data-marco="retrato"] .layout-sala,
+body[data-marco="telefono"] .filtros,
+body[data-marco="retrato"] .filtros,
+body[data-marco="telefono"] .ejes,
+body[data-marco="retrato"] .ejes,
+body[data-marco="telefono"] .catalogo,
+body[data-marco="telefono"] .lista,
+body[data-marco="retrato"] .catalogo,
+body[data-marco="retrato"] .lista{grid-template-columns:1fr}
+body[data-marco="telefono"] h1,
+body[data-marco="retrato"] h1{font-size:clamp(32px, 8vw, 44px)}
+#giro{display:none !important}
+
 @media (prefers-reduced-motion:reduce){
   .escenario .halo,.escenario .geom,.giro-flecha{animation:none}
   .lienzo,.lienzo.sale,.sala-btn,.btn-primario,.accion,.nav a[aria-current="page"]::after{animation:none; transition:opacity 100ms linear}
@@ -325,6 +394,7 @@ body.flujo .lienzo,body.flujo main{overflow:visible; display:block; height:auto}
       Sala de juegos
     </a>
     <nav class="nav" aria-label="Secciones">
+      <a href="index.html">Portada</a>
       <a href="#inicio" data-go="#inicio" id="nav-inicio">Inicio</a>
       <a href="#salas" data-go="#salas" id="nav-salas">Salas</a>
       <a href="#catalogo" data-go="#catalogo" id="nav-catalogo">Catálogo</a>
@@ -796,25 +866,18 @@ body.flujo .lienzo,body.flujo main{overflow:visible; display:block; height:auto}
     View.pintar("adelante");
   }
   const Escenario = {
-    forzar:false,
     aplicar(){
       const vv = window.visualViewport;
       const ancho = vv ? vv.width : window.innerWidth;
       const alto = vv ? vv.height : window.innerHeight;
-      const coarse = window.matchMedia("(pointer: coarse)").matches;
-      const angosto = Math.min(ancho, alto) < 820;
-      const vertical = alto > ancho;
-      const giro = document.getElementById("giro");
-      const mostrar = coarse && angosto && vertical && !this.forzar;
-      giro.hidden = !mostrar;
-      if (mostrar) return;
-      if (this.forzar && coarse && vertical){
-        document.body.classList.add("flujo");
-        return;
-      }
-      document.body.classList.remove("flujo");
-      const escala = Math.min((ancho - 24) / 1620, (alto - 24) / 810);
-      document.documentElement.style.setProperty("--escala", String(Math.max(escala, 0.01)));
+      const razon = alto > 0 ? ancho / alto : 1;
+      let marco = "telefono";
+      if (razon >= 2) marco = "cine";
+      else if (razon >= 1.55) marco = "ancho";
+      else if (razon >= 1.15) marco = "tabla";
+      else if (razon >= 0.72) marco = "retrato";
+      document.body.dataset.marco = marco;
+      document.documentElement.style.setProperty("--escala", "1");
     }
   };
   let marcoTimer = 0;
@@ -823,7 +886,6 @@ body.flujo .lienzo,body.flujo main{overflow:visible; display:block; height:auto}
     marcoTimer = requestAnimationFrame(() => Escenario.aplicar());
   };
   document.getElementById("seguir-vertical").addEventListener("click", () => {
-    Escenario.forzar = true;
     Escenario.aplicar();
   });
   window.addEventListener("resize", pedirEscala);
