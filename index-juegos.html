@@ -251,8 +251,8 @@ h3{font-size:18px; color:var(--crema)}
 .sala-hero svg{width:52px; height:52px; flex:0 0 auto}
 .layout-sala{display:grid; grid-template-columns:1.35fr .75fr; gap:16px; min-height:0; flex:1}
 .layout-sala h2{margin:0 0 10px}
-.lienzo:has(.layout-sala), .lienzo:has(#lista-juegos){display:flex; flex-direction:column; overflow:hidden}
-#lista-juegos,.layout-sala > div:first-child,.pedagogia{min-height:0; overflow:auto; overscroll-behavior:contain}
+.lienzo:has(.layout-sala), .lienzo:has(#lista-juegos){display:block; height:auto; overflow:visible}
+#lista-juegos,.layout-sala > div:first-child,.pedagogia{min-height:0; overflow:visible; height:auto; max-height:none}
 .tabs{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 8px}
 .tabs button{min-height:40px; padding:8px 14px; border-radius:11px; border:1px solid var(--no-panel-linea); background:#16384a; color:var(--crema); font:500 14px/1.2 var(--nunito); cursor:pointer}
 .tabs button[aria-selected="true"]{background:var(--papel); color:var(--ti); border-color:var(--papel)}
@@ -528,7 +528,43 @@ body[data-marco="cine"] .mosaico{
 body[data-marco="tabla"] .sala-btn,
 body[data-marco="ancho"] .sala-btn,
 body[data-marco="cine"] .sala-btn{height:auto; min-height:0; overflow:visible}
-.catalogo li,.lista li{background:rgba(255,252,247,.05); border:1px solid rgba(228,197,181,.22); box-shadow:none}
+.catalogo li,.lista li{
+  background:linear-gradient(165deg, #204e62 0%, #173f50 100%);
+  border:1px solid rgba(228,197,181,.14);
+  border-radius:28px;
+  box-shadow:0 16px 32px rgba(8,22,30,.16);
+  padding:20px 22px;
+  gap:10px;
+}
+.catalogo li h3,.lista li h3{
+  font-family:var(--lora); font-weight:700; font-size:26.45px;
+  letter-spacing:-.015em; color:#fffcf7; line-height:1.14;
+}
+.catalogo .sinopsis,.lista .sinopsis{
+  font-family:var(--nunito); font-size:18.57px; line-height:1.3; font-weight:600; color:#e4c5b5;
+}
+.catalogo .estado,.lista .estado{font-size:15px; line-height:1.3; color:#d9cfc4}
+.filtros{
+  background:transparent; border:0; box-shadow:none; border-radius:0; padding:0;
+}
+.campo label{font-family:var(--nunito); font-weight:700; font-size:15px; color:#e4c5b5}
+.campo input,.campo select{
+  border-radius:999px; border:1px solid rgba(228,197,181,.22);
+  background:rgba(15,45,58,.4); min-height:48px; padding:10px 18px;
+  font:600 .98rem/1.3 var(--nunito); color:#fffcf7;
+}
+.cuenta{display:none}
+body[data-vista="catalogo"] #marco,
+body[data-vista="salas"] #marco,
+body[data-vista="sala"] #marco,
+body[data-vista="ficha"] #marco,
+body[data-vista="orientador"] #marco{overflow:auto}
+body[data-vista="catalogo"] #app,
+body[data-vista="catalogo"] main,
+body[data-vista="catalogo"] .lienzo,
+body[data-vista="catalogo"] #lista-juegos{
+  height:auto; max-height:none; overflow:visible; display:block;
+}
 .filtros,.eje,.vacio,.ficha-escena{box-shadow:none}
 footer.pie-pag{border:0; justify-content:center; color:#e4c5b5; font-size:13px; min-height:36px}
 
@@ -876,7 +912,7 @@ body.transita #s321-precarga{opacity:1; pointer-events:auto}
     },
     catalogo(){
       const salas = DataRepository.zonas().map(z => '<option value="' + z.id + '">' + esc(z.nombre) + '</option>').join("");
-      return '<section><p class="kicker">Catálogo</p><h1>Todos los juegos</h1><p class="bajada">Busca por nombre o por lo que dice la sinopsis. Filtra por sala o por lo que ya se puede abrir.</p></section><form class="filtros" id="form-catalogo" style="margin-top:24px" role="search"><div class="campo"><label for="buscar">Buscar</label><input id="buscar" type="search" autocomplete="off" value="' + esc(State.catalogo.q) + '"></div><div class="campo"><label for="filtro-sala">Sala</label><select id="filtro-sala"><option value="">Todas las salas</option>' + salas + '</select></div><div class="campo"><label for="filtro-estado">Disponibilidad</label><select id="filtro-estado"><option value="">Todas</option><option value="listo">Disponibles</option><option value="idea">En desarrollo</option></select></div><button type="button" class="btn-sec" id="limpiar" style="color:var(--crema);border-color:rgba(247,241,233,.28)">Limpiar filtros</button></form><p class="cuenta" id="cuenta" aria-live="polite"></p><ul class="lista" id="lista-juegos"></ul><div class="papel vacio" id="vacio" hidden><p>Ningún juego coincide. Prueba otro nombre o limpia los filtros.</p><div class="fila-acc" style="margin-top:12px"><button type="button" class="btn-sec" id="limpiar-vacio">Limpiar filtros</button></div></div>';
+      return '<section class="entrada"><h1>Un GPS<br>para <span class="resalte">todos</span>.</h1></section><form class="filtros" id="form-catalogo" style="margin-top:24px" role="search"><div class="campo"><label for="buscar">Buscar</label><input id="buscar" type="search" autocomplete="off" value="' + esc(State.catalogo.q) + '"></div><div class="campo"><label for="filtro-sala">Sala</label><select id="filtro-sala"><option value="">Todas</option>' + salas + '</select></div><div class="campo"><label for="filtro-estado">Disponibilidad</label><select id="filtro-estado"><option value="">Todas</option><option value="listo">Disponibles</option><option value="idea">En desarrollo</option></select></div><button type="button" class="btn-sec" id="limpiar" style="color:var(--crema);border-color:rgba(247,241,233,.28)">Limpiar filtros</button></form><ul class="lista" id="lista-juegos"></ul><div class="papel vacio" id="vacio" hidden><p>Ningún juego coincide. Prueba otro nombre o limpia los filtros.</p><div class="fila-acc" style="margin-top:12px"><button type="button" class="btn-sec" id="limpiar-vacio">Limpiar filtros</button></div></div>';
     },
     orientador(){
       const campos = [["gesto","Gesto","La acción que hace el estudiante."],["presion","Presión","El pulso de la ronda."],["azar","Azar","Si el azar se ve, se esconde o no entra."],["producto","Producto","Lo que queda al terminar."],["social","Social","Quién actúa delante de la clase."],["capa","Capa matemática","El tipo de contenido que se pone en juego."]];
@@ -922,14 +958,10 @@ body.transita #s321-precarga{opacity:1; pointer-events:auto}
         lis[i].hidden = !ok;
         if (ok) n++;
       });
-      const cuenta = document.getElementById("cuenta");
       const vacio = document.getElementById("vacio");
-      const frase = n === 1 ? "1 juego" : n + " juegos";
-      if (cuenta) cuenta.textContent = frase;
       if (vacio) vacio.hidden = n !== 0;
       const lista = document.getElementById("lista-juegos");
       if (lista) lista.hidden = n === 0;
-      if (anuncia && cuenta) anunciar(frase);
     },
     schedule(){
       clearTimeout(State.timer);
@@ -1040,9 +1072,8 @@ body.transita #s321-precarga{opacity:1; pointer-events:auto}
       const velo = document.getElementById("s321-precarga");
       const img = velo ? velo.querySelector("img") : null;
       if (img){
-        img.style.animation = "none";
-        void img.offsetWidth;
-        img.style.animation = "";
+        const base = (img.getAttribute("src") || "carga.svg").split("?")[0];
+        img.setAttribute("src", base + "?n=" + paso);
       }
       document.body.classList.add("transita");
       window.setTimeout(() => {
@@ -1051,8 +1082,8 @@ body.transita #s321-precarga{opacity:1; pointer-events:auto}
         window.setTimeout(() => {
           if (paso !== this._paso) return;
           document.body.classList.remove("transita");
-        }, 420);
-      }, 480);
+        }, 640);
+      }, 620);
     },
     tabs(){
       const btns = [...document.querySelectorAll('#lienzo [role="tab"]')];
