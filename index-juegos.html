@@ -125,7 +125,7 @@ body[data-vista="sala"] .escenario .halo{background:radial-gradient(circle, colo
   transition:border-color var(--dur-rapida) var(--ease-salida), background var(--dur-rapida) var(--ease-salida);
 }
 .btn-sec:hover,.btn-ghost:hover{background:rgba(247,241,233,.06)}
-main{min-width:0; min-height:0; overflow:hidden; display:flex; flex-direction:column}
+main{min-width:0; min-height:0; overflow:visible; display:flex; flex-direction:column}
 .lienzo{flex:1; min-height:0; min-width:0; overflow:auto; overscroll-behavior:contain; view-transition-name:lienzo; padding:8px 0}
 .lienzo.sale{opacity:0; transform:translateY(18px); transition:opacity var(--dur-base) var(--ease-entrada), transform var(--dur-base) var(--ease-entrada)}
 .lienzo.entra > *{animation:sube var(--dur-media) var(--ease-salida) both}
@@ -336,7 +336,7 @@ body[data-marco="cine"] #app{
 }
 body[data-marco="ancho"] main,
 body[data-marco="cine"] main,
-body[data-marco="tabla"] main{min-height:0; flex:1; display:flex; overflow:hidden}
+body[data-marco="tabla"] main{min-height:0; flex:1; display:flex; overflow:visible}
 body[data-marco="ancho"] .lienzo,
 body[data-marco="cine"] .lienzo{flex:1; min-height:0; overflow:hidden; display:flex; flex-direction:column}
 body[data-marco="ancho"] .lienzo:has(> .portada),
@@ -476,8 +476,8 @@ body{
 .btn-sec:hover,.btn-ghost:hover{background:rgba(228,197,181,.13); border-color:#e4c5b5; transform:translateY(-4px)}
 .entrada h1{max-width:100%; font-size:clamp(28px, 3vw, 46px); color:#fffcf7}
 .entrada,.escena-salas{min-width:0}
-.indice a{background:rgba(15,45,58,.42); border:0; border-radius:14px; color:#fffcf7}
-.indice a:hover{transform:translateY(-3px); background:rgba(15,45,58,.62)}
+.indice a{background:rgba(15,45,58,.42); border:0; border-radius:14px; color:#fffcf7; position:relative}
+.indice a:hover{transform:translateY(-3px); background:rgba(15,45,58,.62); z-index:50}
 .indice .n{color:#e08a5f; font-weight:700}
 .indice strong{color:#fffcf7; font-weight:700}
 .destacado{
@@ -557,8 +557,8 @@ body[data-marco="retrato"] h1,body[data-marco="telefono"] h1{font-size:clamp(36.
 .entrada h1,.bajada{line-height:1.22}
 .bajada,.destacado .lectura p{line-height:1.3}
 .portada{grid-template-columns:minmax(0, 1.28fr) minmax(0, 1fr); justify-content:stretch; align-items:start; width:100%; column-gap:clamp(48px, 6vw, 96px); row-gap:32px}
-.escena-salas{width:100%; max-width:none}
-.indice{grid-template-columns:1fr 1fr; width:100%; max-width:none}
+.escena-salas{width:100%; max-width:none; overflow:visible}
+.indice{grid-template-columns:1fr 1fr; width:100%; max-width:none; overflow:visible; padding-top:8px}
 .indice a{width:100%; max-width:none}
 .indice strong{font-size:17.25px; line-height:1.3}
 .destacado{width:75%; max-width:75%; grid-template-columns:minmax(0, 1fr) 210px; justify-content:start}
