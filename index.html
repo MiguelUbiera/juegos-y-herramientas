@@ -651,7 +651,16 @@ h1 .resalte{color:var(--te-claro)}
           <div class="curriculum-grid" id="curriculumMenu"><a href="/curriculo/">Aritmética</a></div>
         </div>
       </div>
-      <a href="#herramientas" id="lnkHerramientas">Herramientas</a>
+      <div class="menu-navegacion">
+        <button type="button" id="lnkHerramientas" data-menu-button="herramientas" aria-expanded="false">Herramientas</button>
+        <div class="menu-panel curriculum-panel" data-menu="herramientas" hidden>
+          <div class="curriculum-grid">
+            <a href="index-planos.html">Planos</a>
+            <a href="index-calculadora.html">Calculadora</a>
+            <a href="index-cronometro.html">Cronómetro</a>
+          </div>
+        </div>
+      </div>
       <a href="index-juegos.html" id="lnkJuegos">Área de juegos</a>
       <a href="#acerca" id="lnkAcerca" hidden>Acerca de</a>
       <button type="button" class="enlace-plano" id="btnPlanes" hidden>Planes</button>
@@ -666,7 +675,11 @@ h1 .resalte{color:var(--te-claro)}
 
 <div class="menu-movil" id="menuMovil" hidden>
   <nav class="menu-movil-int" aria-label="Menú">
-    <a href="#herramientas" id="lnkHerramientasMovil">Herramientas</a>
+    <button type="button" class="plegable-cabeza" id="lnkHerramientasMovil" data-plegable="mv-herramientas" aria-expanded="false" aria-controls="mv-herramientas">
+      Herramientas
+      <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+    </button>
+    <div class="plegable-cuerpo" id="mv-herramientas"><div><a href="index-planos.html">Planos</a><a href="index-calculadora.html">Calculadora</a><a href="index-cronometro.html">Cronómetro</a></div></div>
     <a href="index-juegos.html" id="lnkJuegosMovil">Área de juegos</a>
     <a href="#acerca" id="lnkAcercaMovil" hidden>Acerca de</a>
 
